@@ -1,6 +1,6 @@
 import os
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from zoneinfo import ZoneInfo
 from functools import wraps
 
@@ -184,7 +184,8 @@ def vote():
         return redirect(url_for("home"))
     now = datetime.now(ZoneInfo("Asia/Shanghai"))
     target = next_weekday()
-    if now.date() >= target or now.hour >= 9:
+    deadline = datetime.combine(target, time(9, 0), tzinfo=ZoneInfo("Asia/Shanghai"))
+    if now >= deadline:
         flash("当前投票窗口已关闭，请等待下一个交易日投票。", "error")
         return redirect(url_for("home"))
     try:
