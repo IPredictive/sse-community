@@ -1,35 +1,55 @@
-# 狮城胖叔·上证预测打擂台（独立版）
+# 狮城胖叔·上证分析台
 
-这是独立于 `sse-agents` 的新网站，面向 Namecheap cPanel + Python 3.11 + MySQL 8。
+这是一个保持 **Private** 的上证指数多智能体研究项目。
 
-## 当前基础功能
-- MySQL 数据库初始化
-- 用户注册 / 登录，使用安全的密码哈希
-- 新用户注册时发放 3000 P币
-- 下一交易日看多 / 看空投票（每用户每目标日期一次）
-- P币排行榜
-- 五个量化分析师与 Chief Analyst 结果展示（当预测结果写入 MySQL 后显示）
-- 不调用 OpenAI API
+每天工作日自动运行 5 位分析师：
+- Technical：MA / MACD / RSI
+- Flow：成交量与动量
+- Macro：宏观与政策新闻
+- Sentiment：财经新闻与市场情绪
+- Overseas：标普500、纳斯达克、恒生、美元人民币
+- Chief Analyst：综合五位分析师，给出最终上涨概率、信心与理由
 
-## cPanel 环境变量
-在 Setup Python App 中设置：
-- `DB_HOST`：通常为 `localhost`
-- `DB_NAME`：cPanel 显示的完整数据库名称，包含自动添加的前缀
-- `DB_USER`：cPanel 显示的完整数据库用户名，包含自动添加的前缀
-- `DB_PASSWORD`：数据库用户密码
-- `SECRET_KEY`：自行生成的长随机字符串
+## 每日网页
 
-不要将密码写入代码或提交到 GitHub。
+网页文件由 GitHub Actions 自动生成到 \`site/index.html\`。
 
-## 部署
-1. 将本仓库文件放进 cPanel Python 应用根目录。
-2. 在 Setup Python App 的虚拟环境中安装 `requirements.txt` 中依赖。
-3. 设置上面的环境变量。
-4. 点击 Restart。
-5. 访问网站的 `/health`，预期返回 `{"status":"ok","database":"connected"}`。
+由于当前 GitHub 账户的 Private repository 不支持直接启用 GitHub Pages，本项目改用 **Vercel** 发布网页。仓库保持 Private，不需要公开源代码。
 
-## 注意
-- 原仓库 `IPredictive/sse-agents` 不会被修改。
-- 投票目标日期当前跳过周末，尚未接入中国法定交易日历；上线前应加入节假日交易日历。
-- P币准确预测结算和奖励规则需在正式启用前确认。
-- 本项目只展示研究用途的量化预测，不构成投资建议。
+第一次部署：
+1. 在 Vercel 登录并连接 GitHub。
+2. Import \`IPredictive/sse-agents\`。
+3. Framework Preset 选择 \`Other\` / Static。
+4. Root Directory 保持 \`/\`。
+5. Deploy。
+6. 之后 GitHub Actions 每天更新 \`site/index.html\`，Vercel 会自动重新部署。
+
+仓库已经提供 \`vercel.json\`，用于把 \`site/\` 作为网站输出目录。
+
+## AI API
+
+GitHub Actions 使用：
+- \`OPENAI_API_KEY\`：Repository secret
+- \`OPENAI_MODEL\`：Repository variable
+
+不要把 API Key 写进代码、README 或网页。
+
+## GitHub Actions
+
+工作日每天运行一次。当前 cron 为 \`35 7 * * 1-5\`（UTC），对应新加坡/上海时间约 15:35。
+
+也可以在：
+\`Actions → Daily SSE Agents → Run workflow\`
+手动运行。
+
+## 本地测试
+
+\`\`\`bash
+pip install -r requirements.txt
+python run_daily.py --demo --backfill 60 --no-news
+python generate_site.py
+\`\`\`
+
+## 重要
+
+这是研究和回测框架，不是可靠的股票预测器。“上涨概率”是模型输出，不代表保证性的真实概率，不应据此自动交易。
