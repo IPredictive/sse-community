@@ -141,15 +141,21 @@
     }
     const tradingDate = nextWeekday();
     let prediction = null;
-    try { prediction = await api("myVote", { token: getToken(), tradingDate }); }
-    catch (_) {}
+    let predictionCheckFailed = false;
+    try {
+      prediction = await api("myVote", { token: getToken(), tradingDate });
+    } catch (_) {
+      // Fail closed: if the server cannot confirm whether a vote exists, do not allow another attempt.
+      predictionCheckFailed = true;
+    }
     if (balance) balance.textContent = Number(user.balance || 0).toLocaleString() + " P";
     buttons.forEach(b => {
-      b.disabled = !!prediction || !beforeCutoff(tradingDate);
+      b.disabled = predictionCheckFailed || !!prediction || !beforeCutoff(tradingDate);
       b.classList.toggle("selected", b.dataset.vote === prediction?.direction);
     });
     if (result) {
-      if (!beforeCutoff(tradingDate) && !prediction) result.innerHTML = "<b>⏰ 投票已截止</b><span>每天 09:00（UTC+8）锁定。</span>";
+      if (predictionCheckFailed) result.innerHTML = "<b>⚠️ 暂时无法确认投票状态</b><span>为避免重复扣除 P 币，投票按钮已暂时锁定。请刷新网页后重试。</span>";
+      else if (!beforeCutoff(tradingDate) && !prediction) result.innerHTML = "<b>⏰ 投票已截止</b><span>每天 09:00（UTC+8）锁定。</span>";
       else if (prediction) result.innerHTML = "<b>今天已提交：" + (prediction.direction === "bull" ? "🟢 看多" : "🔴 看空") + "</b><span>等待目标交易日收盘结算。</span>";
       else result.innerHTML = "<b>🎯 今天还没有押</b><span>选一个方向，100 P 入场，结果将在结算后公布。</span>";
     }
