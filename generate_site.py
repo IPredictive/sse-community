@@ -352,24 +352,28 @@ button:hover,.button:hover{filter:brightness(1.08);transform:translateY(-1px)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
 
-/* Emergency visible theme lock: prevents daily generation from reverting the redesign */
-:root{--bg:#070b15!important;--panel:#111b2d!important;--panel2:#0b1322!important;--line:#35445d!important;--gold:#ffd166!important;--green:#45e0a0!important;--red:#ff6b7d!important}
+/* Emergency visible theme lock: October 2026 */
+:root{--bg:#070b15!important;--panel:#111b2d!important;--panel2:#0b1322!important;--line:#526b91!important;--gold:#ffd166!important;--green:#45e0a0!important;--red:#ff6b7d!important}
 html,body{background-color:#070b15!important}
-body{background-image:radial-gradient(ellipse at 12% 0%,rgba(38,100,170,.36),transparent 38%),radial-gradient(ellipse at 88% 5%,rgba(255,185,66,.16),transparent 30%),linear-gradient(180deg,#070b15,#0b1220 58%,#070b15)!important;color:#f4f7ff!important}
+body{background-image:radial-gradient(ellipse at 10% 0%,rgba(45,115,235,.55),transparent 42%),radial-gradient(ellipse at 92% 8%,rgba(255,190,60,.28),transparent 32%),linear-gradient(180deg,#070b15,#101e36 52%,#070b15)!important;color:#f7f9ff!important}
 .wrap{max-width:1320px!important;padding-top:34px!important}
-.top{border-bottom:1px solid rgba(255,209,102,.28)!important;margin-bottom:18px!important}
-.logo{background:linear-gradient(135deg,#ffd166,#d99b2b)!important;color:#17120a!important;border:1px solid #ffe5a0!important;box-shadow:0 8px 28px rgba(255,190,70,.22)!important}
-h1{color:#ffe2a0!important}
-.card,.panel,.chart-card,.agent-card,.vote-card,.leaderboard-card{background:linear-gradient(145deg,rgba(20,32,51,.98),rgba(9,16,29,.98))!important;border:1px solid rgba(125,164,214,.28)!important;border-radius:20px!important;box-shadow:0 18px 48px rgba(0,0,0,.30)!important}
-.chief,.chief-card{background:radial-gradient(ellipse at 90% 0%,rgba(255,209,102,.17),transparent 42%),linear-gradient(135deg,#182640,#0b1322)!important;border:1px solid rgba(255,209,102,.58)!important;box-shadow:0 16px 48px rgba(0,0,0,.32),inset 0 1px rgba(255,255,255,.04)!important}
-.hero-slogan{color:#f6f8ff!important}
+.top{border-bottom:2px solid rgba(255,209,102,.58)!important;margin-bottom:22px!important;padding-bottom:28px!important}
+.logo{background:linear-gradient(135deg,#ffe7a0,#e6a72f)!important;color:#17120a!important;border:1px solid #fff0bf!important;box-shadow:0 8px 32px rgba(255,190,70,.42)!important}
+h1{color:#ffe2a0!important;text-shadow:0 2px 24px rgba(255,209,102,.18)!important}
+.card,.panel,.chart-card,.analyst-card,.signal-panel,.vote-card,.leaderboard-card{background:linear-gradient(145deg,rgba(23,40,66,.99),rgba(9,17,32,.99))!important;border:1px solid rgba(126,174,239,.48)!important;border-radius:20px!important;box-shadow:0 18px 48px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.04)!important}
+.chief,.chief-card{background:radial-gradient(ellipse at 90% 0%,rgba(255,209,102,.24),transparent 42%),linear-gradient(135deg,#1d3456,#0b1322)!important;border:2px solid rgba(255,209,102,.82)!important;box-shadow:0 18px 52px rgba(0,0,0,.38),0 0 32px rgba(255,209,102,.08)!important}
+.hero-slogan{color:#fff!important;text-shadow:0 3px 24px rgba(85,145,255,.18)!important}
 .hero-slogan strong,.gold,.kicker{color:#ffd166!important}
+.section-title h2{color:#ffe2a0!important}
 button,.btn{transition:transform .16s ease,filter .16s ease!important}
-button:hover,.btn:hover{transform:translateY(-2px)!important;filter:brightness(1.08)!important}
+button:hover,.btn:hover{transform:translateY(-2px)!important;filter:brightness(1.12)!important}
 button.bull,.bull-btn,[data-vote="bull"],.vote-up{background:linear-gradient(135deg,#1b9c72,#087451)!important;color:#fff!important;border:1px solid #4be0aa!important}
 button.bear,.bear-btn,[data-vote="bear"],.vote-down{background:linear-gradient(135deg,#c43e57,#85283e)!important;color:#fff!important;border:1px solid #ff8292!important}
-input,select,textarea{background:#09111f!important;color:#f4f7ff!important;border-color:#3b4b65!important}
-@media(max-width:700px){.wrap{padding:18px 12px 42px!important}.card,.panel,.chart-card,.agent-card,.vote-card,.leaderboard-card{border-radius:16px!important}}
+input,select,textarea{background:#09111f!important;color:#f4f7ff!important;border-color:#526b91!important}
+@media(max-width:700px){.wrap{padding:18px 12px 42px!important}.card,.panel,.chart-card,.analyst-card,.vote-card,.leaderboard-card{border-radius:16px!important}}
+/* Temporary visible marker to verify the published version */
+body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:12px;z-index:9998;padding:7px 11px;border:1px solid #ffd166;border-radius:999px;background:#111b2d;color:#ffd166;font-size:11px;font-weight:800;letter-spacing:.04em;box-shadow:0 4px 18px rgba(0,0,0,.32);pointer-events:none}
+@media(max-width:700px){body::after{right:8px;bottom:8px;font-size:10px;padding:6px 9px}}
 
 </style></head>
 <body><main class="wrap">
