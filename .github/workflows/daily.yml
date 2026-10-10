@@ -37,6 +37,11 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      # Sync the latest main branch BEFORE generating files.
+      # This prevents an older queued run from regenerating and publishing stale HTML.
+      - name: Sync latest main before generation
+        run: git pull --rebase origin main
+
       - name: Run agents
         run: python run_daily.py
 
@@ -49,7 +54,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/sse.db site/index.html
           git diff --cached --quiet || git commit -m "data: daily SSE prediction"
-          git pull --rebase origin main
           git push
 
       - name: Setup GitHub Pages
