@@ -21,13 +21,20 @@ function doGet() {
 }
 function doPost(e) {
   try {
-    const body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+    let body = {};
+    const raw = (e && e.postData && e.postData.contents) || '';
+    if (raw) {
+      try { body = JSON.parse(raw); }
+      catch (_) { body = Object.assign({}, (e && e.parameter) || {}); }
+    } else {
+      body = Object.assign({}, (e && e.parameter) || {});
+    }
     const action = String(body.action || '');
     let result;
     switch (action) {
       case 'register': result = register_(body); break;
       case 'login': result = login_(body); break;
-      case 'me': result = me_(body.token); break;
+      case 'me': result = me_(body.token); break;\n      case 'myVote': result = myVote_(body.token, body.tradingDate); break;
       case 'profile': result = profile_(body.token, body.nickname); break;
       case 'vote': result = vote_(body.token, body.tradingDate, body.direction); break;
       case 'leaderboard': result = leaderboard_(body.token); break;
@@ -132,6 +139,12 @@ function login_(b) {
   return {user:publicUser_(u),token:issueSession_(u.id)};
 }
 function me_(token) { return publicUser_(userByToken_(token)); }
+function myVote_(token, tradingDate) {
+  const u = userByToken_(token);
+  const date = String(tradingDate || '');
+  const v = rows_('Votes').find(x => x.user_id === u.id && x.trading_date === date);
+  return v ? {tradingDate:date,direction:v.direction,status:v.status} : null;
+}
 function profile_(token,nickname) {
   const u = userByToken_(token);
   u.nickname = String(nickname || '').trim().slice(0,20) || '新玩家';
