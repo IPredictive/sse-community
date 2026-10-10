@@ -320,6 +320,37 @@ h1{font-size:clamp(24px,3vw,34px);font-weight:900;letter-spacing:-.045em}
 @media(max-width:700px){.wrap{padding-top:16px}.top-login{top:12px;right:12px;padding:9px 13px;font-size:12px}.top{padding-right:0}.brand{align-items:flex-start;gap:10px}.logo{width:42px;height:42px;flex:0 0 42px;font-size:21px}h1{padding-right:110px;font-size:21px}.top-actions{width:100%;justify-content:space-between}.hero-slogan{font-size:clamp(32px,9vw,46px)}.human-stats div{min-width:0;padding:11px}.vote-buttons button{font-size:15px;min-height:62px}.card{padding:16px}.chief:after{right:-180px}.analyst-card:hover,.leader-row:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 
+
+/* High-contrast visual refresh: October 2026 */
+:root{color-scheme:dark;--accent:#ffd166;--accent2:#7dd3fc;--panel:#101827;--panel2:#0b1220}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 12% 0%,rgba(35,89,143,.30),transparent 36%),radial-gradient(ellipse at 90% 8%,rgba(153,94,28,.20),transparent 30%),#060a12!important;color:#eef4ff}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.16;background-image:linear-gradient(rgba(125,211,252,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(125,211,252,.08) 1px,transparent 1px);background-size:34px 34px}
+.wrap{max-width:1240px!important}
+.top{padding:22px 0 30px!important;border-bottom:1px solid rgba(125,211,252,.15);margin-bottom:24px}
+.logo{background:linear-gradient(145deg,#ffe8a3,#f59e0b)!important;color:#111827!important;box-shadow:0 0 34px rgba(255,190,70,.22);border:1px solid rgba(255,255,255,.55)}
+h1{letter-spacing:.02em;text-shadow:0 0 28px rgba(125,211,252,.16)}
+.hero-slogan{line-height:1.08;letter-spacing:-.035em;text-wrap:balance}
+.hero-slogan strong{color:#ffe08a!important;text-shadow:0 0 28px rgba(255,190,70,.28)}
+.card,.chief,.analyst-card,.chart-card,.human-card,.leaderboard-card{border:1px solid rgba(125,211,252,.18)!important;border-radius:20px!important;background:linear-gradient(145deg,rgba(17,27,44,.97),rgba(8,14,25,.98))!important;box-shadow:0 16px 48px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.035)!important}
+.chief{border-color:rgba(255,209,102,.48)!important;box-shadow:0 0 0 1px rgba(255,209,102,.07),0 20px 55px rgba(0,0,0,.28),0 0 46px rgba(245,158,11,.07)!important;position:relative;overflow:hidden}
+.chief:before{content:"CHIEF ANALYST  /  MARKET INTELLIGENCE";display:block;color:#ffd166;font-size:10px;font-weight:800;letter-spacing:.18em;margin-bottom:12px}
+.section-title,.card-title,.chart-title{color:#f3f7ff!important}
+button,.button{transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+button:hover,.button:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.vote-buttons button,[data-vote]{min-height:58px!important;border-radius:14px!important;font-weight:800!important;letter-spacing:.02em}
+.vote-buttons [data-vote="bull"],[data-vote="bull"]{background:linear-gradient(135deg,#16a879,#087e67)!important;color:#fff!important;border:1px solid rgba(110,255,199,.42)!important;box-shadow:0 8px 24px rgba(16,185,129,.15)!important}
+.vote-buttons [data-vote="bear"],[data-vote="bear"]{background:linear-gradient(135deg,#ef6262,#b92f50)!important;color:#fff!important;border:1px solid rgba(255,151,151,.42)!important;box-shadow:0 8px 24px rgba(239,68,68,.14)!important}
+.top-login,.auth-submit{border:1px solid rgba(255,226,145,.5)!important}
+.leader-row{border-bottom:1px solid rgba(148,163,184,.12)}
+.leader-row.top{background:linear-gradient(90deg,rgba(255,209,102,.14),rgba(255,209,102,0))!important}
+.chart-card{padding:24px!important}
+.line{stroke:#7dd3fc!important;filter:drop-shadow(0 0 6px rgba(125,211,252,.48))}
+.point{fill:#ffd166!important}
+.footer{margin-top:32px!important;padding:22px 0!important;color:#93a4bd}
+@media(max-width:700px){.top{padding-top:18px!important}.hero-slogan{font-size:clamp(34px,9vw,50px)}.card,.chief,.analyst-card,.chart-card{border-radius:16px!important}.chart-card{padding:16px!important}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
 </style></head>
 <body><main class="wrap">
 
