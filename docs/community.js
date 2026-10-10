@@ -48,8 +48,12 @@
   function sgNow() { return new Date(Date.now() + 8 * 60 * 60 * 1000); }
   function dateKey(d) { return d.toISOString().slice(0, 10); }
   function nextWeekday() {
-    const d = sgNow(); d.setUTCDate(d.getUTCDate() + 1);
-    while (d.getUTCDay() === 0 || d.getUTCDay() === 6) d.setUTCDate(d.getUTCDate() + 1);
+    const d = sgNow();
+    // Before 09:00 on a weekday, the target is today's session; otherwise use the next weekday.
+    if (!(d.getUTCDay() >= 1 && d.getUTCDay() <= 5 && d.getUTCHours() < 9)) {
+      d.setUTCDate(d.getUTCDate() + 1);
+      while (d.getUTCDay() === 0 || d.getUTCDay() === 6) d.setUTCDate(d.getUTCDate() + 1);
+    }
     return dateKey(d);
   }
   function beforeCutoff(tradingDate) {
