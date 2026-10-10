@@ -153,10 +153,11 @@ function nextVoteDate_() {
   const today = Utilities.formatDate(now, 'Asia/Singapore', 'yyyy-MM-dd');
   const hour = Number(Utilities.formatDate(now, 'Asia/Singapore', 'H'));
   const dow = Number(Utilities.formatDate(now, 'Asia/Singapore', 'u')); // Mon=1 ... Sun=7
-  let d = new Date(today + 'T12:00:00+08:00');
-  if (!(dow >= 1 && dow <= 5 && hour < 9)) d.setDate(d.getDate() + 1);
-  while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
-  return Utilities.formatDate(d, 'Asia/Singapore', 'yyyy-MM-dd');
+  const parts = today.split('-').map(Number);
+  let d = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+  if (!(dow >= 1 && dow <= 5 && hour < 9)) d.setUTCDate(d.getUTCDate() + 1);
+  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) d.setUTCDate(d.getUTCDate() + 1);
+  return Utilities.formatDate(d, 'UTC', 'yyyy-MM-dd');
 }
 function myVote_(token, tradingDate) {
   const u = userByToken_(token);
