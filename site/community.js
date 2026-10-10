@@ -1,19 +1,17 @@
-// Community + account system for SSE dashboard
+// Community + account system for SSE dashboard, backed by Google Apps Script.
 (() => {
-  const SUPABASE_URL = "https://hfdrdxxcaqdknniiypnz.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_YLtCCkTOO9KwJKNTyeIMFA_cuEmNG3k";
+  const GAS_API_URL = "https://script.google.com/macros/s/AKfycby_6rP60PYTK0zXqVsRwvFap8dYoS2ElJpK1pxnx28c0v4c_jInjGr926Zqm8q7xCzwzA/exec";
+  const TOKEN_KEY = "sse_community_session";
   const root = document.querySelector("[data-human-game]");
   if (!root) return;
 
-  let db = null, initialized = false, voteInFlight = false;
+  let initialized = true, voteInFlight = false, cachedUser = null;
   const balance = root.querySelector("[data-balance]");
   const streak = root.querySelector("[data-streak]");
   const result = root.querySelector("[data-result]");
   const buttons = [...root.querySelectorAll("[data-vote]")];
   const login = root.querySelector("[data-login]");
-  const leaderboard = root.querySelector(".leaderboard");
   const humanRows = root.querySelector("[data-human-rows]");
-
   const modal = document.querySelector("[data-auth-modal]");
   const accountButtons = [...document.querySelectorAll("[data-account],[data-login]")];
   const closeBtn = modal?.querySelector("[data-auth-close]");
@@ -31,22 +29,24 @@
   const accountNickname = modal?.querySelector("[data-account-nickname]");
   const subtitle = modal?.querySelector("[data-auth-subtitle]");
   const adminPanel = modal?.querySelector("[data-admin-panel]");
-  const adminAmount = modal?.querySelector("[data-admin-amount]");
-  const adminReason = modal?.querySelector("[data-admin-reason]");
-  const adminCredit = modal?.querySelector("[data-admin-credit]");
-  const adminMessage = modal?.querySelector("[data-admin-message]");
-  const ADMIN_USER_ID = "f3d39b91-babb-4b6c-a9f9-7ae726e676d2";
   let authMode = "login";
 
-  function init() {
-    if (initialized) return true;
-    if (!window.supabase) return false;
-    db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    initialized = true;
-    return true;
+  async function api(action, values = {}) {
+    const payload = new URLSearchParams();
+    payload.set("action", action);
+    Object.entries(values).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) payload.set(key, String(value));
+    });
+    const response = await fetch(GAS_API_URL, { method: "POST", body: payload, redirect: "follow" });
+    if (!response.ok) throw new Error("服务器返回 HTTP " + response.status);
+    const json = await response.json();
+    if (!json.ok) throw new Error(json.error || "请求失败");
+    return json.data;
   }
+  function getToken() { try { return localStorage.getItem(TOKEN_KEY) || ""; } catch (_) { return ""; } }
+  function saveToken(token) { try { if (token) localStorage.setItem(TOKEN_KEY, token); else localStorage.removeItem(TOKEN_KEY); } catch (_) {} }
   function sgNow() { return new Date(Date.now() + 8 * 60 * 60 * 1000); }
-  function dateKey(d) { return d.toISOString().slice(0,10); }
+  function dateKey(d) { return d.toISOString().slice(0, 10); }
   function nextWeekday() {
     const d = sgNow(); d.setUTCDate(d.getUTCDate() + 1);
     while (d.getUTCDay() === 0 || d.getUTCDay() === 6) d.setUTCDate(d.getUTCDate() + 1);
@@ -59,138 +59,123 @@
     return now.getUTCHours() < 9;
   }
   function escapeHtml(v) {
-    return String(v ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    return String(v ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
   }
   async function currentUser() {
-    if (!init()) return null;
-    const { data, error } = await db.auth.getUser();
-    const user = error ? null : data?.user || null;
-    return user?.is_anonymous ? null : user;
+    const token = getToken();
+    if (!token) { cachedUser = null; return null; }
+    try { cachedUser = await api("me", { token }); return cachedUser; }
+    catch (_) { saveToken(""); cachedUser = null; return null; }
   }
   function showModal(mode = "login") {
     if (!modal) return;
-    modal.classList.add("open"); modal.setAttribute("aria-hidden","false");
-    setMode(mode);
+    modal.classList.add("open"); modal.setAttribute("aria-hidden", "false"); setMode(mode);
   }
-  function hideModal() { modal?.classList.remove("open"); modal?.setAttribute("aria-hidden","true"); }
+  function hideModal() { modal?.classList.remove("open"); modal?.setAttribute("aria-hidden", "true"); }
   function setMode(mode) {
     authMode = mode;
     const account = mode === "account";
-    tabsWrap.style.display = account ? "none" : "grid";
-    form.style.display = account ? "none" : "grid";
-    accountView.style.display = account ? "grid" : "none";
+    if (tabsWrap) tabsWrap.style.display = account ? "none" : "grid";
+    if (form) form.style.display = account ? "none" : "grid";
+    if (accountView) accountView.style.display = account ? "grid" : "none";
     tabs.forEach(t => t.classList.toggle("active", t.dataset.authMode === mode));
     if (account) {
-      subtitle.textContent = "管理你的登录资料、P币和排行榜身份。";
+      if (subtitle) subtitle.textContent = "管理你的登录资料、P币和排行榜身份。";
       return;
     }
-    subtitle.textContent = mode === "login" ? "登录后保存你的 P币、预测和排行榜成绩。" : "创建正式账户，跨设备保存你的成绩。";
-    nicknameField.style.display = mode === "register" ? "block" : "none";
-    password2Field.style.display = mode === "register" ? "block" : "none";
-    submit.textContent = mode === "login" ? "登录" : "注册";
-    form.elements.password.autocomplete = mode === "login" ? "current-password" : "new-password";
-    message.textContent = "";
-    message.className = "auth-message";
+    if (subtitle) subtitle.textContent = mode === "login" ? "登录后保存你的 P币、预测和排行榜成绩。" : "创建正式账户，注册即得 3000 P 币。";
+    if (nicknameField) nicknameField.style.display = mode === "register" ? "block" : "none";
+    if (password2Field) password2Field.style.display = mode === "register" ? "block" : "none";
+    if (submit) submit.textContent = mode === "login" ? "登录" : "注册";
+    if (form?.elements?.password) form.elements.password.autocomplete = mode === "login" ? "current-password" : "new-password";
+    if (message) { message.textContent = ""; message.className = "auth-message"; }
   }
-  function authMsg(text, ok=false) {
+  function authMsg(text, ok = false) {
+    if (!message) return;
     message.textContent = text; message.className = "auth-message " + (ok ? "ok" : "err");
   }
   async function refreshAccountButton() {
     const user = await currentUser();
-    accountButtons.forEach(b => {
-      if (user && !user.is_anonymous) b.textContent = "👤 我的账户";
-      else if (user?.is_anonymous) b.textContent = "👤 游客账户";
-      else b.textContent = "登录 / 注册";
-    });
+    accountButtons.forEach(b => { b.textContent = user ? "👤 我的账户" : "登录 / 注册"; });
     return user;
   }
   async function openAccount() {
     const user = await refreshAccountButton();
     if (!user) showModal("login");
-    else showModal("account");
-    if (user) await loadAccount(user);
+    else { showModal("account"); await loadAccount(user); }
   }
   async function loadAccount(user) {
-    const { data: profile } = await db.from("profiles").select("nickname,p_balance").eq("id", user.id).single();
-    accountEmail.textContent = user.email || (user.is_anonymous ? "游客身份（未绑定邮箱）" : "—");
-    accountBalance.textContent = Number(profile?.p_balance || 0).toLocaleString() + " P";
-    accountNickname.value = profile?.nickname || user.user_metadata?.nickname || "新玩家";
-    accountMessage.textContent = user.is_anonymous
-      ? "当前是游客账户。正式注册/登录后可跨设备保留账户。"
-      : "";
-    accountMessage.className = "auth-message " + (user.is_anonymous ? "" : "ok");
-    if (adminPanel) {
-      adminPanel.style.display = user.id === ADMIN_USER_ID ? "grid" : "none";
-      if (adminMessage) adminMessage.textContent = "";
+    if (!user) return;
+    if (accountEmail) accountEmail.textContent = user.email || "—";
+    if (accountBalance) accountBalance.textContent = Number(user.balance || 0).toLocaleString() + " P";
+    if (accountNickname) accountNickname.value = user.nickname || "新玩家";
+    if (accountMessage) { accountMessage.textContent = ""; accountMessage.className = "auth-message"; }
+    if (adminPanel) adminPanel.style.display = "none";
+  }
+  async function loadLeaderboard() {
+    if (!humanRows) return;
+    const token = getToken();
+    if (!token) { humanRows.innerHTML = '<div class="leader-note">登录后查看玩家排行榜</div>'; return; }
+    try {
+      const rows = await api("leaderboard", { token });
+      humanRows.innerHTML = (rows || []).slice(0, 10).map((x, i) => {
+        const medal = ["🥇", "🥈", "🥉"][i] || (i + 1);
+        return '<div class="leader-row ' + (cachedUser && x.user_id === cachedUser.id ? "top" : "") + '"><span>' + medal + '</span><b>' +
+          escapeHtml(cachedUser && x.user_id === cachedUser.id ? "你" : (x.nickname || "玩家")) + '</b><small>👤 玩家 · ' +
+          Number(x.accuracy || 0).toFixed(1) + '%</small><strong>' + Number(x.p_balance || 0).toLocaleString() + ' P</strong></div>';
+      }).join("") || '<div class="leader-note">暂无玩家成绩</div>';
+    } catch (e) {
+      humanRows.innerHTML = '<div class="leader-note">排行榜暂时无法加载，请稍后重试。</div>';
     }
   }
   async function render() {
-    if (!init()) return;
     const user = await currentUser();
     await refreshAccountButton();
     if (!user) {
-      balance.textContent = "登录后";
-      streak.textContent = "—";
-      buttons.forEach(b => b.disabled = false);
-      result.innerHTML = "<b>🎯 登录后参与</b><span>注册或登录后，P币和每日预测会保存到你的账户。</span>";
+      if (balance) balance.textContent = "登录后";
+      if (streak) streak.textContent = "—";
+      buttons.forEach(b => { b.disabled = false; b.classList.remove("selected"); });
+      if (result) result.innerHTML = "<b>🎯 登录后参与</b><span>注册或登录后，P币和每日预测会保存到你的账户。</span>";
+      await loadLeaderboard();
       return;
     }
-    const { data: profile } = await db.from("profiles").select("p_balance,nickname").eq("id", user.id).single();
     const tradingDate = nextWeekday();
-    const { data: prediction } = await db.from("predictions").select("direction,status").eq("user_id", user.id).eq("trading_date", tradingDate).maybeSingle();
-    balance.textContent = Number(profile?.p_balance || 0).toLocaleString() + " P";
+    let prediction = null;
+    try { prediction = await api("myVote", { token: getToken(), tradingDate }); }
+    catch (_) {}
+    if (balance) balance.textContent = Number(user.balance || 0).toLocaleString() + " P";
     buttons.forEach(b => {
       b.disabled = !!prediction || !beforeCutoff(tradingDate);
       b.classList.toggle("selected", b.dataset.vote === prediction?.direction);
     });
-    if (!beforeCutoff(tradingDate) && !prediction) result.innerHTML = "<b>⏰ 今日投票已截止</b><span>每天 09:00（UTC+8）锁定。</span>";
-    else if (prediction) result.innerHTML = "<b>今天已提交：" + (prediction.direction === "bull" ? "🟢 看多" : "🔴 看空") + "</b><span>等待下一交易日收盘结算。</span>";
-    else result.innerHTML = "<b>🎯 今天还没有押</b><span>选一个方向，100 P 入场，明天收盘揭晓胜负。</span>";
-    await loadLeaderboard(user.id);
-  }
-  async function loadLeaderboard(me) {
-    const { data, error } = await db.rpc("get_leaderboard");
-    if (error || !humanRows) return;
-    const rows = (data || []).slice(0,10).map((x,i) => {
-      const medal = ["🥇","🥈","🥉"][i] || (i+1);
-      return '<div class="leader-row ' + (x.user_id === me ? "top" : "") + '"><span>' + medal + '</span><b>' +
-        escapeHtml(x.user_id === me ? "你" : (x.nickname || "玩家")) + '</b><small>👤 玩家 · ' +
-        Number(x.accuracy || 0).toFixed(1) + '%</small><strong>' + Number(x.p_balance || 0).toLocaleString() + ' P</strong></div>';
-    }).join("");
-    humanRows.innerHTML = rows || '<div class="leader-note">暂无人类玩家成绩</div>';
+    if (result) {
+      if (!beforeCutoff(tradingDate) && !prediction) result.innerHTML = "<b>⏰ 投票已截止</b><span>每天 09:00（UTC+8）锁定。</span>";
+      else if (prediction) result.innerHTML = "<b>今天已提交：" + (prediction.direction === "bull" ? "🟢 看多" : "🔴 看空") + "</b><span>等待目标交易日收盘结算。</span>";
+      else result.innerHTML = "<b>🎯 今天还没有押</b><span>选一个方向，100 P 入场，结果将在结算后公布。</span>";
+    }
+    await loadLeaderboard();
   }
 
   buttons.forEach(btn => btn.addEventListener("click", async () => {
     if (voteInFlight) return;
-    if (!init()) { result.innerHTML = "<b>投票系统加载失败</b><span>请按 Ctrl+F5 后再试。</span>"; return; }
+    const token = getToken();
+    if (!token) { showModal("login"); authMsg("请先登录或注册，登录后才能投票。"); return; }
     const tradingDate = nextWeekday();
     if (!beforeCutoff(tradingDate)) return;
-    const user = await currentUser();
-    if (!user) { showModal("login"); authMsg("请先登录或注册，登录后才能下注。"); return; }
     voteInFlight = true;
-    result.innerHTML = "<b>⏳ 云端处理中…</b><span>正在写入 100 P 押注，请勿重复点击。</span>";
+    if (result) result.innerHTML = "<b>⏳ 云端处理中…</b><span>正在提交 100 P 投票，请勿重复点击。</span>";
     buttons.forEach(b => b.disabled = true);
-    let rpcResult;
     try {
-      rpcResult = await Promise.race([
-        db.rpc("place_prediction",{p_trading_date:tradingDate,p_direction:btn.dataset.vote,p_stake:100}),
-        new Promise(resolve => setTimeout(() => resolve({error:{message:"请求超时（10秒），请检查 Supabase RPC。"}}),10000))
-      ]);
-    } catch(e) { rpcResult = {error:{message:e?.message || String(e)}}; }
-    const error = rpcResult?.error;
-    if (error) {
-      const msg = error.message || "未知错误";
-      result.innerHTML = "<b>提交失败</b><span>" +
-        (msg.includes("ALREADY_VOTED") ? "你已经投过票了。" : msg.includes("VOTING_CLOSED") ? "投票已截止。" :
-         msg.includes("INSUFFICIENT_BALANCE") ? "P币余额不足。" : escapeHtml(msg)) + "</span>";
-      voteInFlight = false;
-      await render(); return;
-    }
-    root.classList.add("celebrate","vote-success");
-    result.innerHTML = "<b>🔥 押注成功！</b><span>" + (btn.dataset.vote === "bull" ? "你押了看多" : "你押了看空") + " · 100 P 已锁定，等明天收盘见分晓！</span>";
-    setTimeout(() => root.classList.remove("celebrate","vote-success"),900);
-    voteInFlight = false;
-    await render();
+      await api("vote", { token, tradingDate, direction: btn.dataset.vote });
+      root.classList.add("celebrate", "vote-success");
+      if (result) result.innerHTML = "<b>🔥 投票成功！</b><span>" + (btn.dataset.vote === "bull" ? "你投了看多" : "你投了看空") + " · 100 P 已扣除，等待结算！</span>";
+      setTimeout(() => root.classList.remove("celebrate", "vote-success"), 900);
+    } catch (e) {
+      const m = e.message || "未知错误";
+      if (result) result.innerHTML = "<b>提交失败</b><span>" +
+        (m.includes("ALREADY_VOTED") ? "你已经投过票了。" : m.includes("VOTING_CLOSED") ? "投票已截止。" :
+        m.includes("INSUFFICIENT_BALANCE") ? "P币余额不足。" : escapeHtml(m)) + "</span>";
+    } finally { voteInFlight = false; await render(); }
   }));
 
   accountButtons.forEach(b => b.addEventListener("click", openAccount));
@@ -201,122 +186,67 @@
 
   form?.addEventListener("submit", async e => {
     e.preventDefault();
-    if (!init()) return;
     const email = form.elements.email.value.trim();
     const password = form.elements.password.value;
     const nickname = form.elements.nickname?.value.trim() || "新玩家";
     if (password.length < 8) { authMsg("密码至少 8 位。"); return; }
     if (authMode === "register" && password !== form.elements.password2.value) { authMsg("两次密码不一致。"); return; }
-    submit.disabled = true; submit.textContent = authMode === "login" ? "登录中…" : "注册中…";
+    if (submit) { submit.disabled = true; submit.textContent = authMode === "login" ? "登录中…" : "注册中…"; }
     try {
       if (authMode === "login") {
-        const { error } = await db.auth.signInWithPassword({email,password});
-        if (error) throw error;
-        authMsg("登录成功。",true);
+        const data = await api("login", { email, password });
+        saveToken(data.token);
+        authMsg("登录成功。", true);
         await render();
-        setTimeout(hideModal,500);
+        setTimeout(hideModal, 500);
       } else {
-        const { data, error } = await db.auth.signUp({
-          email,password,
-          options:{data:{nickname}}
-        });
-        if (error) throw error;
-        if (!data.session || !data.user) {
-          authMsg("注册未直接登录。请在 Supabase 的 Authentication → Providers → Email 中关闭“Confirm email”，然后再试。");
-          return;
-        }
-        await db.from("profiles").update({nickname}).eq("id",data.user.id);
-        authMsg("注册成功，账户已经登录。",true);
+        const data = await api("register", { email, password, nickname });
+        saveToken(data.token);
+        cachedUser = data.user;
+        authMsg("注册成功！已赠送 3000 P 币。", true);
         await render();
-        setTimeout(() => { setMode("account"); loadAccount(data.user); },500);
+        setTimeout(async () => { setMode("account"); await loadAccount(await currentUser()); }, 500);
       }
-    } catch(e) {
-      authMsg(e?.message || "操作失败，请稍后再试。");
+    } catch (e) {
+      const m = e.message || "操作失败，请稍后再试。";
+      authMsg(m.includes("EMAIL_EXISTS") ? "这个邮箱已经注册，请直接登录。" :
+        m.includes("INVALID_CREDENTIALS") ? "邮箱或密码不正确。" :
+        m.includes("INVALID_EMAIL") ? "请输入有效的邮箱地址。" : escapeHtml(m));
     } finally {
-      submit.disabled = false;
-      submit.textContent = authMode === "login" ? "登录" : "注册";
+      if (submit) { submit.disabled = false; submit.textContent = authMode === "login" ? "登录" : "注册"; }
     }
   });
 
   modal?.querySelector("[data-save-profile]")?.addEventListener("click", async () => {
-    const user = await currentUser(); if (!user) return;
-    const nickname = accountNickname.value.trim().slice(0,20) || "新玩家";
-    const { error } = await db.from("profiles").update({nickname}).eq("id",user.id);
-    accountMessage.textContent = error ? ("保存失败：" + error.message) : "账户资料已保存。";
-    accountMessage.className = "auth-message " + (error ? "err" : "ok");
-    await render();
-  });
-  modal?.querySelector("[data-change-password]")?.addEventListener("click", async () => {
-    const user = await currentUser(); if (!user || user.is_anonymous) {
-      accountMessage.textContent = "游客账户还没有密码。请注册正式账户后再设置密码。";
-      accountMessage.className = "auth-message err"; return;
-    }
-    const password = prompt("请输入新的密码（至少 8 位）：");
-    if (!password) return;
-    if (password.length < 8) { accountMessage.textContent = "密码至少 8 位。"; accountMessage.className = "auth-message err"; return; }
-    const { error } = await db.auth.updateUser({password});
-    accountMessage.textContent = error ? ("修改失败：" + error.message) : "密码已更新。";
-    accountMessage.className = "auth-message " + (error ? "err" : "ok");
-  });
-  modal?.querySelector("[data-forgot-password]")?.addEventListener("click", async () => {
-    const email = form?.elements?.email?.value?.trim();
-    if (!email) { authMsg("请先输入注册邮箱。"); return; }
-    const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: location.href.split("#")[0] });
-    authMsg(error ? ("发送失败：" + error.message) : "重置密码邮件已发送，请查看邮箱。", !error);
-  });
-
-  adminCredit?.addEventListener("click", async () => {
-    const user = await currentUser();
-    if (!user || user.id !== ADMIN_USER_ID) {
-      adminMessage.textContent = "没有管理员权限。";
-      adminMessage.className = "auth-message err";
-      return;
-    }
-    const amount = Number(adminAmount?.value || 0);
-    const reason = (adminReason?.value || "管理员充值").trim().slice(0,80) || "管理员充值";
-    if (!Number.isSafeInteger(amount) || amount <= 0) {
-      adminMessage.textContent = "请输入正整数 P 币数量。";
-      adminMessage.className = "auth-message err";
-      return;
-    }
-    adminCredit.disabled = true;
-    adminMessage.textContent = "正在充值并写入流水…";
-    adminMessage.className = "auth-message";
+    const token = getToken(); if (!token) return;
+    const nickname = (accountNickname?.value || "").trim().slice(0, 20) || "新玩家";
     try {
-      const { data, error } = await db.rpc("admin_credit_p_coins", {
-        p_user_id: user.id, p_amount: amount, p_reason: reason
-      });
-      if (error) throw error;
-      adminAmount.value = "";
-      adminMessage.textContent = "充值成功！新余额：" + Number(data || 0).toLocaleString() + " P；已写入 P 币流水。";
-      adminMessage.className = "auth-message ok";
-      await render();
-      await loadAccount(user);
+      const user = await api("profile", { token, nickname });
+      cachedUser = user;
+      if (accountMessage) { accountMessage.textContent = "账户资料已保存。"; accountMessage.className = "auth-message ok"; }
+      await render(); await loadAccount(user);
     } catch (e) {
-      adminMessage.textContent = "充值失败：" + (e?.message || "未知错误");
-      adminMessage.className = "auth-message err";
-    } finally {
-      adminCredit.disabled = false;
+      if (accountMessage) { accountMessage.textContent = "保存失败：" + (e.message || "未知错误"); accountMessage.className = "auth-message err"; }
     }
   });
-
+  modal?.querySelector("[data-change-password]")?.addEventListener("click", () => {
+    if (accountMessage) {
+      accountMessage.textContent = "修改密码功能尚未接入，请暂时妥善保管注册密码。";
+      accountMessage.className = "auth-message";
+    }
+  });
+  modal?.querySelector("[data-forgot-password]")?.addEventListener("click", () => {
+    authMsg("忘记密码功能尚未接入；请先确保记住注册密码。");
+  });
+  adminPanel?.setAttribute("hidden", "hidden");
   modal?.querySelector("[data-logout]")?.addEventListener("click", async () => {
-    await db.auth.signOut();
-    hideModal(); await render();
+    const token = getToken();
+    try { if (token) await api("logout", { token }); } catch (_) {}
+    saveToken(""); cachedUser = null; hideModal(); await render();
   });
-
   if (login) login.addEventListener("click", openAccount);
-  buttons.forEach(b => b.disabled = false);
-  let tries = 0;
-  const boot = setInterval(() => {
-    tries++;
-    if (init()) {
-      clearInterval(boot);
-      db.auth.onAuthStateChange(() => render());
-      render();
-    } else if (tries >= 100) {
-      clearInterval(boot);
-      result.innerHTML = "<b>账户系统加载失败</b><span>请按 Ctrl+F5 强制刷新页面。</span>";
-    }
-  },50);
+  buttons.forEach(b => { b.disabled = false; });
+  render().catch(() => {
+    if (result) result.innerHTML = "<b>账户系统暂时无法连接</b><span>请刷新页面后重试；如果持续出现，请检查后端跨域连接。</span>";
+  });
 })();
