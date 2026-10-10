@@ -53,3 +53,10 @@ python generate_site.py
 ## 重要
 
 这是研究和回测框架，不是可靠的股票预测器。“上涨概率”是模型输出，不代表保证性的真实概率，不应据此自动交易。
+
+
+## Community backend (Google Apps Script, no Supabase)
+
+The initial Apps Script backend source is in `google-apps-script/Code.gs`, with setup instructions in `google-apps-script/README.md`.
+
+Important: adding the source to GitHub does not deploy it into your Google account. You must create/deploy the Apps Script web app and configure its `SPREADSHEET_ID` and private `ADMIN_KEY` Script Properties. The frontend still needs to be switched from its old Supabase calls to the Apps Script API and tested against the deployed URL before registration, voting, P coins, or leaderboard will work without Supabase.
