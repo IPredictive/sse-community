@@ -1,0 +1,15 @@
+{
+  "id": "./",
+  "name": "上证预测打擂台",
+  "short_name": "上证打擂台",
+  "description": "AI 每日判断、看多看空预测与积分排行榜",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080b12",
+  "theme_color": "#080b12",
+  "icons": [
+    { "src": "./app-icon.svg", "sizes": "192x192 512x512", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
