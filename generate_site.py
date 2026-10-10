@@ -226,7 +226,7 @@ def main():
 
     html_doc = """<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080b12">
+<meta name="theme-color" content="#080b12">\n<link rel="manifest" href="./manifest.webmanifest">\n<link rel="icon" href="./app-icon.svg" type="image/svg+xml">\n<meta name="apple-mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-title" content="上证打擂台">\n<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>上证预测打擂台</title>
 <style>
 :root{--bg:#080b12;--panel:#10151f;--panel2:#141b28;--line:#222c3d;--text:#f4f7fb;--muted:#8d98aa;--soft:#c5cedc;--green:#42d392;--red:#ff6576;--blue:#7aa2ff;--gold:#f4c95d}
@@ -375,8 +375,8 @@ input,select,textarea{background:#09111f!important;color:#f4f7ff!important;borde
 body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:12px;z-index:9998;padding:7px 11px;border:1px solid #ffd166;border-radius:999px;background:#111b2d;color:#ffd166;font-size:11px;font-weight:800;letter-spacing:.04em;box-shadow:0 4px 18px rgba(0,0,0,.32);pointer-events:none}
 @media(max-width:700px){body::after{right:8px;bottom:8px;font-size:10px;padding:6px 9px}}
 
-</style></head>
-<body><main class="wrap">
+.app-install{position:fixed;left:14px;bottom:14px;z-index:9997;border:1px solid #ffe5a0;background:linear-gradient(135deg,#ffd166,#e4a62d);color:#17120a;border-radius:999px;padding:12px 16px;font-size:13px;font-weight:900;cursor:pointer;box-shadow:0 8px 26px rgba(255,190,70,.3)}.app-install:hover{filter:brightness(1.08);transform:translateY(-2px)}@media(max-width:700px){.app-install{left:8px;bottom:8px;padding:10px 12px;font-size:12px}}\n</style></head>
+<body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap">
 
 <header class="top"><div class="brand"><div class="logo">📈</div><div><h1>上证预测打擂台</h1><div class="muted">AI 每日判断 · 你来挑战 · 09:00 前游戏停止预测，游戏使用赠予积分币，不涉及任何实质财富。</div></div></div><div class="top-actions"><div class="date-pill">分析基准日 · __LATEST__</div><button class="top-login" type="button" data-account>登录 / 注册</button></div></header>
 
@@ -442,7 +442,7 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
 __PRICE_SVG__
 </section>
 <footer class="footer"><span>上证预测打擂台</span><span>GitHub Actions 自动生成 · 仅供研究参考，不构成投资建议</span></footer>
-</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>\n</body></html>"""
+</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>\n</body></html>"""
 
     def ai_prob(k):
         return f"{float(analyst_rows[k].prob_up)*100:.1f}%" if k in analyst_rows else "—"
