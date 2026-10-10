@@ -34,7 +34,8 @@ function doPost(e) {
     switch (action) {
       case 'register': result = register_(body); break;
       case 'login': result = login_(body); break;
-      case 'me': result = me_(body.token); break;\n      case 'myVote': result = myVote_(body.token, body.tradingDate); break;
+      case 'me': result = me_(body.token); break;
+      case 'myVote': result = myVote_(body.token, body.tradingDate); break;
       case 'profile': result = profile_(body.token, body.nickname); break;
       case 'vote': result = vote_(body.token, body.tradingDate, body.direction); break;
       case 'leaderboard': result = leaderboard_(body.token); break;
