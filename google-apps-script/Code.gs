@@ -140,10 +140,28 @@ function login_(b) {
   return {user:publicUser_(u),token:issueSession_(u.id)};
 }
 function me_(token) { return publicUser_(userByToken_(token)); }
+function dateKey_(value) {
+  if (value instanceof Date && !isNaN(value.getTime())) {
+    return Utilities.formatDate(value, 'Asia/Singapore', 'yyyy-MM-dd');
+  }
+  const s = String(value || '').trim();
+  const m = s.match(/^(\d{4}-\d{2}-\d{2})/);
+  return m ? m[1] : s;
+}
+function nextVoteDate_() {
+  const now = new Date();
+  const today = Utilities.formatDate(now, 'Asia/Singapore', 'yyyy-MM-dd');
+  const hour = Number(Utilities.formatDate(now, 'Asia/Singapore', 'H'));
+  const dow = Number(Utilities.formatDate(now, 'Asia/Singapore', 'u')); // Mon=1 ... Sun=7
+  let d = new Date(today + 'T12:00:00+08:00');
+  if (!(dow >= 1 && dow <= 5 && hour < 9)) d.setDate(d.getDate() + 1);
+  while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
+  return Utilities.formatDate(d, 'Asia/Singapore', 'yyyy-MM-dd');
+}
 function myVote_(token, tradingDate) {
   const u = userByToken_(token);
-  const date = String(tradingDate || '');
-  const v = rows_('Votes').find(x => x.user_id === u.id && x.trading_date === date);
+  const date = dateKey_(tradingDate);
+  const v = rows_('Votes').find(x => x.user_id === u.id && dateKey_(x.trading_date) === date);
   return v ? {tradingDate:date,direction:v.direction,status:v.status} : null;
 }
 function profile_(token,nickname) {
@@ -160,10 +178,12 @@ function vote_(token,tradingDate,direction) {
   const now = new Date();
   const todaySg = Utilities.formatDate(now,'Asia/Singapore','yyyy-MM-dd');
   const hourSg = Number(Utilities.formatDate(now,'Asia/Singapore','H'));
+  const expectedDate = nextVoteDate_();
+  if (date !== expectedDate) throw new Error('INVALID_TRADING_DATE');
   if (date < todaySg || (date === todaySg && hourSg >= 9)) throw new Error('VOTING_CLOSED');
   const lock = LockService.getScriptLock(); lock.waitLock(10000);
   try {
-    if (rows_('Votes').some(v => v.user_id === u.id && v.trading_date === date)) throw new Error('ALREADY_VOTED');
+    if (rows_('Votes').some(v => v.user_id === u.id && dateKey_(v.trading_date) === date)) throw new Error('ALREADY_VOTED');
     if (Number(u.balance) < 100) throw new Error('INSUFFICIENT_BALANCE');
     u.balance = Number(u.balance)-100; updateRow_('Users',u._row,u);
     append_('Transactions',{id:id_(),user_id:u.id,amount:-100,reason:'预测投票入场',created_at:now_()});
