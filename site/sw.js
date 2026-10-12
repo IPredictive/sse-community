@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sse-community-v1';
+const CACHE_NAME = 'sse-community-v2-20261013';
 const APP_FILES = ['./', './index.html', './community.js', './manifest.webmanifest', './app-icon.svg'];
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -12,7 +12,10 @@ self.addEventListener('activate', event => {
 });
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
-  event.respondWith(fetch(event.request).then(response => {
+  // Always revalidate the HTML shell so a stale installed PWA cannot keep showing an old design.
+  const isPage = event.request.mode === 'navigate' || new URL(event.request.url).pathname.endsWith('/index.html');
+  const request = isPage ? new Request(event.request, { cache: 'no-store' }) : event.request;
+  event.respondWith(fetch(request).then(response => {
     if (response && response.ok) {
       const copy = response.clone();
       caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
