@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sse-community-v2-20261013';
+const CACHE_NAME = 'sse-community-v3-20261013';
 const APP_FILES = ['./', './index.html', './community.js', './manifest.webmanifest', './app-icon.svg'];
 self.addEventListener('install', event => {
   self.skipWaiting();
