@@ -230,9 +230,9 @@ def main():
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./app-icon.svg" type="image/svg+xml">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="上证打擂台">
+<meta name="apple-mobile-web-app-title" content="SSE 猜涨跌">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>上证预测打擂台</title>
+<title>SSE 猜涨跌</title>
 <style>
 :root{--bg:#080b12;--panel:#10151f;--panel2:#141b28;--line:#222c3d;--text:#f4f7fb;--muted:#8d98aa;--soft:#c5cedc;--green:#42d392;--red:#ff6576;--blue:#7aa2ff;--gold:#f4c95d}
 *{box-sizing:border-box}body{margin:0;color:var(--text);background:radial-gradient(circle at 80% -10%,rgba(91,118,255,.18),transparent 32%),radial-gradient(circle at 10% 15%,rgba(66,211,146,.07),transparent 25%),var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
@@ -492,7 +492,7 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
 </style></head>
 <body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap" id="home">
 
-<header class="top"><div class="brand"><div class="logo">📈</div><div><h1>上证预测打擂台</h1><div class="muted">AI 每日判断 · 你来挑战 · 09:00 前游戏停止预测，游戏使用赠予积分币，不涉及任何实质财富。</div></div></div><div class="top-actions"><div class="date-pill">分析基准日 · __LATEST__</div><button class="top-login" type="button" data-account>登录 / 注册</button></div></header>
+<header class="top"><div class="brand"><div class="logo">📈</div><div><h1>SSE 猜涨跌</h1><div class="muted">狮城胖叔 · AI 预测社区 · 每日 09:00 前参与</div></div></div><div class="top-actions"><div class="date-pill">分析基准日 · __LATEST__</div><button class="top-login" type="button" data-account>登录 / 注册</button></div></header>
 
 <section class="grid">
 <div class="card"><div class="metric-label">上证指数 · Latest Close</div><div class="big">__PRICE__</div><div class="sub __CHANGE_CLS__">__CHANGE_TEXT__ <span style="color:var(--muted)">较前一交易日</span></div></div>
@@ -555,7 +555,7 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
 <div class="chart-head"><div><div class="chart-title">上证指数走势</div><div class="chart-desc">最近 60 个交易日 · 最近 20 日区间表现同步显示</div></div><div class="chart-stats"><div class="chart-stat"><b>__RET20__</b><span>20 日</span></div><div class="chart-stat"><b>__RET60__</b><span>60 日</span></div></div></div>
 __PRICE_SVG__
 </section>
-<footer class="footer"><span>上证预测打擂台</span><span>GitHub Actions 自动生成 · 仅供研究参考，不构成投资建议</span></footer>
+<footer class="footer"><span>SSE 猜涨跌</span><span>GitHub Actions 自动生成 · 仅供研究参考，不构成投资建议</span></footer>
 
 <nav class="mobile-bottom-nav" aria-label="手机快捷导航">
   <a href="#home"><span class="nav-icon">⌂</span><span>首页</span></a>
