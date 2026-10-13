@@ -728,12 +728,12 @@ h1::first-letter{color:#f6f8ff}
   <div class="human-result" data-result><b>🎯 选一个方向</b><span>押中赢 P币，押错扣 P币；每天一次。</span></div>
   <div class="leaderboard" id="ranking">
     <div class="leader-head"><h3>🏆 AI × 人类排行榜</h3><button type="button" data-login>保存成绩 / 登录</button></div>
-    <div class="leader-row ai-row top" data-ai-row><span>🤖</span><b>Chief Analyst</b><small>AI · 首席</small><strong>__PROB__</strong></div>
-    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>技术面 Analyst</b><small>AI · Technical</small><strong>__TECH_PROB__</strong></div>
-    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>资金面 Analyst</b><small>AI · Flow</small><strong>__FLOW_PROB__</strong></div>
-    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>政策面 Analyst</b><small>AI · Macro</small><strong>__MACRO_PROB__</strong></div>
-    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>市场情绪 Analyst</b><small>AI · Sentiment</small><strong>__SENTIMENT_PROB__</strong></div>
-    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>海外环境 Analyst</b><small>AI · Overseas</small><strong>__OVERSEAS_PROB__</strong></div>
+    <div class="leader-row ai-row top" data-ai-row><span>🤖</span><b>Chief Analyst</b><small>AI · 首席 · __CHIEF_ACC__</small><strong>__PROB__</strong></div>
+    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>技术面 Analyst</b><small>AI · Technical · __TECH_ACC__</small><strong>__TECH_PROB__</strong></div>
+    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>资金面 Analyst</b><small>AI · Flow · __FLOW_ACC__</small><strong>__FLOW_PROB__</strong></div>
+    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>政策面 Analyst</b><small>AI · Macro · __MACRO_ACC__</small><strong>__MACRO_PROB__</strong></div>
+    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>市场情绪 Analyst</b><small>AI · Sentiment · __SENTIMENT_ACC__</small><strong>__SENTIMENT_PROB__</strong></div>
+    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>海外环境 Analyst</b><small>AI · Overseas · __OVERSEAS_ACC__</small><strong>__OVERSEAS_PROB__</strong></div>
     <div data-human-rows></div>
     <div class="leader-note">AI 六位选手每日独立出战；人类玩家按真实 P币与预测战绩动态排名。AI 与人类积分规则独立。</div>
   </div>
@@ -757,6 +757,13 @@ __PRICE_SVG__
 
     def ai_prob(k):
         return f"{float(analyst_rows[k].prob_up)*100:.1f}%" if k in analyst_rows else "—"
+
+    def ai_accuracy(k):
+        # Only score predictions whose next trading-day close is already available.
+        scored_agent = s[s.agent.astype(str) == k] if not s.empty else s
+        if scored_agent.empty:
+            return "猜中率待结算 · 0 次"
+        return f"猜中率 {float(scored_agent.correct.mean()):.1%} · {len(scored_agent)} 次"
     replacements = {
         "__LATEST__": html.escape(str(latest)),
         "__TECH_PROB__": ai_prob("technical"),
@@ -764,6 +771,12 @@ __PRICE_SVG__
         "__MACRO_PROB__": ai_prob("macro"),
         "__SENTIMENT_PROB__": ai_prob("sentiment"),
         "__OVERSEAS_PROB__": ai_prob("overseas"),
+        "__CHIEF_ACC__": ai_accuracy("CHIEF_ANALYST"),
+        "__TECH_ACC__": ai_accuracy("technical"),
+        "__FLOW_ACC__": ai_accuracy("flow"),
+        "__MACRO_ACC__": ai_accuracy("macro"),
+        "__SENTIMENT_ACC__": ai_accuracy("sentiment"),
+        "__OVERSEAS_ACC__": ai_accuracy("overseas"),
         "__PRICE__": price_text,
         "__MINI_PRICE_SVG__": make_mini_line_svg(recent60.close.tolist() if not recent60.empty else []),
         "__CHANGE_CLS__": change_cls,
