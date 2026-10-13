@@ -54,7 +54,27 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/sse.db site/index.html
           git diff --cached --quiet || git commit -m "data: daily SSE prediction"
-          git push
+
+          # A website/source commit can land while agents are running. If that
+          # makes the push non-fast-forward, preserve the freshly updated DB,
+          # sync to the newest main, regenerate HTML from the newest template,
+          # and retry instead of leaving today's prediction unpublished.
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "Push attempt $attempt failed; syncing latest main and retrying."
+            cp data/sse.db /tmp/sse.db
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/sse.db data/sse.db
+            python generate_site.py
+            git add data/sse.db site/index.html
+            git diff --cached --quiet || git commit -m "data: daily SSE prediction"
+            sleep 2
+          done
+          echo "::error::Unable to publish daily prediction after 3 attempts."
+          exit 1
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
