@@ -264,6 +264,57 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
   .app-install{bottom:78px!important;left:auto!important;right:10px!important;padding:8px 10px!important;font-size:10px!important}
 }
 
+
+/* Minimal everyday play screen: show only index, chief call, vote and entry points. */
+@media(min-width:0px){
+  .app-install{display:none!important}
+  .wrap{max-width:760px!important;padding:18px 16px 92px!important}
+  .top{padding:4px 0 14px!important;gap:10px!important;align-items:center!important}
+  .logo{width:38px!important;height:38px!important;font-size:18px!important}
+  h1{font-size:22px!important}
+  .top .muted{font-size:11px!important;line-height:1.4!important}
+  .date-pill{font-size:10px!important;padding:6px 9px!important}
+  .wrap>.grid{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin:0 0 10px!important}
+  .wrap>.grid>.card{display:none!important}
+  .wrap>.grid>.card:first-child{display:block!important;padding:13px 15px!important}
+  .wrap>.grid>.card:first-child .metric-label{font-size:10px!important}
+  .wrap>.grid>.card:first-child .big{font-size:28px!important;line-height:1.1!important;margin:5px 0!important}
+  .wrap>.chief{padding:14px!important;margin:0 0 10px!important}
+  .chief-top{margin-bottom:8px!important}
+  .hero-slogan{display:none!important}
+  .chiefrow{display:block!important}
+  .chiefrow .prob{font-size:38px!important;line-height:1.1!important}
+  .chiefrow .reason,.chiefrow .conf-row{display:none!important}
+  .human-game{padding:14px!important;margin:0!important}
+  .human-hero{display:block!important}
+  .human-kicker{font-size:10px!important}
+  .human-hero h2{font-size:17px!important;margin:5px 0!important}
+  .human-hero p{font-size:11px!important;margin:4px 0!important}
+  .human-stats{display:flex!important;gap:8px!important;margin-top:10px!important}
+  .human-stats>div{flex:1!important;padding:9px!important}
+  .human-compare{display:grid!important;grid-template-columns:.8fr 24px 1.2fr!important;gap:7px!important;margin-top:12px!important}
+  .ai-side,.human-side{min-width:0!important;padding:10px!important}
+  .ai-side b{font-size:22px!important}
+  .vote-buttons{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important}
+  .vote-buttons button{min-height:46px!important;font-size:14px!important;padding:8px 5px!important}
+  .human-result{font-size:12px!important;line-height:1.45!important;padding:10px!important;margin-top:9px!important}
+  .leaderboard{margin-top:10px!important}
+  .leader-head{display:flex!important;align-items:center!important;justify-content:space-between!important}
+  .leader-head h3{font-size:13px!important}
+  .leader-row,.leader-note,[data-human-rows],.chart-card,.signal-panel,.perf-grid,.analysts,.analyst-grid,.table-wrap,.footer{display:none!important}
+  .mobile-bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));left:0;right:0;bottom:0;z-index:10000;padding:7px 5px calc(7px + env(safe-area-inset-bottom));background:rgba(8,11,18,.97);border-top:1px solid #263247;backdrop-filter:blur(16px)}
+  .mobile-bottom-nav a,.mobile-bottom-nav button{border:0;background:none;color:#aeb9cb;text-decoration:none;font:inherit;font-size:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:42px;cursor:pointer}
+  .mobile-bottom-nav .nav-icon{font-size:17px;line-height:1}
+  @media(max-width:700px){
+    body{padding-bottom:76px!important}
+    .wrap{max-width:560px!important;padding:10px 12px 86px!important}
+    .top{display:flex!important;flex-wrap:wrap!important}
+    .top-actions{width:100%;display:flex!important;justify-content:space-between!important}
+    .top-login{position:static!important;padding:7px 10px!important;font-size:11px!important}
+    .human-compare{grid-template-columns:.8fr 20px 1.2fr!important}
+  }
+}
+
 </style></head>
 <body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap" id="home">
 
@@ -352,5 +403,5 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
   <button type="button" data-account><span class="nav-icon">👤</span><span>我的</span></button>
 </nav>
 
-</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261014mobile1";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014mobile1",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>
+</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261014minimal2";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014minimal2",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>
 </body></html>
