@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "上证预测打擂台",
-  "short_name": "上证打擂台",
-  "description": "AI 每日判断、看多看空预测与积分排行榜",
+  "name": "SSE 猜猜乐",
+  "short_name": "猜猜乐",
+  "description": "狮城胖叔 · AI 预测社区，看多看空、积分与排行榜",
   "lang": "zh-CN",
   "start_url": "./",
   "scope": "./",
