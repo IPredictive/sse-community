@@ -677,6 +677,16 @@ h1::first-letter{color:#f6f8ff}
 }
 
 .index-card::after{display:none!important}.index-card-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,44%);align-items:center;gap:16px;position:relative;z-index:1}.index-chart-wrap{min-width:0;width:100%;height:112px;display:flex;align-items:center}.index-sparkline{display:block;width:100%;height:100%;overflow:visible}.mini-chart-empty{font-size:11px;color:#91add8;text-align:center;width:100%}@media(max-width:700px){.index-card-main{grid-template-columns:minmax(0,1fr) minmax(110px,43%);gap:8px}.index-chart-wrap{height:86px}.wrap>.grid>.card:first-child .big{font-size:clamp(28px,8vw,43px)!important}}
+
+    /* China A-share color convention: bullish/up = red, bearish/down = green */
+    .up{color:#ff536b!important}.down{color:#48f0ad!important}
+    .signal-dot.bull,.bull .agent-dot{background:#ff536b!important}
+    .signal-dot.bear,.bear .agent-dot{background:#48f0ad!important}
+    .signal-track span.bull,.bull .signal-track span,.bull .mini-track span{background:#ff536b!important}
+    .signal-track span.bear,.bear .signal-track span,.bear .mini-track span{background:#48f0ad!important}
+    .vote-buttons [data-vote="bull"],button.bull,.bull-btn,.vote-up{background:linear-gradient(135deg,#f0445e,#c81e3a)!important;color:#fff!important;border:1px solid #ff8292!important;box-shadow:0 8px 24px rgba(239,68,68,.18)!important}
+    .vote-buttons [data-vote="bear"],button.bear,.bear-btn,.vote-down{background:linear-gradient(135deg,#08b981,#087451)!important;color:#fff!important;border:1px solid #4be0aa!important;box-shadow:0 8px 24px rgba(16,185,129,.15)!important}
+    
 </style></head>
 <body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap" id="home">
 
@@ -719,8 +729,8 @@ h1::first-letter{color:#f6f8ff}
     <div class="human-side">
       <span>👤 你</span>
       <div class="vote-buttons">
-        <button type="button" data-vote="bull">🟢 看多</button>
-        <button type="button" data-vote="bear">🔴 看空</button>
+        <button type="button" data-vote="bull">🔴 看多</button>
+        <button type="button" data-vote="bear">🟢 看空</button>
       </div>
       <small>每次参与消耗 100 P · 09:00 截止</small>
     </div>
