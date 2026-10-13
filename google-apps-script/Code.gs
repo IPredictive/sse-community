@@ -233,7 +233,7 @@ function syncAi_(b) {
 function settle_(b) {
   isAdmin_(b.adminKey);
   const date = String(b.tradingDate || '');
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || !['bull','bear','flat'].includes(b.outcome)) throw new Error('INVALID_SETTLEMENT');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !['bull','bear','flat'].includes(b.outcome)) throw new Error('INVALID_SETTLEMENT');
   return settleDate_(date, b.outcome, Number(b.indexClose || 0), Number(b.previousClose || 0));
 }
 function settleDate_(date, outcome, indexClose, previousClose) {
@@ -298,7 +298,7 @@ function fetchIndexKlines_() {
   return payload.data.klines.map(line => {
     const p = String(line).split(',');
     return {date:p[0],close:Number(p[2])};
-  }).filter(x => /^\\d{4}-\\d{2}-\\d{2}$/.test(x.date) && isFinite(x.close)).sort((a,b)=>a.date.localeCompare(b.date));
+  }).filter(x => /^\d{4}-\d{2}-\d{2}$/.test(x.date) && isFinite(x.close)).sort((a,b)=>a.date.localeCompare(b.date));
 }
 function autoSettleDaily() {
   const klines = fetchIndexKlines_();
