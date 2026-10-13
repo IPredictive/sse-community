@@ -27,9 +27,9 @@ Data is stored in a Google Spreadsheet. This is intended for an early-stage comm
 
 ## Important before going live
 - This file is source code only; it is not deployed to your Google account automatically.
-- The current site frontend still needs its Supabase client calls replaced with the Apps Script API and the deployment URL configured. Do not consider the migration complete until this is done and tested.
+- The current frontend `site/community.js` already calls the Apps Script API URL. Confirm that URL matches your deployed Web app, then test registration, login, voting, and leaderboard in a real browser.
 - Cross-origin requests from GitHub Pages to Apps Script can behave differently depending on browser redirects and deployment settings. Test register/login/vote in the actual browser before announcing the site. If CORS prevents the frontend from reading responses, use a Google Apps Script-hosted HTML frontend or another approved same-origin bridge; do not work around it by sending passwords in URL query strings.
-- Admin settlement requires calling the `settle` action with `adminKey`, `tradingDate`, and `outcome`. Keep the admin key private. Before production, connect settlement to verified SSE closing data rather than manually guessing the result.
+- Admin settlement requires calling the `settle` action with `adminKey`, `tradingDate`, and `outcome`. Keep the admin key private. The source includes automated Eastmoney closing-data settlement; verify it in the deployed script before relying on it.
 - Passwords are salted and hashed, but Apps Script/Sheets is a lightweight starter setup, not a substitute for a professionally audited authentication service.
 - Apps Script quotas apply. Monitor usage as the community grows.
 
