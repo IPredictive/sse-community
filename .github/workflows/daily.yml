@@ -18,8 +18,9 @@ permissions:
   pages: write
   id-token: write
 
+# Share the Pages deployment lock with pages.yml to avoid HTTP 400 conflicts.
 concurrency:
-  group: daily-sse-agents
+  group: github-pages-deployment
   cancel-in-progress: false
 
 jobs:
