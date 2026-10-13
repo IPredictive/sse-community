@@ -160,7 +160,7 @@
     if (result) {
       if (predictionCheckFailed) result.innerHTML = "<b>⚠️ 暂时无法确认投票状态</b><span>为避免重复扣除 P 币，投票按钮已暂时锁定。请刷新网页后重试。</span>";
       else if (!beforeCutoff(tradingDate) && !prediction) result.innerHTML = "<b>⏰ 投票已截止</b><span>每天 09:00（UTC+8）锁定。</span>";
-      else if (prediction) result.innerHTML = "<b>今天已提交：" + (prediction.direction === "bull" ? "🟢 看多" : "🔴 看空") + "</b><span>等待目标交易日收盘结算。</span>";
+      else if (prediction) result.innerHTML = "<b>你已有一笔未结算预测：" + (prediction.direction === "bull" ? "🟢 看多" : "🔴 看空") + "</b><span>目标交易日：" + escapeHtml(prediction.tradingDate || tradingDate) + "。结算完成后才能再次下注。</span>";
       else result.innerHTML = "<b>🎯 今天还没有押</b><span>选一个方向，100 P 入场，结果将在结算后公布。</span>";
     }
     await loadLeaderboard();
@@ -183,7 +183,7 @@
     } catch (e) {
       const m = e.message || "未知错误";
       if (result) result.innerHTML = "<b>提交失败</b><span>" +
-        (m.includes("ALREADY_VOTED") ? "你已经投过票了。" : m.includes("VOTING_CLOSED") ? "投票已截止。" :
+        (m.includes("ALREADY_VOTED_PENDING") ? "你已有一笔未结算预测，请等待结算后再下注。" : m.includes("ALREADY_VOTED") ? "你已经投过票了。" : m.includes("VOTING_CLOSED") ? "投票已截止。" :
         m.includes("INSUFFICIENT_BALANCE") ? "P币余额不足。" : escapeHtml(m)) + "</span>";
     } finally { voteInFlight = false; await render(); }
   }));
