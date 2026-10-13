@@ -82,6 +82,31 @@ def make_line_svg(values, width=900, height=260, pct_axis=False):
     </svg>"""
 
 
+
+def make_mini_line_svg(values, width=420, height=150):
+    """Small sparkline generated only from the actual daily close series."""
+    vals = [float(v) for v in values if v is not None]
+    if len(vals) < 2:
+        return "<div class='mini-chart-empty'>等待真实历史行情</div>"
+    lo, hi = min(vals), max(vals)
+    span = hi - lo if hi > lo else 1.0
+    pad_x, pad_y = 3, 8
+    points = []
+    for i, value in enumerate(vals):
+        x = pad_x + i * (width - 2 * pad_x) / (len(vals) - 1)
+        y = height - pad_y - (value - lo) / span * (height - 2 * pad_y)
+        points.append((x, y))
+    line = " ".join(f"{x:.1f},{y:.1f}" for x, y in points)
+    last_x, last_y = points[-1]
+    first_x = points[0][0]
+    area = f"{line} {last_x:.1f},{height} {first_x:.1f},{height}"
+    return f"""<svg class="index-sparkline" viewBox="0 0 {width} {height}" role="img" aria-label="根据真实上证指数收盘价生成的近期走势曲线" preserveAspectRatio="none">
+      <defs><linearGradient id="indexSparkFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#13e5b2" stop-opacity=".24"/><stop offset="100%" stop-color="#13e5b2" stop-opacity="0"/></linearGradient></defs>
+      <polygon points="{area}" fill="url(#indexSparkFill)"/>
+      <polyline points="{line}" fill="none" stroke="#13e5b2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+      <circle cx="{last_x:.1f}" cy="{last_y:.1f}" r="4" fill="#13e5b2" stroke="#06204a" stroke-width="2" vector-effect="non-scaling-stroke"/>
+    </svg>"""
+
 def main():
     init_db()
     d = load_daily()
@@ -651,13 +676,14 @@ h1::first-letter{color:#f6f8ff}
   .wrap>.chief .chiefrow .reason,.wrap>.chief .conf-row{display:none!important}
 }
 
+.index-card::after{display:none!important}.index-card-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,44%);align-items:center;gap:16px;position:relative;z-index:1}.index-chart-wrap{min-width:0;width:100%;height:112px;display:flex;align-items:center}.index-sparkline{display:block;width:100%;height:100%;overflow:visible}.mini-chart-empty{font-size:11px;color:#91add8;text-align:center;width:100%}@media(max-width:700px){.index-card-main{grid-template-columns:minmax(0,1fr) minmax(110px,43%);gap:8px}.index-chart-wrap{height:86px}.wrap>.grid>.card:first-child .big{font-size:clamp(28px,8vw,43px)!important}}
 </style></head>
 <body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap" id="home">
 
 <header class="top"><div class="brand"><div class="logo">📈</div><div><h1>SSE 猜涨跌</h1><div class="muted">狮城胖叔 · AI 预测社区 · 每日 09:00 前参与</div></div></div><div class="top-actions"><div class="date-pill">分析基准日 · __LATEST__</div><button class="top-login" type="button" data-account>登录 / 注册</button></div></header>
 
 <section class="grid">
-<div class="card"><div class="metric-label">上证指数 · Latest Close</div><div class="big">__PRICE__</div><div class="sub __CHANGE_CLS__">__CHANGE_TEXT__ <span style="color:var(--muted)">较前一交易日</span></div></div>
+<div class="card index-card"><div class="metric-label">上证综合指数</div><div class="index-card-main"><div><div class="big">__PRICE__</div><div class="sub __CHANGE_CLS__">__CHANGE_TEXT__ <span style="color:var(--muted)">较前一交易日</span></div></div><div class="index-chart-wrap">__MINI_PRICE_SVG__</div></div></div>
 <div class="card"><div class="metric-label">AI · Chief Analyst</div><div class="big __CHIEF_TONE__">__PROB__</div><div class="sub">__DIRECTION__ · 下一交易日</div></div>
 <div class="card"><div class="metric-label">AI 信心</div><div class="big">__CONF__</div><div class="conf-row"><span>模型综合信心</span><div class="conf-track"><span></span></div></div></div>
 </section>
@@ -739,6 +765,7 @@ __PRICE_SVG__
         "__SENTIMENT_PROB__": ai_prob("sentiment"),
         "__OVERSEAS_PROB__": ai_prob("overseas"),
         "__PRICE__": price_text,
+        "__MINI_PRICE_SVG__": make_mini_line_svg(recent60.close.tolist() if not recent60.empty else []),
         "__CHANGE_CLS__": change_cls,
         "__CHANGE_TEXT__": change_text,
         "__CHIEF_TONE__": chief_tone,
