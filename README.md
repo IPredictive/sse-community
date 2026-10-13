@@ -1,6 +1,6 @@
 # 狮城胖叔·上证分析台
 
-这是一个保持 **Private** 的上证指数多智能体研究项目。
+这是一个公开托管在 GitHub 的上证指数 AI 分析与预测社区项目。
 
 每天工作日自动运行 5 位分析师：
 - Technical：MA / MACD / RSI
@@ -59,4 +59,4 @@ python generate_site.py
 
 The initial Apps Script backend source is in `google-apps-script/Code.gs`, with setup instructions in `google-apps-script/README.md`.
 
-Important: adding the source to GitHub does not deploy it into your Google account. You must create/deploy the Apps Script web app and configure its `SPREADSHEET_ID` and private `ADMIN_KEY` Script Properties. The frontend still needs to be switched from its old Supabase calls to the Apps Script API and tested against the deployed URL before registration, voting, P coins, or leaderboard will work without Supabase.
+Important: adding the source to GitHub does not deploy it into your Google account. The frontend `site/community.js` already calls the configured Apps Script `/exec` URL. The Apps Script project must be deployed as a Web app and have `SPREADSHEET_ID` and private `ADMIN_KEY` Script Properties configured. After changing `google-apps-script/Code.gs`, publish a new Apps Script deployment version manually; GitHub commits do not update the live Apps Script deployment.
