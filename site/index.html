@@ -398,6 +398,34 @@ h1::first-letter{color:#f6f8ff}
  .vote-buttons button{min-height:106px!important;font-size:25px!important}
 }
 
+
+/* Put SSE index and Chief Analyst side by side as one market summary panel */
+@media(min-width:701px){
+  .wrap{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;column-gap:0!important;align-items:stretch!important}
+  .wrap>.top{grid-column:1/-1!important}
+  .wrap>.grid{grid-column:1!important;grid-row:2!important;margin:0!important;min-width:0!important}
+  .wrap>.grid>.card:first-child{height:100%!important;min-height:210px!important;box-sizing:border-box!important;border-radius:22px 0 0 22px!important}
+  .wrap>.chief{grid-column:2!important;grid-row:2!important;margin:0!important;min-width:0!important;min-height:210px!important;box-sizing:border-box!important;border-left:0!important;border-radius:0 22px 22px 0!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+  .wrap>.chief .chief-top{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:8px!important}
+  .wrap>.chief .chiefrow{display:block!important}
+  .wrap>.chief .chiefrow .prob{font-size:46px!important}
+  .wrap>.chief .chiefrow .reason{display:none!important}
+  .wrap>.chief .conf-row{display:none!important}
+  .wrap>.human-game{grid-column:1/-1!important;margin-top:12px!important}
+  .wrap>.section:not(.human-game),.wrap>.leaderboard{grid-column:1/-1!important}
+}
+@media(max-width:700px){
+  .wrap{display:flex!important;flex-direction:column!important}
+  .wrap>.grid{order:1!important}
+  .wrap>.chief{order:2!important;margin-top:0!important}
+  .wrap>.human-game{order:3!important}
+  .wrap>.grid>.card:first-child{border-radius:20px!important}
+  .wrap>.chief{border-radius:20px!important;border-left:1px solid #0d3c7d!important;min-height:0!important;padding:14px 16px!important}
+  .wrap>.chief .chief-top{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:8px!important}
+  .wrap>.chief .chiefrow .prob{font-size:30px!important}
+  .wrap>.chief .chiefrow .reason,.wrap>.chief .conf-row{display:none!important}
+}
+
 </style></head>
 <body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap" id="home">
 
@@ -486,5 +514,5 @@ h1::first-letter{color:#f6f8ff}
   <button type="button" data-account><span class="nav-icon">👤</span><span>我的</span></button>
 </nav>
 
-</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261014reference3";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014reference3",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>
+</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261014indexchiefside";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014indexchiefside",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>
 </body></html>
