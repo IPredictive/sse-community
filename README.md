@@ -12,27 +12,16 @@
 
 ## 每日网页
 
-网页文件由 GitHub Actions 自动生成到 \`site/index.html\`。
+当前网站由 **GitHub Pages** 发布：https://ipredictive.github.io/sse-community/
 
-由于当前 GitHub 账户的 Private repository 不支持直接启用 GitHub Pages，本项目改用 **Vercel** 发布网页。仓库保持 Private，不需要公开源代码。
+- `site/index.html` 是当前静态网页。
+- `.github/workflows/pages.yml` 负责发布网页改动。
+- `.github/workflows/daily.yml` 工作日运行 AI 分析、更新数据库并重新生成网页。
+- 每日工作流遇到并发推送时会同步最新 `main` 并重试发布。
 
-第一次部署：
-1. 在 Vercel 登录并连接 GitHub。
-2. Import \`IPredictive/sse-agents\`。
-3. Framework Preset 选择 \`Other\` / Static。
-4. Root Directory 保持 \`/\`。
-5. Deploy。
-6. 之后 GitHub Actions 每天更新 \`site/index.html\`，Vercel 会自动重新部署。
+## AI 分析
 
-仓库已经提供 \`vercel.json\`，用于把 \`site/\` 作为网站输出目录。
-
-## AI API
-
-GitHub Actions 使用：
-- \`OPENAI_API_KEY\`：Repository secret
-- \`OPENAI_MODEL\`：Repository variable
-
-不要把 API Key 写进代码、README 或网页。
+默认使用项目内的规则模型与技术指标，不需要配置 OpenAI API Key。若将来启用外部大模型，API Key 应放在 GitHub Actions Secrets 中，不能写进代码、README 或网页。
 
 ## GitHub Actions
 
