@@ -217,8 +217,55 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
   .grid .big{font-size:25px}
 }
 
+
+/* Compact mobile home: keep the important daily actions, hide research-heavy panels. */
+.mobile-bottom-nav{display:none}
+@media(max-width:700px){
+  body{padding-bottom:86px!important}
+  .wrap{padding:10px 12px 26px!important;max-width:560px!important}
+  .top{gap:10px!important;padding:4px 0 12px!important}
+  .brand{gap:9px!important}
+  .logo{width:38px!important;height:38px!important;font-size:18px!important}
+  h1{font-size:20px!important}
+  .top .muted{font-size:10px!important;line-height:1.45!important}
+  .top-actions{width:100%;display:flex!important;align-items:center!important}
+  .date-pill{font-size:10px!important;padding:6px 8px!important}
+  .top-login{position:static!important;padding:8px 10px!important;font-size:11px!important}
+  .wrap>.grid{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin-bottom:10px!important}
+  .wrap>.grid>.card{display:none!important}
+  .wrap>.grid>.card:first-child{display:block!important;grid-column:auto!important;padding:14px!important}
+  .wrap>.grid>.card:first-child .big{font-size:30px!important;line-height:1.15!important}
+  .wrap>.chief{padding:16px!important;margin-bottom:10px!important}
+  .hero-slogan{font-size:19px!important;line-height:1.35!important;margin:10px 0!important}
+  .chiefrow{gap:10px!important}
+  .prob{font-size:42px!important}
+  .reason{font-size:12px!important;line-height:1.55!important}
+  .human-game{padding:14px!important;margin-top:10px!important}
+  .human-hero{display:block!important}
+  .human-hero h2{font-size:17px!important;line-height:1.4!important}
+  .human-hero p{font-size:12px!important;line-height:1.5!important}
+  .human-stats{display:flex!important;gap:8px!important;margin-top:12px!important}
+  .human-stats>div{flex:1!important;padding:10px!important}
+  .human-compare{display:grid!important;grid-template-columns:1fr auto 1.25fr!important;gap:7px!important;margin-top:12px!important}
+  .ai-side,.human-side{min-width:0!important;padding:10px!important}
+  .ai-side b{font-size:22px!important}
+  .vote-buttons{display:grid!important;grid-template-columns:1fr!important;gap:7px!important}
+  .vote-buttons button{min-height:44px!important;font-size:14px!important;padding:9px 6px!important}
+  .human-result{font-size:12px!important;line-height:1.5!important}
+  .leaderboard{margin-top:12px!important}
+  .leader-row{grid-template-columns:24px minmax(0,1fr) auto!important;gap:6px!important;padding:9px 6px!important}
+  .leader-row small{display:none!important}
+  .leader-row strong{font-size:11px!important}
+  .chart-card,.signal-panel,.perf-grid,.analysts,.analyst-grid,.table-wrap,.section:not(.human-game),.footer{display:none!important}
+  .mobile-bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));left:0;right:0;bottom:0;z-index:10000;padding:8px 5px calc(8px + env(safe-area-inset-bottom));background:rgba(8,11,18,.97);border-top:1px solid #263247;backdrop-filter:blur(16px)}
+  .mobile-bottom-nav a,.mobile-bottom-nav button{border:0;background:none;color:#aeb9cb;text-decoration:none;font:inherit;font-size:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:43px;cursor:pointer}
+  .mobile-bottom-nav .nav-icon{font-size:18px;line-height:1}
+  .mobile-bottom-nav a:active,.mobile-bottom-nav button:active{color:#f4c95d}
+  .app-install{bottom:78px!important;left:auto!important;right:10px!important;padding:8px 10px!important;font-size:10px!important}
+}
+
 </style></head>
-<body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap">
+<body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap" id="home">
 
 <header class="top"><div class="brand"><div class="logo">📈</div><div><h1>上证预测打擂台</h1><div class="muted">AI 每日判断 · 你来挑战 · 09:00 前游戏停止预测，游戏使用赠予积分币，不涉及任何实质财富。</div></div></div><div class="top-actions"><div class="date-pill">分析基准日 · 2026-10-13</div><button class="top-login" type="button" data-account>登录 / 注册</button></div></header>
 
@@ -228,7 +275,7 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
 <div class="card"><div class="metric-label">AI 信心</div><div class="big">56.7%</div><div class="conf-row"><span>模型综合信心</span><div class="conf-track"><span></span></div></div></div>
 </section>
 
-<section class="card chief">
+<section class="card chief" id="ai">
 <div class="chief-top"><div class="kicker"><span class="kicker-dot"></span> AI × HUMAN</div><div class="muted">面向下一交易日</div></div>
 <div class="hero-slogan">AI 怎么判断？<br><strong>你敢不敢押一边？</strong></div>
 <div class="chiefrow"><div><div class="prob bear">43.2%</div><div class="chief-direction">中性偏空</div></div><div><div class="reason">动态加权汇总：technical:10.1%(证据100%，权重1.20)；flow:44.9%(证据54%，权重1.01)；macro:54.8%(证据45%，权重1.07)；sentiment:51.8%(证据48%，权重0.93)；overseas:54.0%(证据52%，权重0.90)；分析师分歧=44.7%；交叉验证分歧；分组=核心市场:26.0%；政策情绪:53.4%；海外环境:54.0%；综合判断中性偏空</div><div class="conf-row">模型信心 56.7%<div class="conf-track"><span></span></div></div></div></div>
@@ -236,7 +283,7 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
 
 
 
-<section class="section human-game" data-human-game>
+<section class="section human-game" id="game" data-human-game>
   <div class="human-hero">
     <div>
       <div class="human-kicker">🎯 YOUR MOVE</div>
@@ -266,7 +313,7 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
     </div>
   </div>
   <div class="human-result" data-result><b>🎯 选一个方向</b><span>押中赢 P币，押错扣 P币；每天一次。</span></div>
-  <div class="leaderboard">
+  <div class="leaderboard" id="ranking">
     <div class="leader-head"><h3>🏆 AI × 人类排行榜</h3><button type="button" data-login>保存成绩 / 登录</button></div>
     <div class="leader-row ai-row top" data-ai-row><span>🤖</span><b>Chief Analyst</b><small>AI · 首席</small><strong>43.2%</strong></div>
     <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>技术面 Analyst</b><small>AI · Technical</small><strong>10.1%</strong></div>
@@ -296,5 +343,14 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
     </svg>
 </section>
 <footer class="footer"><span>上证预测打擂台</span><span>GitHub Actions 自动生成 · 仅供研究参考，不构成投资建议</span></footer>
-</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261013fix5";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261013fix5",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>
+
+<nav class="mobile-bottom-nav" aria-label="手机快捷导航">
+  <a href="#home"><span class="nav-icon">⌂</span><span>首页</span></a>
+  <a href="#ai"><span class="nav-icon">🤖</span><span>AI判断</span></a>
+  <a href="#game"><span class="nav-icon">🎯</span><span>猜涨跌</span></a>
+  <a href="#ranking"><span class="nav-icon">🏆</span><span>排行榜</span></a>
+  <button type="button" data-account><span class="nav-icon">👤</span><span>我的</span></button>
+</nav>
+
+</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261014mobile1";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014mobile1",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>
 </body></html>
