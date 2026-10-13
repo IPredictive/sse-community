@@ -163,8 +163,13 @@ function nextVoteDate_() {
 }
 function myVote_(token, tradingDate) {
   const u = userByToken_(token);
+  const votes = rows_('Votes').filter(x => x.user_id === u.id);
+  // A user may have only one unsettled prediction at a time, even if the
+  // browser's suggested target date rolls forward after 09:00 Singapore time.
+  const pending = votes.find(x => String(x.status) !== 'settled');
+  if (pending) return {tradingDate:dateKey_(pending.trading_date),direction:pending.direction,status:pending.status};
   const date = dateKey_(tradingDate);
-  const v = rows_('Votes').find(x => x.user_id === u.id && dateKey_(x.trading_date) === date);
+  const v = votes.find(x => dateKey_(x.trading_date) === date);
   return v ? {tradingDate:date,direction:v.direction,status:v.status} : null;
 }
 function profile_(token,nickname) {
@@ -186,6 +191,8 @@ function vote_(token,tradingDate,direction) {
   if (date < todaySg || (date === todaySg && hourSg >= 9)) throw new Error('VOTING_CLOSED');
   const lock = LockService.getScriptLock(); lock.waitLock(10000);
   try {
+    // Server-side guard: never allow a second prediction while an earlier one is unsettled.
+    if (rows_('Votes').some(v => v.user_id === u.id && String(v.status) !== 'settled')) throw new Error('ALREADY_VOTED_PENDING');
     if (rows_('Votes').some(v => v.user_id === u.id && dateKey_(v.trading_date) === date)) throw new Error('ALREADY_VOTED');
     if (Number(u.balance) < 100) throw new Error('INSUFFICIENT_BALANCE');
     u.balance = Number(u.balance)-100; updateRow_('Users',u._row,u);
