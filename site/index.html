@@ -315,6 +315,89 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
   }
 }
 
+
+/* Reference design: premium dark-blue mobile prediction app */
+:root{--app-bg:#031333;--panel:#061b40;--panel2:#08234d;--line:#0d3a78;--mint:#16e4b3;--muted:#9bb4df}
+html{background:#031333!important}
+body{margin:0!important;background:radial-gradient(ellipse at 50% 0%,#09285b 0%,#031333 58%,#020d24 100%)!important;color:#f5f8ff!important;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif!important}
+.wrap{width:min(100% - 24px,888px)!important;max-width:888px!important;margin:0 auto!important;padding:22px 0 100px!important}
+.top{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:14px!important;padding:10px 2px 20px!important;border-bottom:1px solid #12386c!important;margin-bottom:18px!important}
+.brand{display:flex!important;align-items:center!important;gap:12px!important;min-width:0}
+.logo{display:flex!important;align-items:center!important;justify-content:center!important;width:62px!important;height:62px!important;border-radius:50%!important;background:linear-gradient(145deg,#123d80,#061a3a)!important;border:1px solid #1b4d91!important;font-size:36px!important;box-shadow:none!important;flex-shrink:0}
+h1{font-size:30px!important;line-height:1.1!important;letter-spacing:-.7px!important;margin:0 0 5px!important;color:#f6f8ff!important}
+h1::first-letter{color:#f6f8ff}
+.top .muted{font-size:14px!important;color:#9cb4df!important;line-height:1.5!important}
+.top-actions{display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:8px!important}
+.date-pill{font-size:11px!important;background:#06152f!important;border:1px solid #193d73!important;color:#b6c9ee!important;padding:7px 10px!important;border-radius:999px!important}
+.top-login{position:static!important;border:1px solid #1461bb!important;background:#082b60!important;color:#fff!important;border-radius:999px!important;padding:10px 15px!important;font-size:12px!important;font-weight:800!important;box-shadow:none!important}
+.wrap>.grid{display:grid!important;grid-template-columns:1fr!important;gap:12px!important;margin:0 0 12px!important}
+.wrap>.grid>.card{display:none!important}
+.wrap>.grid>.card:first-child{display:block!important;background:linear-gradient(135deg,#071f49,#061838)!important;border:1px solid #0d3c7d!important;border-radius:22px!important;padding:20px 24px!important;box-shadow:none!important;position:relative!important;overflow:hidden}
+.wrap>.grid>.card:first-child::after{content:"";position:absolute;right:24px;top:25px;width:44%;height:65%;opacity:.8;background:linear-gradient(180deg,transparent,#00dba7 100%);clip-path:polygon(0 80%,8% 67%,16% 74%,25% 48%,33% 60%,43% 34%,50% 46%,59% 26%,66% 39%,75% 18%,82% 28%,91% 8%,100% 0,100% 100%,0 100%);mask-image:linear-gradient(180deg,transparent 5%,#000 100%);pointer-events:none}
+.metric-label{color:#c3d4f4!important;font-size:14px!important;letter-spacing:0!important;font-weight:700!important}
+.wrap>.grid>.card:first-child .big{font-size:48px!important;line-height:1.12!important;margin:10px 0 4px!important;color:var(--mint)!important;font-weight:850!important;letter-spacing:-1px!important}
+.wrap>.grid>.card:first-child .sub{font-size:19px!important;color:var(--mint)!important;font-weight:800!important}
+.wrap>.chief{background:linear-gradient(130deg,#082553,#061737)!important;border:1px solid #0d3c7d!important;border-radius:22px!important;padding:20px 24px!important;margin:0 0 12px!important;box-shadow:none!important}
+.chief-top{margin-bottom:12px!important}
+.kicker{color:#9dc6ff!important;font-size:11px!important;letter-spacing:.8px!important}
+.chief-top .muted{font-size:11px!important}
+.hero-slogan{display:none!important}
+.chiefrow{display:grid!important;grid-template-columns:1fr!important;gap:4px!important}
+.chiefrow .prob{font-size:32px!important;line-height:1.2!important;color:#67c9ff!important;font-weight:850!important}
+.chief-direction{font-size:18px!important;color:#6fc8ff!important;font-weight:800!important;margin-top:4px!important}
+.chiefrow .reason{font-size:12px!important;color:#a8bee4!important;line-height:1.6!important;margin-top:8px!important}
+.chiefrow .conf-row{display:none!important}
+.human-game{background:linear-gradient(140deg,#061c42,#04152f)!important;border:1px solid #0d3c7d!important;border-radius:24px!important;padding:20px!important;margin:0!important;box-shadow:none!important}
+.human-hero{display:block!important}
+.human-kicker{display:none!important}
+.human-hero h2{font-size:22px!important;margin:0 0 8px!important;color:#f7f9ff!important}
+.human-hero p{font-size:12px!important;color:#9eb5dc!important;margin:0!important;line-height:1.5!important}
+.human-stats{display:flex!important;gap:8px!important;margin-top:12px!important}
+.human-stats>div{flex:1!important;background:#092956!important;border:1px solid #124783!important;border-radius:13px!important;padding:10px 12px!important}
+.human-stats span{display:block!important;font-size:11px!important;color:#a6bee5!important}
+.human-stats strong{font-size:19px!important;color:#fff!important}
+.human-compare{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin-top:14px!important}
+.ai-side{display:none!important}
+.vs{display:none!important}
+.human-side{padding:0!important;min-width:0!important}
+.human-side>span{display:none!important}
+.vote-buttons{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
+.vote-buttons button{min-height:116px!important;border-radius:17px!important;font-size:26px!important;font-weight:850!important;box-shadow:none!important;border:1px solid #13e4b1!important;background:linear-gradient(145deg,#05c99d,#00a783)!important;color:white!important}
+.vote-buttons button[data-vote="bear"]{background:linear-gradient(145deg,#ff6379,#f33d5b)!important;border-color:#ff7185!important}
+.human-side small{display:block!important;text-align:center!important;font-size:11px!important;color:#91add8!important;margin-top:9px!important}
+.human-result{margin-top:12px!important;background:#09224a!important;border:1px solid #133f79!important;border-radius:12px!important;padding:11px 13px!important;color:#a8bee4!important;font-size:12px!important;line-height:1.5!important}
+.human-result b{color:#fff!important;margin-right:8px!important}
+.leaderboard{margin-top:16px!important;padding-top:12px!important;border-top:1px solid #123866!important}
+.leader-head{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:8px!important}
+.leader-head h3{font-size:15px!important;color:#fff!important;margin:0!important}
+.leader-head button{font-size:11px!important;padding:8px 10px!important;border-radius:10px!important;background:#0a2d5c!important;border:1px solid #164a86!important;color:#dce9ff!important}
+.leader-row,.leader-note,[data-human-rows]{display:none!important}
+.mobile-bottom-nav{position:fixed!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;left:0!important;right:0!important;bottom:0!important;z-index:10000!important;padding:8px 5px calc(8px + env(safe-area-inset-bottom))!important;background:rgba(3,16,40,.97)!important;border-top:1px solid #153d70!important;backdrop-filter:blur(16px)!important}
+.mobile-bottom-nav a,.mobile-bottom-nav button{border:0!important;background:none!important;color:#9db3d9!important;text-decoration:none!important;font:inherit!important;font-size:10px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;min-height:43px!important;cursor:pointer!important}
+.mobile-bottom-nav .nav-icon{font-size:20px!important;line-height:1!important}
+.mobile-bottom-nav a:first-child{color:#16e4b3!important}
+.chart-card,.signal-panel,.perf-grid,.analysts,.analyst-grid,.table-wrap,.footer{display:none!important}
+.app-install{display:none!important}
+@media(max-width:700px){
+ .wrap{width:auto!important;max-width:560px!important;padding:10px 12px 92px!important}
+ .top{grid-template-columns:1fr!important;padding:4px 1px 14px!important;margin-bottom:12px!important;gap:10px!important}
+ .logo{width:48px!important;height:48px!important;font-size:28px!important}
+ h1{font-size:23px!important}
+ .top .muted{font-size:11px!important}
+ .top-actions{width:100%!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important}
+ .top-login{font-size:11px!important;padding:8px 12px!important}
+ .date-pill{font-size:10px!important}
+ .wrap>.grid>.card:first-child{padding:18px!important;border-radius:20px!important}
+ .wrap>.grid>.card:first-child .big{font-size:43px!important}
+ .wrap>.grid>.card:first-child .sub{font-size:18px!important}
+ .wrap>.chief{padding:17px!important;border-radius:20px!important}
+ .chiefrow .prob{font-size:30px!important}
+ .human-game{padding:16px!important;border-radius:22px!important}
+ .human-hero h2{font-size:20px!important}
+ .human-stats strong{font-size:17px!important}
+ .vote-buttons button{min-height:106px!important;font-size:25px!important}
+}
+
 </style></head>
 <body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap" id="home">
 
@@ -403,5 +486,5 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
   <button type="button" data-account><span class="nav-icon">👤</span><span>我的</span></button>
 </nav>
 
-</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261014minimal2";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014minimal2",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>
+</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261014reference3";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014reference3",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>
 </body></html>
