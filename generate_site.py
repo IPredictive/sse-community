@@ -504,7 +504,7 @@ body::after{content:"新版视觉 · 2026.10";position:fixed;right:14px;bottom:1
   .human-result{font-size:12px!important;line-height:1.5!important}
   .leaderboard{margin-top:12px!important}
   .leader-row{grid-template-columns:24px minmax(0,1fr) auto!important;gap:6px!important;padding:9px 6px!important}
-  .leader-row small{display:none!important}
+  .leader-row small{display:block!important;grid-column:2 / 4;grid-row:2;white-space:normal!important;font-size:10px!important;line-height:1.45;color:#aab8cc!important}.leader-row strong{grid-column:3;grid-row:1;align-self:center;white-space:nowrap;font-size:11px!important}
   .leader-row strong{font-size:11px!important}
   .chart-card,.signal-panel,.perf-grid,.analysts,.analyst-grid,.table-wrap,.section:not(.human-game),.footer{display:none!important}
   .mobile-bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));left:0;right:0;bottom:0;z-index:10000;padding:8px 5px calc(8px + env(safe-area-inset-bottom));background:rgba(8,11,18,.97);border-top:1px solid #263247;backdrop-filter:blur(16px)}
