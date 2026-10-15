@@ -213,9 +213,17 @@
         const data = await api("register", { email, password, nickname });
         saveToken(data.token);
         cachedUser = data.user;
-        authMsg("注册成功！已赠送 3000 P 币。", true);
+        authMsg("🎉 注册成功！欢迎加入上证预测打擂台！", true);
         await render();
-        setTimeout(async () => { setMode("account"); await loadAccount(await currentUser()); }, 500);
+        // Keep the success message visible long enough to be noticed, then show it again in the account view.
+        setTimeout(async () => {
+          setMode("account");
+          await loadAccount(await currentUser());
+          if (accountMessage) {
+            accountMessage.textContent = "🎉 注册成功！已为你赠送 3000 P 币，欢迎开始每日预测！";
+            accountMessage.className = "auth-message ok";
+          }
+        }, 1400);
       }
     } catch (e) {
       const m = e.message || "操作失败，请稍后再试。";
