@@ -190,14 +190,28 @@
 
   accountButtons.forEach(b => b.addEventListener("click", openAccount));
 
-  // Drag the floating login/register dialog by its header; keep it within the visible screen.
+  // Drag the login/register dialog by its title bar (mouse and touch).
   const authBox = modal?.querySelector(".auth-box");
   const authHead = modal?.querySelector(".auth-head");
-  if (authBox && authHead) {
+  if (authBox && authHead && modal) {
     let drag = null;
     const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));
+    const moveDialog = event => {
+      if (!drag || (event.pointerId !== undefined && drag.id !== event.pointerId)) return;
+      const left = clamp(drag.left + event.clientX - drag.x, 8, window.innerWidth - authBox.offsetWidth - 8);
+      const top = clamp(drag.top + event.clientY - drag.y, 8, window.innerHeight - Math.min(authBox.offsetHeight, window.innerHeight - 16) - 8);
+      authBox.style.left = left + "px";
+      authBox.style.top = top + "px";
+    };
+    const stopMoving = event => {
+      if (!drag || (event.pointerId !== undefined && drag.id !== event.pointerId)) return;
+      drag = null;
+      document.removeEventListener("pointermove", moveDialog);
+      document.removeEventListener("pointerup", stopMoving);
+      document.removeEventListener("pointercancel", stopMoving);
+    };
     authHead.addEventListener("pointerdown", event => {
-      if (event.target.closest("button") || event.button !== 0) return;
+      if (event.target.closest?.("button") || event.button !== 0) return;
       const rect = authBox.getBoundingClientRect();
       drag = { id: event.pointerId, x: event.clientX, y: event.clientY, left: rect.left, top: rect.top };
       authBox.style.position = "fixed";
@@ -207,23 +221,13 @@
       authBox.style.transform = "none";
       modal.style.alignItems = "flex-start";
       modal.style.justifyContent = "flex-start";
-      authHead.setPointerCapture?.(event.pointerId);
+      document.addEventListener("pointermove", moveDialog);
+      document.addEventListener("pointerup", stopMoving);
+      document.addEventListener("pointercancel", stopMoving);
       event.preventDefault();
     });
-    authHead.addEventListener("pointermove", event => {
-      if (!drag || drag.id !== event.pointerId) return;
-      const left = clamp(drag.left + event.clientX - drag.x, 8, window.innerWidth - authBox.offsetWidth - 8);
-      const top = clamp(drag.top + event.clientY - drag.y, 8, window.innerHeight - Math.min(authBox.offsetHeight, window.innerHeight - 16) - 8);
-      authBox.style.left = left + "px";
-      authBox.style.top = top + "px";
-    });
-    const stopDrag = event => {
-      if (!drag || drag.id !== event.pointerId) return;
-      drag = null;
-    };
-    authHead.addEventListener("pointerup", stopDrag);
-    authHead.addEventListener("pointercancel", stopDrag);
     const resetFloatingPosition = () => {
+      drag = null;
       authBox.style.position = "";
       authBox.style.left = "";
       authBox.style.top = "";
