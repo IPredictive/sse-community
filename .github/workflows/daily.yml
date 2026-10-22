@@ -44,6 +44,10 @@ jobs:
         run: git pull --rebase origin main
 
       - name: Run agents
+        env:
+          AGNES_API_KEY: ${{ secrets.AGNES_API_KEY }}
+          AGNES_API_URL: ${{ vars.AGNES_API_URL }}
+          AGNES_MODEL: ${{ vars.AGNES_MODEL }}
         run: python run_daily.py
 
       - name: Generate dashboard
