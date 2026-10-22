@@ -1,5 +1,6 @@
 import streamlit as st
 from db import init_db,load_daily,load_predictions,load_scored
+from market_regime import classify_market_regime
 
 st.set_page_config(page_title="狮城胖叔·上证分析台",layout="wide")
 init_db()
@@ -16,6 +17,8 @@ prev=daily.iloc[-2].close if len(daily)>1 else last.close
 
 st.title("狮城胖叔·上证分析台")
 st.caption("仅供研究，不构成投资建议。")
+regime=classify_market_regime(daily)
+st.info("市场状态：" + regime["label"] + "｜" + regime["detail"])
 
 c1,c2,c3=st.columns(3)
 c1.metric("最新收盘",f"{last.close:,.2f}",f"{last.close/prev-1:+.2%}")
