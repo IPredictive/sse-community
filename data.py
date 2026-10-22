@@ -15,10 +15,21 @@ def _clean(df):
         return pd.DataFrame()
     for c in cols[1:]:
         df[c] = pd.to_numeric(df[c], errors="coerce")
+    df = df[cols].dropna(subset=["date", "close"]).copy()
+    # Reject malformed bars before they enter forecasts or historical scoring.
+    df = df[df["close"] > 0]
+    has_range = df["high"].notna() & df["low"].notna()
+    df = df[(~has_range) | (df["high"] >= df["low"])]
+    has_ohlc = has_range & df["open"].notna()
+    tolerance = 1e-6
+    df = df[(~has_ohlc) | (
+        (df["open"] >= df["low"] - tolerance)
+        & (df["open"] <= df["high"] + tolerance)
+        & (df["close"] >= df["low"] - tolerance)
+        & (df["close"] <= df["high"] + tolerance)
+    )]
     return (
-        df[cols]
-        .dropna(subset=["date", "close"])
-        .sort_values("date")
+        df.sort_values("date")
         .drop_duplicates("date", keep="last")
         .reset_index(drop=True)
     )
