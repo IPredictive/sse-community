@@ -8,6 +8,7 @@ from data import fetch_sse, make_demo
 from db import init_db, load_daily, save_prediction, upsert_daily, refresh_predictions_for_date, save_agnes_review
 from ensemble import combine
 from agnes_brain import review_forecast, format_review
+from market_regime import classify_market_regime
 
 
 def predict_for(df, context=None, enable_agnes_review=False):
@@ -79,6 +80,9 @@ def main():
         raise RuntimeError("No SSE index data available; refusing to generate an empty forecast.")
 
     context = {} if args.no_news else build_context(as_of_date=df.date.iloc[-1])
+    context["market_regime"] = classify_market_regime(df)
+    regime = context["market_regime"]
+    print("[MARKET-REGIME] " + regime["label"] + ": " + regime["detail"])
     for offset in range(args.backfill, 0, -1):
         predict_for(df.iloc[: len(df) - offset], {} if args.backfill else context, enable_agnes_review=False)
 
