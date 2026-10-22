@@ -43,11 +43,11 @@ def _response_text(payload: dict[str, Any]) -> str:
 
 def review_forecast(base_date, df, predictions, ensemble, context=None):
     """Return a concise advisory review, or None when AGNES is not configured."""
-    endpoint = (os.getenv("AGNES_API_URL") or "").strip()
+    endpoint = (os.getenv("AGNES_API_URL") or "https://apihub.agnes-ai.com/v1/chat/completions").strip()
     api_key = (os.getenv("AGNES_API_KEY") or "").strip()
-    model = (os.getenv("AGNES_MODEL") or "").strip()
-    if not endpoint or not api_key or not model:
-        print("[AGNES] review skipped: AGNES_API_URL / AGNES_API_KEY / AGNES_MODEL not fully configured")
+    model = (os.getenv("AGNES_MODEL") or "agnes-3.0-flash").strip()
+    if not api_key:
+        print("[AGNES] review skipped: AGNES_API_KEY is not configured")
         return None
 
     try:
