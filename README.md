@@ -57,8 +57,8 @@ The daily pipeline can call an external AGNES-compatible chat-completions endpoi
 
 Configure these in **GitHub → Settings → Secrets and variables → Actions**:
 
-- Secret `AGNES_API_KEY`: API key for the AGNES-compatible endpoint.
-- Variable `AGNES_API_URL`: full chat-completions endpoint URL (not just the provider homepage).
-- Variable `AGNES_MODEL`: model identifier accepted by that endpoint.
+- Secret `AGNES_API_KEY`: your existing AGNES API key. Add it to this repository’s Actions secrets; a key stored only in Vercel is not automatically available to GitHub Actions.
+- Optional variable `AGNES_API_URL`: defaults to `https://apihub.agnes-ai.com/v1/chat/completions`.
+- Optional variable `AGNES_MODEL`: defaults to `agnes-3.0-flash`.
 
-Do not commit API keys to the repository. The endpoint must accept an OpenAI-compatible `POST` request with `messages` and return a JSON response containing `choices[0].message.content` (Responses-style `output_text` is also accepted). Review output is saved as a short note in the CHIEF_ANALYST explanation; forecast probability and confidence remain those of the deterministic ensemble. Do not configure the endpoint until its URL, model name, access rights, and pricing are confirmed.
+Do not commit API keys to the repository or paste them into chat. The defaults use AGNES’s documented OpenAI-compatible chat endpoint and `agnes-3.0-flash`; verify the model is enabled for your key in the AGNES console. The endpoint must accept an OpenAI-compatible `POST` request with `messages` and return a JSON response containing `choices[0].message.content` (Responses-style `output_text` is also accepted). Review output is saved as a short note in the CHIEF_ANALYST explanation; forecast probability and confidence remain those of the deterministic ensemble. Do not configure the endpoint until its URL, model name, access rights, and pricing are confirmed.
