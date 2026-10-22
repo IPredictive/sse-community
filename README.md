@@ -49,3 +49,16 @@ python generate_site.py
 The initial Apps Script backend source is in `google-apps-script/Code.gs`, with setup instructions in `google-apps-script/README.md`.
 
 Important: adding the source to GitHub does not deploy it into your Google account. The frontend `site/community.js` already calls the configured Apps Script `/exec` URL. The Apps Script project must be deployed as a Web app and have `SPREADSHEET_ID` and private `ADMIN_KEY` Script Properties configured. After changing `google-apps-script/Code.gs`, publish a new Apps Script deployment version manually; GitHub commits do not update the live Apps Script deployment.
+
+
+## Optional AGNES AI review layer
+
+The daily pipeline can call an external AGNES-compatible chat-completions endpoint to review analyst disagreements, counterarguments, evidence gaps, and risks. This first integration is advisory only: **AGNES does not change the numeric CHIEF_ANALYST probability**. If the endpoint is not configured, times out, or returns invalid output, the existing ensemble and publication workflow continue.
+
+Configure these in **GitHub → Settings → Secrets and variables → Actions**:
+
+- Secret `AGNES_API_KEY`: API key for the AGNES-compatible endpoint.
+- Variable `AGNES_API_URL`: full chat-completions endpoint URL (not just the provider homepage).
+- Variable `AGNES_MODEL`: model identifier accepted by that endpoint.
+
+Do not commit API keys to the repository. The endpoint must accept an OpenAI-compatible `POST` request with `messages` and return a JSON response containing `choices[0].message.content` (Responses-style `output_text` is also accepted). Review output is saved as a short note in the CHIEF_ANALYST explanation; forecast probability and confidence remain those of the deterministic ensemble. Do not configure the endpoint until its URL, model name, access rights, and pricing are confirmed.
