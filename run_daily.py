@@ -1,10 +1,11 @@
 import argparse
 import json
+import os
 
 from agents import ALL_AGENTS
 from context import build_context
 from data import fetch_sse, make_demo
-from db import init_db, load_daily, save_prediction, upsert_daily, refresh_predictions_for_date
+from db import init_db, load_daily, save_prediction, upsert_daily, refresh_predictions_for_date, save_agnes_review
 from ensemble import combine
 from agnes_brain import review_forecast, format_review
 
@@ -30,6 +31,24 @@ def predict_for(df, context=None, enable_agnes_review=False):
         # change the ensemble probability until the review has been backtested.
         if enable_agnes_review:
             review = review_forecast(base, df, preds, ensemble, context)
+            # Keep AGNES as an independent reviewer: store its structured output
+            # separately so it can be audited/backtested without changing the ensemble probability.
+            if not os.getenv("AGNES_API_KEY", "").strip():
+                review_status = "skipped"
+                review_error = "AGNES_API_KEY is not configured"
+            elif review:
+                review_status = "completed"
+                review_error = None
+            else:
+                review_status = "unavailable"
+                review_error = "API key configured, but no valid review was returned; see AGNES log"
+            save_agnes_review(
+                base, review_status,
+                model=(os.getenv("AGNES_MODEL") or "agnes-3.0-flash").strip(),
+                review=review,
+                error=review_error,
+            )
+            print(f"[AGNES-AUDIT] date={base} status={review_status} model={(os.getenv('AGNES_MODEL') or 'agnes-3.0-flash').strip()}")
             review_note = format_review(review)
             if review_note:
                 ensemble.reason = (str(ensemble.reason) + "；" + review_note)[:1200]
