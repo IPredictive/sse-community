@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 import pandas as pd
 DB_PATH=Path(__file__).parent/"data"/"sse.db"
-SCHEMA="""CREATE TABLE IF NOT EXISTS daily_index(date TEXT PRIMARY KEY,open REAL,high REAL,low REAL,close REAL,volume REAL);CREATE TABLE IF NOT EXISTS predictions(id INTEGER PRIMARY KEY AUTOINCREMENT,base_date TEXT NOT NULL,agent TEXT NOT NULL,prob_up REAL NOT NULL,reason TEXT,confidence REAL DEFAULT .5,created_at TEXT NOT NULL DEFAULT(datetime('now')),UNIQUE(base_date,agent));CREATE TRIGGER IF NOT EXISTS predictions_no_update BEFORE UPDATE ON predictions BEGIN SELECT RAISE(ABORT,'predictions are immutable'); END;CREATE TRIGGER IF NOT EXISTS predictions_no_delete BEFORE DELETE ON predictions BEGIN SELECT RAISE(ABORT,'predictions are immutable'); END;"""
+SCHEMA="""CREATE TABLE IF NOT EXISTS daily_index(date TEXT PRIMARY KEY,open REAL,high REAL,low REAL,close REAL,volume REAL);CREATE TABLE IF NOT EXISTS predictions(id INTEGER PRIMARY KEY AUTOINCREMENT,base_date TEXT NOT NULL,agent TEXT NOT NULL,prob_up REAL NOT NULL,reason TEXT,confidence REAL DEFAULT .5,created_at TEXT NOT NULL DEFAULT(datetime('now')),UNIQUE(base_date,agent));CREATE TABLE IF NOT EXISTS agnes_reviews(base_date TEXT PRIMARY KEY,status TEXT NOT NULL,model TEXT,review_json TEXT,error TEXT,created_at TEXT NOT NULL DEFAULT(datetime('now')));CREATE TRIGGER IF NOT EXISTS predictions_no_update BEFORE UPDATE ON predictions BEGIN SELECT RAISE(ABORT,'predictions are immutable'); END;CREATE TRIGGER IF NOT EXISTS predictions_no_delete BEFORE DELETE ON predictions BEGIN SELECT RAISE(ABORT,'predictions are immutable'); END;"""
 def get_conn():DB_PATH.parent.mkdir(exist_ok=True);return sqlite3.connect(DB_PATH)
 def init_db():
     with get_conn() as c:c.executescript(SCHEMA)
@@ -21,6 +21,12 @@ def refresh_predictions_for_date(base_date):
                      BEGIN SELECT RAISE(ABORT,'predictions are immutable'); END;""")
 def load_predictions():
     with get_conn() as c:return pd.read_sql("SELECT base_date,agent,prob_up,reason,confidence,created_at FROM predictions ORDER BY base_date,agent",c)
+def save_agnes_review(base_date,status,model=None,review=None,error=None):
+    import json
+    payload=json.dumps(review,ensure_ascii=False) if review is not None else None
+    with get_conn() as c:c.execute("INSERT OR REPLACE INTO agnes_reviews(base_date,status,model,review_json,error,created_at) VALUES(?,?,?,?,?,datetime('now'))",(str(base_date),str(status),model,payload,error))
+def load_agnes_reviews():
+    with get_conn() as c:return pd.read_sql("SELECT base_date,status,model,review_json,error,created_at FROM agnes_reviews ORDER BY base_date",c)
 def load_scored():
     q="SELECT p.base_date,p.agent,p.prob_up,(SELECT close FROM daily_index WHERE date=p.base_date) base_close,(SELECT close FROM daily_index d WHERE d.date>p.base_date ORDER BY d.date LIMIT 1) result_close FROM predictions p"
     with get_conn() as c:df=pd.read_sql(q,c)
