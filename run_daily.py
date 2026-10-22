@@ -9,7 +9,7 @@ from ensemble import combine
 from agnes_brain import review_forecast, format_review
 
 
-def predict_for(df, context=None):
+def predict_for(df, context=None, enable_agnes_review=False):
     if df.empty:
         return
     base = df.date.iloc[-1]
@@ -28,10 +28,11 @@ def predict_for(df, context=None):
     if ensemble:
         # Phase 1 fusion: AGNES reviews and challenges the analysis, but does not
         # change the ensemble probability until the review has been backtested.
-        review = review_forecast(base, df, preds, ensemble, context)
-        review_note = format_review(review)
-        if review_note:
-            ensemble.reason = (str(ensemble.reason) + "；" + review_note)[:1200]
+        if enable_agnes_review:
+            review = review_forecast(base, df, preds, ensemble, context)
+            review_note = format_review(review)
+            if review_note:
+                ensemble.reason = (str(ensemble.reason) + "；" + review_note)[:1200]
 
         save_prediction(base, "CHIEF_ANALYST", ensemble.prob_up, ensemble.reason, ensemble.confidence)
         print(f"\n===== SSE DAILY AI REPORT {base} =====")
@@ -60,10 +61,10 @@ def main():
 
     context = {} if args.no_news else build_context(as_of_date=df.date.iloc[-1])
     for offset in range(args.backfill, 0, -1):
-        predict_for(df.iloc[: len(df) - offset], {} if args.backfill else context)
+        predict_for(df.iloc[: len(df) - offset], {} if args.backfill else context, enable_agnes_review=False)
 
     refresh_predictions_for_date(df.date.iloc[-1])
-    predict_for(df, context)
+    predict_for(df, context, enable_agnes_review=True)
     print(json.dumps({"latest_date": df.date.iloc[-1], "context": context}, ensure_ascii=False))
 
 
