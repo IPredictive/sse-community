@@ -155,7 +155,11 @@ def combine(preds, context=None):
         f"{name}:{adjusted[name]:.1%}(证据{quality[name]:.0%}，权重{weights[name]:.2f})"
         for name in preds
     )
+    regime = (context or {}).get("market_regime") or {}
+    regime_label = str(regime.get("label") or "未识别")
+    regime_detail = str(regime.get("detail") or "")
     reason = (
+        f"市场状态={regime_label}（{regime_detail}）；"
         f"协同分析：{details}；分析师分歧区间={spread:.1%}；"
         f"{cross_label}；分组交叉验证={cluster_text or '暂无'}；"
         f"综合判断{direction_text(base_prob)}"
