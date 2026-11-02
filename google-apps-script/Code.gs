@@ -20,7 +20,7 @@ const TABLES = {
 };
 
 function doGet() {
-  return json_({ok:true,service:'SSE Community API',version:1,actions:['register','login','me','profile','vote','leaderboard','syncAi','settle']});
+  return json_({ok:true,service:'SSE Community API',version:2,actions:['register','login','tokenLogin','tokenCreate','tokenRevoke','me','profile','vote','leaderboard','syncAi','settle']});
 }
 function doPost(e) {
   try {
