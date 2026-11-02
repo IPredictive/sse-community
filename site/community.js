@@ -29,12 +29,6 @@
   const accountNickname = modal?.querySelector("[data-account-nickname]");
   const subtitle = modal?.querySelector("[data-auth-subtitle]");
   const adminPanel = modal?.querySelector("[data-admin-panel]");
-  let personalTokenInput = null;
-  if (form) {
-    personalTokenInput = document.createElement("label");
-    personalTokenInput.innerHTML = '专属令牌<input name="personalToken" type="password" autocomplete="off" placeholder="粘贴 SSE- 开头的令牌">';
-    form.insertBefore(personalTokenInput, submit);
-  }
   if (accountView && !accountView.querySelector("[data-token-tools]")) {
     const tools = document.createElement("div");
     tools.dataset.tokenTools = "1"; tools.className = "account-box";
@@ -113,7 +107,7 @@
   }
   async function refreshAccountButton() {
     const user = await currentUser();
-    accountButtons.forEach(b => { b.textContent = user ? "👤 我的账户" : "登录 / 注册"; });
+    accountButtons.forEach(b => { b.textContent = user ? "👤 我的账户" : "令牌登录"; });
     return user;
   }
   async function openAccount() {
@@ -153,7 +147,7 @@
       if (balance) balance.textContent = "登录后";
       if (streak) streak.textContent = "—";
       buttons.forEach(b => { b.disabled = false; b.classList.remove("selected"); });
-      if (result) result.innerHTML = "<b>🎯 登录后参与</b><span>注册或登录后，P币和每日预测会保存到你的账户。</span>";
+      if (result) result.innerHTML = "<b>🎯 登录后参与</b><span>输入专属令牌登录后，P币和每日预测会保存到你的账户。</span>";
       await loadLeaderboard();
       return;
     }
