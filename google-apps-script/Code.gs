@@ -154,14 +154,14 @@ function tokenCreate_(sessionToken) {
     rows_('PersonalTokens').filter(x => x.user_id === u.id && !x.revoked_at).forEach(x => {
       sh.getRange(x._row,5).setValue(now_());
     });
-    const personalToken = 'SSE-' + randomToken_();
+    const personalToken = 'SSE1-' + randomToken_();
     append_('PersonalTokens',{token_hash:tokenHash_(personalToken),user_id:u.id,label:'手动登录令牌',created_at:now_(),revoked_at:''});
     return {personalToken,createdAt:now_().toISOString()};
   } finally { lock.releaseLock(); }
 }
 function tokenLogin_(personalToken) {
   const value = String(personalToken || '').trim();
-  if (!/^SSE-[A-Za-z0-9_-]{40,100}$/.test(value)) throw new Error('INVALID_PERSONAL_TOKEN');
+  if (!/^SSE1?-[A-Za-z0-9_-]{40,100}$/.test(value)) throw new Error('INVALID_PERSONAL_TOKEN');
   const record = rows_('PersonalTokens').find(x => x.token_hash === tokenHash_(value) && !x.revoked_at);
   if (!record) throw new Error('INVALID_PERSONAL_TOKEN');
   const u = rows_('Users').find(x => x.id === record.user_id);
@@ -389,4 +389,97 @@ function logout_(token) {
   const s = rows_('Sessions').find(x => x.token_hash === h);
   if (s) ss_().getSheetByName('Sessions').deleteRow(s._row);
   return {loggedOut:true};
+}
+
+
+// Spreadsheet-based administrator token console.
+// Restrict spreadsheet and Apps Script editor access to trusted administrators.
+function setupTokenAdminSheet() {
+  const ss = ss_();
+  let sh = ss.getSheetByName('TokenAdmin');
+  if (!sh) sh = ss.insertSheet('TokenAdmin');
+  const headers = ['user_email','action','status','generated_token','generated_at','processed_at'];
+  if (sh.getLastRow() === 0) sh.appendRow(headers);
+  else {
+    const existing = sh.getRange(1,1,1,Math.max(sh.getLastColumn(), headers.length)).getValues()[0];
+    headers.forEach((h,i) => { if (String(existing[i] || '') !== h) sh.getRange(1,i+1).setValue(h); });
+  }
+  sh.setFrozenRows(1);
+  sh.getRange('A1:F1').setFontWeight('bold');
+  sh.setColumnWidths(1,6,180);
+  sh.getRange('A2').setNote('填写 Users 表中已注册用户的邮箱。');
+  sh.getRange('B2').setNote('输入 GENERATE 或 RESET，然后在 Apps Script 运行 processTokenAdminRequests。');
+  sh.getRange('D2').setNote('明文令牌仅供复制给用户。复制后请立即清除此单元格。请限制此工作表访问权限。');
+  return 'TokenAdmin 工作表已准备好。A列填写邮箱，B列填写 GENERATE，然后运行 processTokenAdminRequests。';
+}
+
+function processTokenAdminRequests() {
+  const ss = ss_();
+  let sh = ss.getSheetByName('TokenAdmin');
+  if (!sh) {
+    setupTokenAdminSheet();
+    sh = ss.getSheetByName('TokenAdmin');
+  }
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  let processed = 0;
+  try {
+    const last = sh.getLastRow();
+    if (last < 2) return {processed:0,message:'请先在 TokenAdmin 第2行填写用户邮箱和 GENERATE。'};
+    const values = sh.getRange(2,1,last-1,6).getValues();
+    values.forEach((r,i) => {
+      const row = i + 2;
+      const email = String(r[0] || '').trim().toLowerCase();
+      const action = String(r[1] || '').trim().toUpperCase();
+      if (!action || action === 'DONE') return;
+      if (!['GENERATE','RESET'].includes(action)) {
+        sh.getRange(row,3).setValue('ERROR: action must be GENERATE or RESET');
+        return;
+      }
+      if (!email) {
+        sh.getRange(row,3).setValue('ERROR: user_email is required');
+        return;
+      }
+      const user = rows_('Users').find(u => String(u.email || '').trim().toLowerCase() === email);
+      if (!user) {
+        sh.getRange(row,3).setValue('ERROR: user not found in Users');
+        return;
+      }
+
+      // Revoke all previous active personal tokens for this account.
+      const tokenSheet = ss.getSheetByName('PersonalTokens');
+      rows_('PersonalTokens')
+        .filter(t => String(t.user_id) === String(user.id) && !t.revoked_at)
+        .forEach(t => tokenSheet.getRange(t._row,5).setValue(now_()));
+
+      const personalToken = 'SSE1-' + randomToken_();
+      append_('PersonalTokens', {
+        token_hash: tokenHash_(personalToken),
+        user_id: user.id,
+        label: '管理员通过 Google Sheet 生成',
+        created_at: now_(),
+        revoked_at: ''
+      });
+
+      sh.getRange(row,3).setValue('SUCCESS — copy token, then clear column D');
+      sh.getRange(row,4).setValue(personalToken);
+      sh.getRange(row,5).setValue(now_());
+      sh.getRange(row,6).setValue(now_());
+      sh.getRange(row,2).setValue('DONE');
+      processed++;
+    });
+  } finally {
+    lock.releaseLock();
+  }
+  return {processed,message:'生成完成。请把 D 列令牌安全交给用户，复制后清空 D 列。'};
+}
+
+function clearTokenAdminOutput(rowNumber) {
+  const row = Number(rowNumber);
+  if (!Number.isInteger(row) || row < 2) throw new Error('请输入有效的数据行号（从2开始）');
+  const sh = ss_().getSheetByName('TokenAdmin');
+  if (!sh) throw new Error('TOKEN_ADMIN_SHEET_NOT_FOUND');
+  sh.getRange(row,4).clearContent();
+  sh.getRange(row,3).setValue('令牌明文已清除');
+  return {cleared:true,row};
 }
