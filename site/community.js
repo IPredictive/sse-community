@@ -29,6 +29,18 @@
   const accountNickname = modal?.querySelector("[data-account-nickname]");
   const subtitle = modal?.querySelector("[data-auth-subtitle]");
   const adminPanel = modal?.querySelector("[data-admin-panel]");
+  let personalTokenInput = null;
+  if (form) {
+    personalTokenInput = document.createElement("label");
+    personalTokenInput.innerHTML = '专属令牌<input name="personalToken" type="password" autocomplete="off" placeholder="粘贴 SSE- 开头的令牌">';
+    form.insertBefore(personalTokenInput, submit);
+  }
+  if (accountView && !accountView.querySelector("[data-token-tools]")) {
+    const tools = document.createElement("div");
+    tools.dataset.tokenTools = "1"; tools.className = "account-box";
+    tools.innerHTML = '<div class="admin-title">🔑 手动登录令牌</div><p class="auth-subtitle">生成后请立即复制保存。令牌只显示一次。</p><button type="button" data-create-token>生成 / 重置我的令牌</button><textarea data-token-output readonly rows="3" placeholder="生成的令牌将在这里显示一次"></textarea><button type="button" data-copy-token>复制令牌</button><button type="button" data-revoke-token>撤销令牌</button><div class="auth-message" data-token-message></div>';
+    accountView.appendChild(tools);
+  }
   let authMode = "login";
 
   async function api(action, values = {}) {
@@ -87,10 +99,13 @@
       if (subtitle) subtitle.textContent = "管理你的登录资料、P币和排行榜身份。";
       return;
     }
-    if (subtitle) subtitle.textContent = mode === "login" ? "登录后保存你的 P币、预测和排行榜成绩。" : "创建正式账户，注册即得 3000 P 币。";
+    if (subtitle) subtitle.textContent = mode === "token" ? "输入专属 SSE Token，即可直接登录。" : mode === "login" ? "登录后保存你的 P币、预测和排行榜成绩。" : "创建正式账户，注册即得 3000 P 币。";
+    const tokenMode = mode === "token";
     if (nicknameField) nicknameField.style.display = mode === "register" ? "block" : "none";
     if (password2Field) password2Field.style.display = mode === "register" ? "block" : "none";
-    if (submit) submit.textContent = mode === "login" ? "登录" : "注册";
+    if (personalTokenInput) personalTokenInput.style.display = tokenMode ? "block" : "none";
+    ["email","password"].forEach(n => { const el=form?.elements?.[n]; if(el){el.closest("label").style.display=tokenMode?"none":"block";el.required=!tokenMode;} });
+    if (submit) submit.textContent = tokenMode ? "令牌登录" : mode === "login" ? "登录" : "注册";
     if (form?.elements?.password) form.elements.password.autocomplete = mode === "login" ? "current-password" : "new-password";
     if (message) { message.textContent = ""; message.className = "auth-message"; }
   }
@@ -112,6 +127,7 @@
     if (!user) return;
     if (accountEmail) accountEmail.textContent = user.email || "—";
     if (accountBalance) accountBalance.textContent = Number(user.balance || 0).toLocaleString() + " P";
+    const tokenOut=accountView?.querySelector("[data-token-output]"); if(tokenOut) tokenOut.value="";
     if (accountNickname) accountNickname.value = user.nickname || "新玩家";
     if (accountMessage) { accountMessage.textContent = ""; accountMessage.className = "auth-message"; }
     if (adminPanel) adminPanel.style.display = "none";
@@ -196,14 +212,21 @@
 
   form?.addEventListener("submit", async e => {
     e.preventDefault();
-    const email = form.elements.email.value.trim();
-    const password = form.elements.password.value;
+    const email = form.elements.email?.value.trim() || "";
+    const password = form.elements.password?.value || "";
+    const personalToken = form.elements.personalToken?.value.trim() || "";
     const nickname = form.elements.nickname?.value.trim() || "新玩家";
-    if (password.length < 8) { authMsg("密码至少 8 位。"); return; }
+    if (authMode === "token" && !personalToken) { authMsg("请输入专属令牌。"); return; }
+    if (authMode !== "token" && password.length < 8) { authMsg("密码至少 8 位。"); return; }
     if (authMode === "register" && password !== form.elements.password2.value) { authMsg("两次密码不一致。"); return; }
-    if (submit) { submit.disabled = true; submit.textContent = authMode === "login" ? "登录中…" : "注册中…"; }
+    if (submit) { submit.disabled = true; submit.textContent = authMode === "token" ? "验证令牌…" : authMode === "login" ? "登录中…" : "注册中…"; }
     try {
-      if (authMode === "login") {
+      if (authMode === "token") {
+        const data = await api("tokenLogin", { personalToken });
+        saveToken(data.token); cachedUser=data.user;
+        authMsg("令牌验证成功，登录成功。", true);
+        await render(); setTimeout(hideModal,500);
+      } else if (authMode === "login") {
         const data = await api("login", { email, password });
         saveToken(data.token);
         authMsg("登录成功。", true);
@@ -223,10 +246,27 @@
         m.includes("INVALID_CREDENTIALS") ? "邮箱或密码不正确。" :
         m.includes("INVALID_EMAIL") ? "请输入有效的邮箱地址。" : escapeHtml(m));
     } finally {
-      if (submit) { submit.disabled = false; submit.textContent = authMode === "login" ? "登录" : "注册"; }
+      if (submit) { submit.disabled = false; submit.textContent = authMode === "token" ? "令牌登录" : authMode === "login" ? "登录" : "注册"; }
     }
   });
 
+  accountView?.querySelector("[data-create-token]")?.addEventListener("click", async () => {
+    const box=accountView.querySelector("[data-token-output]"), msg=accountView.querySelector("[data-token-message]");
+    try { const data=await api("tokenCreate",{token:getToken()}); if(box) box.value=data.personalToken;
+      if(msg){msg.textContent="令牌已生成。请立即复制保存；再次生成会让旧令牌失效。";msg.className="auth-message ok";}
+    } catch(e){if(msg){msg.textContent="生成失败："+e.message;msg.className="auth-message err";}}
+  });
+  accountView?.querySelector("[data-copy-token]")?.addEventListener("click", async () => {
+    const box=accountView.querySelector("[data-token-output]"), msg=accountView.querySelector("[data-token-message]");
+    try { if(!box?.value) throw new Error("请先生成令牌"); await navigator.clipboard.writeText(box.value); if(msg) msg.textContent="已复制令牌。"; }
+    catch(e){if(msg) msg.textContent=e.message||"复制失败，请手动复制。";}
+  });
+  accountView?.querySelector("[data-revoke-token]")?.addEventListener("click", async () => {
+    const msg=accountView.querySelector("[data-token-message]");
+    try { await api("tokenRevoke",{token:getToken()}); const box=accountView.querySelector("[data-token-output]"); if(box) box.value="";
+      if(msg){msg.textContent="令牌已撤销，原令牌不能再用于登录。";msg.className="auth-message ok";}
+    } catch(e){if(msg) msg.textContent="撤销失败："+e.message;}
+  });
   modal?.querySelector("[data-save-profile]")?.addEventListener("click", async () => {
     const token = getToken(); if (!token) return;
     const nickname = (accountNickname?.value || "").trim().slice(0, 20) || "新玩家";
