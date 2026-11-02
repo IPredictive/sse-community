@@ -83,7 +83,7 @@
     try { cachedUser = await api("me", { token }); return cachedUser; }
     catch (_) { saveToken(""); cachedUser = null; return null; }
   }
-  function showModal(mode = "login") {
+  function showModal(mode = "token") {
     if (!modal) return;
     modal.classList.add("open"); modal.setAttribute("aria-hidden", "false"); setMode(mode);
   }
@@ -91,22 +91,20 @@
   function setMode(mode) {
     authMode = mode;
     const account = mode === "account";
-    if (tabsWrap) tabsWrap.style.display = account ? "none" : "grid";
+    if (tabsWrap) tabsWrap.style.display = "none";
     if (form) form.style.display = account ? "none" : "grid";
     if (accountView) accountView.style.display = account ? "grid" : "none";
     tabs.forEach(t => t.classList.toggle("active", t.dataset.authMode === mode));
     if (account) {
-      if (subtitle) subtitle.textContent = "管理你的登录资料、P币和排行榜身份。";
+      if (subtitle) subtitle.textContent = "账户资料、P币与专属令牌管理。";
       return;
     }
-    if (subtitle) subtitle.textContent = mode === "token" ? "输入专属 SSE Token，即可直接登录。" : mode === "login" ? "登录后保存你的 P币、预测和排行榜成绩。" : "创建正式账户，注册即得 3000 P 币。";
+    if (subtitle) subtitle.textContent = "输入专属 SSE Token，即可直接登录。";
     const tokenMode = mode === "token";
-    if (nicknameField) nicknameField.style.display = mode === "register" ? "block" : "none";
-    if (password2Field) password2Field.style.display = mode === "register" ? "block" : "none";
-    if (personalTokenInput) personalTokenInput.style.display = tokenMode ? "block" : "none";
-    ["email","password"].forEach(n => { const el=form?.elements?.[n]; if(el){el.closest("label").style.display=tokenMode?"none":"block";el.required=!tokenMode;} });
-    if (submit) submit.textContent = tokenMode ? "令牌登录" : mode === "login" ? "登录" : "注册";
-    if (form?.elements?.password) form.elements.password.autocomplete = mode === "login" ? "current-password" : "new-password";
+    if (nicknameField) nicknameField.style.display = "none";
+    if (password2Field) password2Field.style.display = "none";
+    if (submit) submit.textContent = "令牌登录";
+
     if (message) { message.textContent = ""; message.className = "auth-message"; }
   }
   function authMsg(text, ok = false) {
@@ -120,7 +118,7 @@
   }
   async function openAccount() {
     const user = await refreshAccountButton();
-    if (!user) showModal("login");
+    if (!user) showModal("token");
     else { showModal("account"); await loadAccount(user); }
   }
   async function loadAccount(user) {
@@ -185,7 +183,7 @@
   buttons.forEach(btn => btn.addEventListener("click", async () => {
     if (voteInFlight) return;
     const token = getToken();
-    if (!token) { showModal("login"); authMsg("请先登录或注册，登录后才能投票。"); return; }
+    if (!token) { showModal("token"); authMsg("请先输入专属令牌登录，登录后才能投票。"); return; }
     const tradingDate = nextWeekday();
     if (!beforeCutoff(tradingDate)) return;
     voteInFlight = true;
@@ -216,12 +214,11 @@
     const password = form.elements.password?.value || "";
     const personalToken = form.elements.personalToken?.value.trim() || "";
     const nickname = form.elements.nickname?.value.trim() || "新玩家";
-    if (authMode === "token" && !personalToken) { authMsg("请输入专属令牌。"); return; }
-    if (authMode !== "token" && password.length < 8) { authMsg("密码至少 8 位。"); return; }
-    if (authMode === "register" && password !== form.elements.password2.value) { authMsg("两次密码不一致。"); return; }
+    if (!personalToken) { authMsg("请输入专属令牌。"); return; }
+
     if (submit) { submit.disabled = true; submit.textContent = authMode === "token" ? "验证令牌…" : authMode === "login" ? "登录中…" : "注册中…"; }
     try {
-      if (authMode === "token") {
+      {
         const data = await api("tokenLogin", { personalToken });
         saveToken(data.token); cachedUser=data.user;
         authMsg("令牌验证成功，登录成功。", true);
@@ -246,7 +243,7 @@
         m.includes("INVALID_CREDENTIALS") ? "邮箱或密码不正确。" :
         m.includes("INVALID_EMAIL") ? "请输入有效的邮箱地址。" : escapeHtml(m));
     } finally {
-      if (submit) { submit.disabled = false; submit.textContent = authMode === "token" ? "令牌登录" : authMode === "login" ? "登录" : "注册"; }
+      if (submit) { submit.disabled = false; submit.textContent = "令牌登录"; }
     }
   });
 
