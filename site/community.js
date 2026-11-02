@@ -35,7 +35,7 @@
     tools.innerHTML = '<div class="admin-title">🔑 手动登录令牌</div><p class="auth-subtitle">生成后请立即复制保存。令牌只显示一次。</p><button type="button" data-create-token>生成 / 重置我的令牌</button><textarea data-token-output readonly rows="3" placeholder="生成的令牌将在这里显示一次"></textarea><button type="button" data-copy-token>复制令牌</button><button type="button" data-revoke-token>撤销令牌</button><div class="auth-message" data-token-message></div>';
     accountView.appendChild(tools);
   }
-  let authMode = "login";
+  let authMode = "token";
 
   async function api(action, values = {}) {
     const payload = new URLSearchParams();
@@ -204,38 +204,20 @@
 
   form?.addEventListener("submit", async e => {
     e.preventDefault();
-    const email = form.elements.email?.value.trim() || "";
-    const password = form.elements.password?.value || "";
     const personalToken = form.elements.personalToken?.value.trim() || "";
-    const nickname = form.elements.nickname?.value.trim() || "新玩家";
     if (!personalToken) { authMsg("请输入专属令牌。"); return; }
 
-    if (submit) { submit.disabled = true; submit.textContent = authMode === "token" ? "验证令牌…" : authMode === "login" ? "登录中…" : "注册中…"; }
+    if (submit) { submit.disabled = true; submit.textContent = "验证令牌…"; }
     try {
-      {
-        const data = await api("tokenLogin", { personalToken });
-        saveToken(data.token); cachedUser=data.user;
-        authMsg("令牌验证成功，登录成功。", true);
-        await render(); setTimeout(hideModal,500);
-      } else if (authMode === "login") {
-        const data = await api("login", { email, password });
-        saveToken(data.token);
-        authMsg("登录成功。", true);
-        await render();
-        setTimeout(hideModal, 500);
-      } else {
-        const data = await api("register", { email, password, nickname });
-        saveToken(data.token);
-        cachedUser = data.user;
-        authMsg("注册成功！已赠送 3000 P 币。", true);
-        await render();
-        setTimeout(async () => { setMode("account"); await loadAccount(await currentUser()); }, 500);
-      }
+      const data = await api("tokenLogin", { personalToken });
+      saveToken(data.token);
+      cachedUser = data.user;
+      authMsg("令牌验证成功，登录成功。", true);
+      await render();
+      setTimeout(hideModal, 500);
     } catch (e) {
       const m = e.message || "操作失败，请稍后再试。";
-      authMsg(m.includes("EMAIL_EXISTS") ? "这个邮箱已经注册，请直接登录。" :
-        m.includes("INVALID_CREDENTIALS") ? "邮箱或密码不正确。" :
-        m.includes("INVALID_EMAIL") ? "请输入有效的邮箱地址。" : escapeHtml(m));
+      authMsg(m.includes("INVALID_PERSONAL_TOKEN") ? "令牌无效或已撤销，请联系管理员重新生成。" : escapeHtml(m));
     } finally {
       if (submit) { submit.disabled = false; submit.textContent = "令牌登录"; }
     }
