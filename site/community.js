@@ -29,12 +29,6 @@
   const accountNickname = modal?.querySelector("[data-account-nickname]");
   const subtitle = modal?.querySelector("[data-auth-subtitle]");
   const adminPanel = modal?.querySelector("[data-admin-panel]");
-  if (accountView && !accountView.querySelector("[data-token-tools]")) {
-    const tools = document.createElement("div");
-    tools.dataset.tokenTools = "1"; tools.className = "account-box";
-    tools.innerHTML = '<div class="admin-title">🔑 手动登录令牌</div><p class="auth-subtitle">生成后请立即复制保存。令牌只显示一次。</p><button type="button" data-create-token>生成 / 重置我的令牌</button><textarea data-token-output readonly rows="3" placeholder="生成的令牌将在这里显示一次"></textarea><button type="button" data-copy-token>复制令牌</button><button type="button" data-revoke-token>撤销令牌</button><div class="auth-message" data-token-message></div>';
-    accountView.appendChild(tools);
-  }
   let authMode = "token";
 
   async function api(action, values = {}) {
