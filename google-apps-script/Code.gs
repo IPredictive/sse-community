@@ -11,6 +11,7 @@
 const TABLES = {
   Users: ['id','email','nickname','salt','password_hash','balance','created_at'],
   Sessions: ['token_hash','user_id','expires_at'],
+  PersonalTokens: ['token_hash','user_id','label','created_at','revoked_at'],
   Votes: ['id','user_id','trading_date','direction','stake','status','created_at','settled_at','won'],
   Transactions: ['id','user_id','amount','reason','created_at'],
   AiPredictions: ['trading_date','agent','prob_up','confidence','reason','synced_at'],
@@ -36,6 +37,9 @@ function doPost(e) {
     switch (action) {
       case 'register': result = register_(body); break;
       case 'login': result = login_(body); break;
+      case 'tokenLogin': result = tokenLogin_(body.personalToken); break;
+      case 'tokenCreate': result = tokenCreate_(body.token); break;
+      case 'tokenRevoke': result = tokenRevoke_(body.token); break;
       case 'me': result = me_(body.token); break;
       case 'myVote': result = myVote_(body.token, body.tradingDate); break;
       case 'profile': result = profile_(body.token, body.nickname); break;
@@ -140,6 +144,38 @@ function login_(b) {
   const u = rows_('Users').find(x => x.email === email);
   if (!u || u.password_hash !== passwordHash_(b.password,u.salt)) throw new Error('INVALID_CREDENTIALS');
   return {user:publicUser_(u),token:issueSession_(u.id)};
+}
+function tokenCreate_(sessionToken) {
+  const u = userByToken_(sessionToken);
+  const lock = LockService.getScriptLock(); lock.waitLock(10000);
+  try {
+    // Keep only one active personal token per account. The raw value is returned once.
+    const sh = ss_().getSheetByName('PersonalTokens');
+    rows_('PersonalTokens').filter(x => x.user_id === u.id && !x.revoked_at).forEach(x => {
+      sh.getRange(x._row,5).setValue(now_());
+    });
+    const personalToken = 'SSE-' + randomToken_();
+    append_('PersonalTokens',{token_hash:tokenHash_(personalToken),user_id:u.id,label:'手动登录令牌',created_at:now_(),revoked_at:''});
+    return {personalToken,createdAt:now_().toISOString()};
+  } finally { lock.releaseLock(); }
+}
+function tokenLogin_(personalToken) {
+  const value = String(personalToken || '').trim();
+  if (!/^SSE-[A-Za-z0-9_-]{40,100}$/.test(value)) throw new Error('INVALID_PERSONAL_TOKEN');
+  const record = rows_('PersonalTokens').find(x => x.token_hash === tokenHash_(value) && !x.revoked_at);
+  if (!record) throw new Error('INVALID_PERSONAL_TOKEN');
+  const u = rows_('Users').find(x => x.id === record.user_id);
+  if (!u) throw new Error('USER_NOT_FOUND');
+  return {user:publicUser_(u),token:issueSession_(u.id)};
+}
+function tokenRevoke_(sessionToken) {
+  const u = userByToken_(sessionToken);
+  const sh = ss_().getSheetByName('PersonalTokens');
+  let count = 0;
+  rows_('PersonalTokens').filter(x => x.user_id === u.id && !x.revoked_at).forEach(x => {
+    sh.getRange(x._row,5).setValue(now_()); count++;
+  });
+  return {revoked:count};
 }
 function me_(token) { return publicUser_(userByToken_(token)); }
 function dateKey_(value) {
