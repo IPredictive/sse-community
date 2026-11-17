@@ -46,7 +46,7 @@ def evaluate_walk_forward(scored):
     results = []
     for date, current in frame.groupby("base_date", sort=True):
         history = frame[frame.base_date < date]
-        if history.empty:
+        if history.base_date.nunique() < MIN_TRAIN:
             continue
         # Prefer A9 specialist forecasts on a date; use legacy specialist rows
         # only when an A9 row for that specialist is not available.
