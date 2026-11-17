@@ -13,6 +13,7 @@ from brains.engine import run_a9_brain
 from brains.fusion import fuse
 from brains.feedback import persist_learning
 from brains.scenario_feedback import persist_scenario
+from brains.calibration import calibrate_probability, persist_calibration
 from brains.event_memory import current_event
 
 
@@ -68,6 +69,14 @@ def predict_for(df, context=None, enable_agnes_review=False):
                 ensemble.reason = (str(ensemble.reason) + "；" + review_note)[:1200]
 
         save_prediction(base, "CHIEF_ANALYST", ensemble.prob_up, ensemble.reason, ensemble.confidence)
+        calibrated_prob, calibration_meta = calibrate_probability(ensemble.prob_up, base, "CHIEF_ANALYST")
+        calibration_reason = (
+            f"独立概率校准：原始={ensemble.prob_up:.1%}；校准={calibrated_prob:.1%}；"
+            f"历史样本={calibration_meta.get('samples', 0)}；方法={calibration_meta.get('method', 'unknown')}；"
+            f"调整={calibration_meta.get('delta', 0.0):+.2%}"
+        )
+        save_prediction(base, "CHIEF_ANALYST_CALIBRATED", calibrated_prob,
+                        calibration_reason, ensemble.confidence)
         if a9_prediction:
             save_prediction(base, "A9_SUPER_CHIEF", a9_prediction.prob_up, a9_prediction.reason, a9_prediction.confidence)
 
@@ -75,7 +84,8 @@ def predict_for(df, context=None, enable_agnes_review=False):
         for name, prediction in preds.items():
             print(f"{name:10s}  上涨概率={prediction.prob_up:.1%}  信心={prediction.confidence:.1%}  理由={prediction.reason}")
         print(f"A9 SUPER CHIEF 上涨概率={(a9_prediction.prob_up if a9_prediction else ensemble.prob_up):.1%}  信心={(a9_prediction.confidence if a9_prediction else ensemble.confidence):.1%}")
-        print(f"CHIEF ANALYST 闭环上涨概率={ensemble.prob_up:.1%}  信心={ensemble.confidence:.1%}")
+        print(f"CHIEF ANALYST 原始上涨概率={ensemble.prob_up:.1%}  信心={ensemble.confidence:.1%}")
+        print(f"CHIEF ANALYST 校准上涨概率={calibrated_prob:.1%}  校准状态={calibration_meta.get('method', 'unknown')}  历史样本={calibration_meta.get('samples', 0)}")
         print(f"事件记忆：{context.get('event_label','normal_noise')}")
         print(f"压力测试：下行情景均值={scenario.get('downside_stress_avg',0.5):.1%}；风险标记={scenario.get('risk_flags',[])}")
         print(f"综合理由：{ensemble.reason}")
@@ -101,6 +111,7 @@ def main():
     regime = context["market_regime"]
     learning = persist_learning(regime.get("label", "未知"), context["event_label"])
     context["learning"] = learning
+    context["calibration"] = persist_calibration(df.date.iloc[-1])
     print("[MARKET-REGIME] " + regime["label"] + ": " + regime["detail"])
     print("[EVENT-MEMORY] current event=" + context["event_label"])
 
