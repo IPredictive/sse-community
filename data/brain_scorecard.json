@@ -83,6 +83,7 @@
       "rank_eligible": true
     }
   },
+  "regime_breakdown": {},
   "ranking": [
     {
       "brain": "flow",
@@ -169,6 +170,20 @@
       "rank_eligible": true
     }
   ],
+  "walk_forward": {
+    "method": "strict_chronological_walk_forward",
+    "evaluation_dates": 21,
+    "first_evaluation_date": "2026-10-19",
+    "last_evaluation_date": "2026-11-16",
+    "training_minimum": 8,
+    "rolling_window": 80,
+    "equal_weight_brier": 0.25071,
+    "adaptive_weight_brier": 0.251459,
+    "equal_weight_accuracy": 0.5714,
+    "adaptive_weight_accuracy": 0.5714,
+    "improvement_brier": -0.000749,
+    "note": "仅按日期顺序训练和评估；动态权重是否有效以样本外 Brier 为主，样本量不足时不作结论。"
+  },
   "disagreements": [
     {
       "brain_a": "macro",
@@ -325,6 +340,7 @@
     "只统计下一交易日收盘结果已知的预测。",
     "排名按 Brier 分数优先，准确率用于辅助；样本不足不参与排名。",
     "分歧统计只比较同一预测日、同一实际结果的已结算预测。",
+    "市场状态评分只使用预测当时记录的状态标签；缺少状态标签的旧记录不参与分状态评分。",
     "历史相关性和回测表现不保证未来收益。"
   ]
 }

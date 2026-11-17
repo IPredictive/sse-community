@@ -3,6 +3,7 @@
   "event_label": "policy_macro",
   "report": {
     "sample_count": 174,
+    "as_of_date": "2026-11-17",
     "event_label": "policy_macro",
     "event_samples": 54,
     "similarity_as_of": "2026-11-17",
