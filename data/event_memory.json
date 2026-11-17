@@ -1,0 +1,147 @@
+{
+  "sample_count": 174,
+  "events": {
+    "normal_noise": {
+      "samples": 26,
+      "accuracy": 0.6923,
+      "avg_brier": 0.2491
+    },
+    "policy_macro": {
+      "samples": 54,
+      "accuracy": 0.4259,
+      "avg_brier": 0.2623
+    },
+    "rmb_fx": {
+      "samples": 27,
+      "accuracy": 0.4444,
+      "avg_brier": 0.2646
+    },
+    "sentiment_flow": {
+      "samples": 27,
+      "accuracy": 0.4074,
+      "avg_brier": 0.2591
+    },
+    "trend_continuation": {
+      "samples": 28,
+      "accuracy": 0.5,
+      "avg_brier": 0.3555
+    },
+    "volatility_shock": {
+      "samples": 12,
+      "accuracy": 0.5833,
+      "avg_brier": 0.3087
+    }
+  },
+  "by_brain": {
+    "CHIEF_ANALYST": {
+      "policy_macro": {
+        "samples": 27,
+        "accuracy": 0.5556,
+        "avg_brier": 0.2525,
+        "false_bull": 0,
+        "false_bear": 12
+      },
+      "volatility_shock": {
+        "samples": 2,
+        "accuracy": 0.5,
+        "avg_brier": 0.2885,
+        "false_bull": 0,
+        "false_bear": 1
+      }
+    },
+    "flow": {
+      "normal_noise": {
+        "samples": 13,
+        "accuracy": 0.7692,
+        "avg_brier": 0.2372,
+        "false_bull": 1,
+        "false_bear": 2
+      },
+      "trend_continuation": {
+        "samples": 14,
+        "accuracy": 0.5,
+        "avg_brier": 0.2746,
+        "false_bull": 0,
+        "false_bear": 7
+      },
+      "volatility_shock": {
+        "samples": 2,
+        "accuracy": 0.5,
+        "avg_brier": 0.2195,
+        "false_bull": 0,
+        "false_bear": 1
+      }
+    },
+    "macro": {
+      "policy_macro": {
+        "samples": 27,
+        "accuracy": 0.2963,
+        "avg_brier": 0.2722,
+        "false_bull": 14,
+        "false_bear": 5
+      },
+      "volatility_shock": {
+        "samples": 2,
+        "accuracy": 1.0,
+        "avg_brier": 0.2318,
+        "false_bull": 0,
+        "false_bear": 0
+      }
+    },
+    "overseas": {
+      "rmb_fx": {
+        "samples": 27,
+        "accuracy": 0.4444,
+        "avg_brier": 0.2646,
+        "false_bull": 9,
+        "false_bear": 6
+      },
+      "volatility_shock": {
+        "samples": 2,
+        "accuracy": 0.5,
+        "avg_brier": 0.2304,
+        "false_bull": 0,
+        "false_bear": 1
+      }
+    },
+    "sentiment": {
+      "sentiment_flow": {
+        "samples": 27,
+        "accuracy": 0.4074,
+        "avg_brier": 0.2591,
+        "false_bull": 9,
+        "false_bear": 7
+      },
+      "volatility_shock": {
+        "samples": 2,
+        "accuracy": 1.0,
+        "avg_brier": 0.2064,
+        "false_bull": 0,
+        "false_bear": 0
+      }
+    },
+    "technical": {
+      "normal_noise": {
+        "samples": 13,
+        "accuracy": 0.6154,
+        "avg_brier": 0.2609,
+        "false_bull": 0,
+        "false_bear": 5
+      },
+      "trend_continuation": {
+        "samples": 14,
+        "accuracy": 0.5,
+        "avg_brier": 0.4365,
+        "false_bull": 0,
+        "false_bear": 7
+      },
+      "volatility_shock": {
+        "samples": 2,
+        "accuracy": 0.0,
+        "avg_brier": 0.6758,
+        "false_bull": 0,
+        "false_bear": 2
+      }
+    }
+  }
+}

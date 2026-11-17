@@ -1,7 +1,10 @@
 {
   "regime": "下行趋势",
+  "event_label": "overseas",
   "report": {
     "sample_count": 174,
+    "event_label": "overseas",
+    "event_samples": 0,
     "brains": {
       "CHIEF_ANALYST": {
         "weight": 1.023,
@@ -145,6 +148,41 @@
         "severe_error_rate": 0.45,
         "wrong_streak": 0,
         "attribution": "过度自信偏多"
+      }
+    }
+  },
+  "event_memory_summary": {
+    "sample_count": 174,
+    "events": {
+      "normal_noise": {
+        "samples": 26,
+        "accuracy": 0.6923,
+        "avg_brier": 0.2491
+      },
+      "policy_macro": {
+        "samples": 54,
+        "accuracy": 0.4259,
+        "avg_brier": 0.2623
+      },
+      "rmb_fx": {
+        "samples": 27,
+        "accuracy": 0.4444,
+        "avg_brier": 0.2646
+      },
+      "sentiment_flow": {
+        "samples": 27,
+        "accuracy": 0.4074,
+        "avg_brier": 0.2591
+      },
+      "trend_continuation": {
+        "samples": 28,
+        "accuracy": 0.5,
+        "avg_brier": 0.3555
+      },
+      "volatility_shock": {
+        "samples": 12,
+        "accuracy": 0.5833,
+        "avg_brier": 0.3087
       }
     }
   }
