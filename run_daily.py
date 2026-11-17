@@ -122,7 +122,7 @@ def main():
     context["_as_of_date"] = str(df.date.iloc[-1])[:10]
     context["event_label"] = current_event(df, context)
     regime = context["market_regime"]
-    learning = persist_learning(regime.get("label", "未知"), context["event_label"])
+    learning = persist_learning(regime.get("label", "未知"), context["event_label"], as_of_date=df.date.iloc[-1])
     context["learning"] = learning
     context["calibration"] = persist_calibration(df.date.iloc[-1])
     print("[MARKET-REGIME] " + regime["label"] + ": " + regime["detail"])
