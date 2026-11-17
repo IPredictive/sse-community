@@ -59,7 +59,7 @@ jobs:
         run: |
           git config user.name "sse-agents[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json site/index.html
+          git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json site/index.html
           git diff --cached --quiet || git commit -m "data: daily SSE prediction"
 
           # Preserve generated learning state across non-fast-forward retries.
@@ -75,6 +75,7 @@ jobs:
             cp data/similarity_memory.json /tmp/similarity_memory.json
             cp data/calibration_state.json /tmp/calibration_state.json
             cp data/scenario_state.json /tmp/scenario_state.json
+            cp data/routing_state.json /tmp/routing_state.json
             git fetch origin main
             git reset --hard origin/main
             cp /tmp/sse.db data/sse.db
@@ -84,8 +85,9 @@ jobs:
             cp /tmp/similarity_memory.json data/similarity_memory.json
             cp /tmp/calibration_state.json data/calibration_state.json
             cp /tmp/scenario_state.json data/scenario_state.json
+            cp /tmp/routing_state.json data/routing_state.json
             python generate_site.py
-            git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json site/index.html
+            git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json site/index.html
             git diff --cached --quiet || git commit -m "data: daily SSE prediction"
             sleep 2
           done
