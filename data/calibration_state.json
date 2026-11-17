@@ -1,0 +1,32 @@
+{
+  "method": "strict_walk_forward",
+  "min_training_samples": 30,
+  "brains": {
+    "CHIEF_ANALYST": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "flow": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "macro": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "overseas": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "sentiment": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "technical": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    }
+  },
+  "as_of": "2026-11-17",
+  "training_rule": "仅使用目标预测日期之前、且下一交易日结果已知的历史样本"
+}

@@ -1,9 +1,9 @@
 {
   "regime": "下行趋势",
-  "event_label": "liquidity",
+  "event_label": "overseas",
   "report": {
     "sample_count": 174,
-    "event_label": "liquidity",
+    "event_label": "overseas",
     "event_samples": 0,
     "similarity_as_of": "2026-11-17",
     "similarity_matched_samples": 174,
