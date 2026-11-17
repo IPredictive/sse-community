@@ -39,7 +39,7 @@ class BrainPerformanceHistoryTests(unittest.TestCase):
         pair = report["paired_comparison"]
         self.assertEqual(pair["paired_dates"], 3)
         self.assertEqual(pair["status"], "collecting")
-        self.assertEqual(pair["minimum_paired_dates"], 30)
+        self.assertEqual(pair["minimum_paired_dates"], 60)
         self.assertEqual(pair["regimes"]["下行趋势"]["evidence_status"], "insufficient_evidence")
 
     def test_risk_history_prefers_a9_when_available(self):
