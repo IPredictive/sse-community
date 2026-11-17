@@ -1,0 +1,26 @@
+{
+  "regime": "下行趋势",
+  "report": {
+    "sample_count": 174,
+    "brains": {
+      "CHIEF_ANALYST": {
+        "weight": 1.023
+      },
+      "flow": {
+        "weight": 1.052
+      },
+      "macro": {
+        "weight": 0.94
+      },
+      "overseas": {
+        "weight": 0.998
+      },
+      "sentiment": {
+        "weight": 1.002
+      },
+      "technical": {
+        "weight": 0.964
+      }
+    }
+  }
+}
