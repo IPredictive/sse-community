@@ -5,7 +5,7 @@ import os
 from agents import ALL_AGENTS
 from context import build_context
 from data import fetch_sse, make_demo
-from db import init_db, load_daily, save_prediction, upsert_daily, refresh_predictions_for_date, save_agnes_review, save_market_regime
+from db import init_db, load_daily, save_prediction, upsert_daily, refresh_predictions_for_date, save_agnes_review, save_market_regime, load_predictions
 from ensemble import combine
 from agnes_brain import review_forecast, format_review
 from market_regime import classify_market_regime
@@ -116,6 +116,15 @@ def main():
     df = load_daily()
     if df.empty:
         raise RuntimeError("No SSE index data available; refusing to generate an empty forecast.")
+
+    # Backfill forecast-time regime labels for legacy prediction dates. Each
+    # label is recomputed from data available on that date only (no look-ahead).
+    existing = load_predictions()
+    if existing is not None and not existing.empty:
+        for historical_date in sorted(existing.base_date.astype(str).str[:10].unique()):
+            historical_df = df[df.date.astype(str).str[:10] <= historical_date]
+            if not historical_df.empty:
+                save_market_regime(historical_date, classify_market_regime(historical_df))
 
     context = {} if args.no_news else build_context(as_of_date=df.date.iloc[-1])
     context["market_regime"] = classify_market_regime(df)
