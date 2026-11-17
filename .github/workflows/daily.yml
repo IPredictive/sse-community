@@ -37,6 +37,11 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      - name: Validate Python and calibration logic
+        run: |
+          python -m compileall -q .
+          python -m unittest discover -s tests -v
+
       - name: Sync latest main before generation
         run: git pull --rebase origin main
 
