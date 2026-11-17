@@ -41,9 +41,16 @@ def learned_weights(names, regime_label, event_label="normal_noise", as_of_date=
     if scored.empty:
         return out
 
-    post = build_postmortem().get("agents", {})
-    event_adjust = event_weight_adjustments(names, event_label)
-    similarity_adjust = similarity_weight_adjustments(names)
+    latest_scored_date = max(scored.base_date.astype(str).str[:10])
+    historical_replay = as_of_date is not None and str(as_of_date)[:10] < latest_scored_date
+    # During historical replay, disable state builders that currently summarize
+    # the full database; this prevents future postmortems/event/case memories
+    # from contaminating a past forecast. Live forecasts can use matured memory.
+    post = {} if historical_replay else build_postmortem().get("agents", {})
+    event_adjust = ({name: 1.0 for name in names} if historical_replay
+                    else event_weight_adjustments(names, event_label))
+    similarity_adjust = ({name: 1.0 for name in names} if historical_replay
+                         else similarity_weight_adjustments(names))
     for name in names:
         # A9 specialist outcomes are evaluated independently. If the A9 stream
         # has not matured enough observations, fall back conservatively to the
