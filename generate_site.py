@@ -1,5 +1,8 @@
 import html
+import json
 from pathlib import Path
+
+from brains.dashboard import build_brain_dashboard
 
 from db import init_db, load_daily, load_predictions, load_scored
 from ensemble import evidence_quality, adaptive_weights, stabilize_extreme
@@ -113,6 +116,17 @@ def main():
     p = load_predictions()
     s = load_scored()
 
+    scorecard_path = Path(__file__).parent / "data" / "brain_scorecard.json"
+    try:
+        scorecard = json.loads(scorecard_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        scorecard = {}
+    routing_path = Path(__file__).parent / "data" / "routing_state.json"
+    try:
+        routing_state = json.loads(routing_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        routing_state = {}
+
     latest = p.base_date.max() if not p.empty else (d.date.iloc[-1] if not d.empty else "-")
     rows = p[p.base_date == latest] if not p.empty else p
 
@@ -151,6 +165,13 @@ def main():
     }
     analyst_rows = {str(r.agent): r for _, r in rows.iterrows()}
     analysts = [analyst_rows[k] for k in analyst_order if k in analyst_rows]
+    live_predictions = {
+        str(row.agent): {"prob_up": float(row.prob_up), "confidence": float(row.confidence)}
+        for _, row in rows.iterrows()
+    }
+    brain_dashboard_html = build_brain_dashboard(
+        scorecard, live_predictions, latest, routing_state.get("regime", "未知")
+    )
 
     # --- Decision breakdown: reproduce ensemble's weighting inputs ---
     try:
@@ -733,7 +754,7 @@ h1::first-letter{color:#f6f8ff}
 
 
 
-<section class="section human-game" id="game" data-human-game>
+__BRAIN_CENTER__\n\n<section class="section human-game" id="game" data-human-game>
   <div class="human-hero">
     <div>
       <div class="human-kicker">🎯 YOUR MOVE</div>
@@ -790,7 +811,7 @@ __PRICE_SVG__
   <button type="button" data-account><span class="nav-icon">👤</span><span>我的</span></button>
 </nav>
 
-</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261014-app-button";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014indexchiefside",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>\n</body></html>"""
+</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261117-nine-brain-dashboard";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014indexchiefside",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>\n</body></html>"""
 
     def ai_prob(k):
         return f"{float(analyst_rows[k].prob_up)*100:.1f}%" if k in analyst_rows else "—"
@@ -830,9 +851,16 @@ __PRICE_SVG__
     }
     for key, value in replacements.items():
         html_doc = html_doc.replace(key, value)
+    html_doc = html_doc.replace("__BRAIN_CENTER__", brain_dashboard_html)
     html_doc = html_doc.replace("CONF_WIDTH", f"{conf_width:.1f}")
     html_doc = html_doc.replace("GAUGE_ROTATION", f"{gauge_rotation:.1f}")
     html_doc = html_doc.replace("GAUGE_ROTATION", f"{gauge_rotation:.1f}")
+    html_doc = html_doc.replace("</style></head>", """
+.nb-center{display:block!important;visibility:visible!important;max-width:1240px;margin:26px auto;padding:0 20px;color:#f4f7fb;position:relative;z-index:1}
+.nb-head{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:14px}.nb-kicker{font-size:10px;letter-spacing:.16em;color:#ffd166;font-weight:900}.nb-head h2{font-size:24px;margin:7px 0}.nb-head p,.nb-footnote{font-size:11px;color:#9aa8bb;line-height:1.65;margin:6px 0 0}
+.nb-risk-chip{min-width:145px;padding:12px 15px;border:1px solid #34445b;border-radius:14px;background:#111d30;text-align:center}.nb-risk-chip span,.nb-risk-chip strong{display:block;font-size:11px;color:#aab8cc}.nb-risk-chip b{display:block;font-size:26px;margin:3px}.nb-risk-chip.warning,.nb-risk-banner.warning{border-color:#a34c50;background:rgba(104,32,42,.2)}.nb-risk-chip.ok,.nb-risk-banner.ok{border-color:#286c58}.nb-risk-banner{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:12px 15px;margin-bottom:14px;border:1px solid #34445b;border-radius:14px;background:#111d30;font-size:12px}.nb-risk-banner span{color:#c4cede}.nb-risk-banner small{color:#98a6ba;margin-left:auto}.nb-panel{background:linear-gradient(145deg,rgba(17,27,44,.98),rgba(8,14,25,.99));border:1px solid rgba(126,174,239,.35);border-radius:18px;padding:17px;margin-bottom:14px;overflow:hidden}.nb-panel-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.nb-panel-title h3{font-size:15px;margin:0;color:#ffe2a0}.nb-panel-title span{font-size:10px;color:#8fa0b8}.nb-table-head,.nb-brain-row,.nb-compare-header,.nb-compare-row{display:grid;grid-template-columns:1.2fr 1fr .9fr .7fr .8fr;gap:8px;align-items:center}.nb-table-head,.nb-compare-header{font-size:10px;color:#8494ac;padding:8px 7px;border-bottom:1px solid #29384e}.nb-brain-row,.nb-compare-row{padding:10px 7px;border-bottom:1px solid rgba(48,65,89,.55);font-size:12px}.nb-brain-row b,.nb-compare-row b{color:#e5edf8}.nb-brain-row strong,.nb-compare-row strong{color:#80c9ff;font-size:14px}.nb-brain-row span,.nb-compare-row span{color:#b8c6d9}.nb-brain-row small,.nb-compare-row small{color:#8b9bb1}.nb-status{font-style:normal;font-size:10px;justify-self:start;padding:3px 6px;border-radius:999px;background:#1b2d42;color:#aab8cc}.nb-status.ok{color:#76e0b0;background:#12362e}.nb-status.warning{color:#ff9b9b;background:#49252d}.nb-status.pending{color:#f1cd79;background:#3a321c}.nb-chief-row{background:rgba(255,209,102,.035)}.nb-two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}.nb-regime-row,.nb-alert-row{padding:11px 7px;border-bottom:1px solid rgba(48,65,89,.55);display:grid;gap:5px}.nb-regime-row b,.nb-alert-row b{font-size:12px;color:#e5edf8}.nb-regime-row span,.nb-alert-row span{font-size:11px;color:#aab8cc}.nb-regime-row strong{font-size:12px;color:#83d7b3}.nb-regime-row small{font-size:10px;color:#8292a8}.nb-alert-row{grid-template-columns:100px 1fr auto;align-items:center}.nb-alert-row em{font-size:10px;font-style:normal;color:#ff9b9b}.nb-empty{font-size:12px;color:#9aa8bb;padding:12px 6px}.nb-compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.nb-compare-grid h4{font-size:13px;color:#dce7f8;margin:4px 0 8px}.nb-compare-grid h4 small{display:block;font-size:10px;font-weight:400;color:#8494ac;margin-top:4px}.nb-disclaimer{padding:8px 2px 20px}
+@media(max-width:760px){.nb-center{padding:0 12px;margin:20px auto}.nb-head{align-items:flex-start;flex-direction:column}.nb-risk-chip{width:100%;display:flex;justify-content:space-around;align-items:center}.nb-two-col,.nb-compare-grid{grid-template-columns:1fr}.nb-table-head,.nb-brain-row,.nb-compare-header,.nb-compare-row{grid-template-columns:1.05fr .9fr .8fr .55fr;gap:5px;font-size:10px}.nb-table-head span:last-child,.nb-brain-row em,.nb-compare-header span:last-child,.nb-compare-row em{display:none}.nb-brain-row strong,.nb-compare-row strong{font-size:12px}.nb-panel{padding:13px}.nb-panel-title{align-items:flex-start;flex-direction:column}.nb-risk-banner small{margin-left:0;width:100%}.nb-alert-row{grid-template-columns:78px 1fr}.nb-alert-row em{grid-column:2}}
+</style></head>""")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(html_doc, encoding="utf-8")
