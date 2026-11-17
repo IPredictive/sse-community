@@ -5,7 +5,7 @@ import os
 from agents import ALL_AGENTS
 from context import build_context
 from data import fetch_sse, make_demo
-from db import init_db, load_daily, save_prediction, upsert_daily, refresh_predictions_for_date, save_agnes_review
+from db import init_db, load_daily, save_prediction, upsert_daily, refresh_predictions_for_date, save_agnes_review, save_market_regime
 from ensemble import combine
 from agnes_brain import review_forecast, format_review
 from market_regime import classify_market_regime
@@ -24,6 +24,11 @@ def predict_for(df, context=None, enable_agnes_review=False):
         return
     context = context if context is not None else {}
     base = df.date.iloc[-1]
+    # Tag every historical forecast with the regime observable on that date.
+    regime = classify_market_regime(df)
+    context.setdefault("market_regime", regime)
+    context["_as_of_date"] = str(base)[:10]
+    save_market_regime(base, regime)
     preds = {}
     for agent in ALL_AGENTS:
         try:
@@ -114,9 +119,10 @@ def main():
 
     context = {} if args.no_news else build_context(as_of_date=df.date.iloc[-1])
     context["market_regime"] = classify_market_regime(df)
+    context["_as_of_date"] = str(df.date.iloc[-1])[:10]
     context["event_label"] = current_event(df, context)
     regime = context["market_regime"]
-    learning = persist_learning(regime.get("label", "未知"), context["event_label"])
+    learning = persist_learning(regime.get("label", "未知"), context["event_label"], as_of_date=df.date.iloc[-1])
     context["learning"] = learning
     context["calibration"] = persist_calibration(df.date.iloc[-1])
     print("[MARKET-REGIME] " + regime["label"] + ": " + regime["detail"])

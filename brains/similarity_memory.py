@@ -121,7 +121,7 @@ def similarity_weight_adjustments(names):
         return {name: 1.0 for name in names}
     out = {}
     for name in names:
-        stats = report.get("brains", {}).get(name, {})
+        stats = report.get("brains", {}).get("A9_" + name, {}) or report.get("brains", {}).get(name, {})
         n = int(stats.get("neighbors", 0))
         if n < MIN_NEIGHBORS:
             out[name] = 1.0
