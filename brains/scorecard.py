@@ -1,8 +1,7 @@
-"""Outcome-based A9 brain scorecard and pairwise disagreement audit.
+"""Outcome-based A9 brain scorecard and disagreement risk audit.
 
-Only forecasts with a known next-session close are scored. No future data is
-used to score an unsettled forecast, and all metrics are descriptive rather
-than claims of predictive edge.
+Only forecasts with a known next-session close are scored. A9 specialist
+streams are reported independently from legacy specialists and the A9 chief.
 """
 import json
 import math
@@ -14,7 +13,12 @@ from .walkforward import evaluate_walk_forward
 
 PATH = Path(__file__).parent.parent / "data" / "brain_scorecard.json"
 MIN_RANK_SAMPLES = 5
-EXCLUDED = {"CHIEF_ANALYST_CALIBRATED"}
+MIN_REGIME_SAMPLES = 8
+EXCLUDED = {"CHIEF_ANALYST_CALIBRATED", "A9_SUPER_CHIEF", "chief_super"}
+A9_SPECIALISTS = (
+    "technical", "quant", "market_structure", "macro",
+    "policy", "geopolitical", "global", "money_sentiment",
+)
 
 
 def _ece(group, bins=10):
@@ -62,12 +66,78 @@ def _metrics(group):
     }
 
 
+def _a9_scorecards(frame):
+    """Return independent A9 specialist metrics with explicit evidence gates."""
+    a9 = frame[frame.agent.astype(str).str.startswith("A9_")].copy()
+    a9 = a9[a9.agent.astype(str) != "A9_SUPER_CHIEF"]
+    out = {}
+    for name in A9_SPECIALISTS:
+        rows = a9[a9.agent.astype(str) == "A9_" + name].copy()
+        global_metrics = _metrics(rows) if not rows.empty else None
+        regimes = {}
+        if not rows.empty and "regime" in rows.columns:
+            for regime, group in rows.groupby("regime"):
+                metrics = _metrics(group)
+                if metrics:
+                    metrics["evidence_status"] = (
+                        "eligible" if metrics["samples"] >= MIN_REGIME_SAMPLES
+                        else "insufficient_evidence"
+                    )
+                    regimes[str(regime)] = metrics
+        samples = int(len(rows))
+        out[name] = {
+            "samples": samples,
+            "evidence_status": "eligible" if samples >= MIN_RANK_SAMPLES else "collecting",
+            "global": global_metrics,
+            "regimes": regimes,
+            "minimum_global_samples": MIN_RANK_SAMPLES,
+            "minimum_regime_samples": MIN_REGIME_SAMPLES,
+            "last_scored_date": str(rows.base_date.max())[:10] if samples else None,
+        }
+    return out
+
+
+def _risk_review_history(frame, limit=30):
+    """Historical settled-date disagreement audit; never mixes unsettled outcomes."""
+    rows = []
+    specialists = frame[~frame.agent.astype(str).isin(EXCLUDED | {"CHIEF_ANALYST"})].copy()
+    for date, day in specialists.groupby("base_date", sort=True):
+        a9 = day[day.agent.astype(str).str.startswith("A9_") &
+                 (day.agent.astype(str) != "A9_SUPER_CHIEF")]
+        if not a9.empty:
+            day = a9
+        else:
+            day = day[~day.agent.astype(str).str.startswith("A9_")]
+        p = pd.to_numeric(day.prob_up, errors="coerce").dropna()
+        if len(p) < 2:
+            continue
+        spread = float(p.max() - p.min())
+        directions = (p > .5).astype(int)
+        majority = int(directions.mean() >= .5)
+        dissent = int((directions != majority).sum())
+        rows.append({
+            "base_date": str(date)[:10],
+            "source": "A9_specialists" if not a9.empty else "traditional_specialists",
+            "brain_count": int(len(p)),
+            "probability_spread": round(spread, 4),
+            "disagreement_count": dissent,
+            "triggered": spread >= .35,
+            "threshold": .35,
+            "status": "high_disagreement_review" if spread >= .35 else "normal",
+        })
+    return rows[-limit:]
+
+
 def build_scorecard(scored=None):
     if scored is None:
         scored = load_scored()
     if scored is None or scored.empty:
-        return {"method": "matured_next_session_outcomes", "sample_count": 0,
-                "brains": {}, "ranking": [], "disagreements": []}
+        return {
+            "method": "matured_next_session_outcomes", "sample_count": 0,
+            "brains": {}, "a9_specialists": _a9_scorecards(pd.DataFrame(
+                columns=["agent", "base_date", "prob_up", "went_up", "correct", "brier", "regime"]
+            )), "ranking": [], "disagreements": [], "risk_review": None,
+        }
     frame = scored.copy()
     frame["base_date"] = frame.base_date.astype(str).str[:10]
     frame["agent"] = frame.agent.astype(str)
@@ -83,14 +153,16 @@ def build_scorecard(scored=None):
         for (brain, regime), group in frame[~frame.agent.isin(EXCLUDED)].groupby(["agent", "regime"]):
             metrics = _metrics(group)
             if metrics:
+                metrics["evidence_status"] = (
+                    "eligible" if metrics["samples"] >= MIN_REGIME_SAMPLES
+                    else "insufficient_evidence"
+                )
                 regime_breakdown.setdefault(str(brain), {})[str(regime)] = metrics
     ranking = sorted(
         [{"brain": name, **metrics} for name, metrics in brains.items() if metrics["rank_eligible"]],
         key=lambda x: (x["brier"], -x["accuracy"], -x["samples"])
     )
 
-    # Pairwise disagreements are counted only on dates when both forecasts
-    # matured against the same next-session close.
     usable = frame[~frame.agent.isin(EXCLUDED)].copy()
     wide = usable.pivot_table(index="base_date", columns="agent", values="prob_up", aggfunc="last")
     outcome = usable.groupby("base_date").went_up.first()
@@ -113,22 +185,28 @@ def build_scorecard(scored=None):
                 "both_wrong": int((~left_correct & ~right_correct).sum()),
             })
     disagreements.sort(key=lambda x: (-x["samples"], x["brain_a"], x["brain_b"]))
+    risk_history = _risk_review_history(frame)
     return {
         "method": "matured_next_session_outcomes",
         "sample_count": int(len(frame)),
         "scored_dates": int(frame.base_date.nunique()),
         "min_rank_samples": MIN_RANK_SAMPLES,
+        "min_regime_samples": MIN_REGIME_SAMPLES,
         "brains": brains,
+        "a9_specialists": _a9_scorecards(frame),
         "regime_breakdown": regime_breakdown,
         "ranking": ranking,
         "walk_forward": evaluate_walk_forward(frame),
         "disagreements": disagreements[:60],
+        "risk_review": risk_history[-1] if risk_history else None,
+        "risk_review_history": risk_history,
         "notes": [
             "只统计下一交易日收盘结果已知的预测。",
-            "排名按 Brier 分数优先，准确率用于辅助；样本不足不参与排名。",
-            "分歧统计只比较同一预测日、同一实际结果的已结算预测。",
+            "A9 八个专业脑独立计分，不与传统智能体或 A9 SUPER CHIEF 混算。",
+            "全局排名至少需要5个已结算样本；分市场状态至少需要8个样本。",
+            "高分歧复核阈值为专业脑上涨概率最大差值达到35个百分点。",
             "市场状态评分只使用预测当时记录的状态标签；缺少状态标签的旧记录不参与分状态评分。",
-            "历史相关性和回测表现不保证未来收益。"
+            "历史相关性和回测表现不保证未来收益。",
         ],
     }
 
