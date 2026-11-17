@@ -129,7 +129,7 @@ def main():
     calibrated_samples = 0
     if calibrated_reason:
         import re
-        match = re.search(r"历史样本=(\\d+)", calibrated_reason)
+        match = re.search(r"历史样本=(\d+)", calibrated_reason)
         calibrated_samples = int(match.group(1)) if match else 0
     calibration_line = (
         f"概率校准参考：{pct(calibrated_prob)} · 历史样本 {calibrated_samples} 个"
