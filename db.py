@@ -17,7 +17,7 @@ def refresh_predictions_for_date(base_date):
     with get_conn() as c:
         c.execute("DROP TRIGGER IF EXISTS predictions_no_delete")
         c.execute("DELETE FROM predictions WHERE base_date=?",(str(base_date),))
-        c.execute("""CREATE TRIGGER predictions_no_delete BEFORE DELETE ON predictions
+        c.execute("""CREATE TRIGGER IF NOT EXISTS predictions_no_delete BEFORE DELETE ON predictions
                      BEGIN SELECT RAISE(ABORT,'predictions are immutable'); END;""")
 def load_predictions():
     with get_conn() as c:return pd.read_sql("SELECT base_date,agent,prob_up,reason,confidence,created_at FROM predictions ORDER BY base_date,agent",c)
@@ -28,6 +28,6 @@ def save_agnes_review(base_date,status,model=None,review=None,error=None):
 def load_agnes_reviews():
     with get_conn() as c:return pd.read_sql("SELECT base_date,status,model,review_json,error,created_at FROM agnes_reviews ORDER BY base_date",c)
 def load_scored():
-    q="SELECT p.base_date,p.agent,p.prob_up,(SELECT close FROM daily_index WHERE date=p.base_date) base_close,(SELECT close FROM daily_index d WHERE d.date>p.base_date ORDER BY d.date LIMIT 1) result_close FROM predictions p"
+    q="SELECT p.base_date,p.agent,p.prob_up,p.reason,(SELECT close FROM daily_index WHERE date=p.base_date) base_close,(SELECT close FROM daily_index d WHERE d.date>p.base_date ORDER BY d.date LIMIT 1) result_close FROM predictions p"
     with get_conn() as c:df=pd.read_sql(q,c)
     df=df.dropna(subset=["base_close","result_close"]).copy();df["went_up"]=(df.result_close>df.base_close).astype(int);df["correct"]=((df.prob_up>.5).astype(int)==df.went_up).astype(int);df["brier"]=(df.prob_up-df.went_up)**2;return df.sort_values("base_date")
