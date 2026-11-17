@@ -193,6 +193,7 @@ def build_scorecard(scored=None):
         "min_rank_samples": MIN_RANK_SAMPLES,
         "min_regime_samples": MIN_REGIME_SAMPLES,
         "brains": brains,
+        "a9_chief": _metrics(frame[frame.agent == "A9_SUPER_CHIEF"]) if (frame.agent == "A9_SUPER_CHIEF").any() else None,
         "a9_specialists": _a9_scorecards(frame),
         "regime_breakdown": regime_breakdown,
         "ranking": ranking,
