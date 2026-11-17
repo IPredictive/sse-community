@@ -117,6 +117,7 @@ jobs:
           path: |
             data/sse.db
             data/brain_scorecard.json
+            data/brain_performance_history.json
             data/calibration_state.json
             data/routing_state.json
           retention-days: 30
