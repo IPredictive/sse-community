@@ -37,7 +37,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Validate Python and calibration logic
+      - name: Validate Python and analytics tests
         run: |
           python -m compileall -q .
           python -m unittest discover -s tests -v
@@ -59,10 +59,10 @@ jobs:
         run: |
           git config user.name "sse-agents[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json site/index.html
-          git diff --cached --quiet || git commit -m "data: daily SSE prediction"
+          git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json data/brain_scorecard.json site/brain-scorecard.json site/index.html
+          git diff --cached --quiet || git commit -m "data: daily SSE prediction and brain scorecard"
 
-          # Preserve generated learning state across non-fast-forward retries.
+          # Preserve every learned state file across non-fast-forward retries.
           for attempt in 1 2 3; do
             if git push; then
               exit 0
@@ -76,6 +76,7 @@ jobs:
             cp data/calibration_state.json /tmp/calibration_state.json
             cp data/scenario_state.json /tmp/scenario_state.json
             cp data/routing_state.json /tmp/routing_state.json
+            cp data/brain_scorecard.json /tmp/brain_scorecard.json
             git fetch origin main
             git reset --hard origin/main
             cp /tmp/sse.db data/sse.db
@@ -86,9 +87,11 @@ jobs:
             cp /tmp/calibration_state.json data/calibration_state.json
             cp /tmp/scenario_state.json data/scenario_state.json
             cp /tmp/routing_state.json data/routing_state.json
+            cp /tmp/brain_scorecard.json data/brain_scorecard.json
+            python -c "from brains.scorecard import persist_scorecard; persist_scorecard()"
             python generate_site.py
-            git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json site/index.html
-            git diff --cached --quiet || git commit -m "data: daily SSE prediction"
+            git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json data/brain_scorecard.json site/brain-scorecard.json site/index.html
+            git diff --cached --quiet || git commit -m "data: daily SSE prediction and brain scorecard"
             sleep 2
           done
           echo "::error::Unable to publish daily prediction after 3 attempts."
@@ -109,5 +112,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: sse-state-${{ github.run_number }}
-          path: data/sse.db
+          path: |
+            data/sse.db
+            data/brain_scorecard.json
+            data/calibration_state.json
+            data/routing_state.json
           retention-days: 30

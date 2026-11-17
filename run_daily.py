@@ -16,6 +16,7 @@ from brains.scenario_feedback import persist_scenario
 from brains.calibration import calibrate_probability, persist_calibration
 from brains.event_memory import current_event
 from brains.routing import persist_routing
+from brains.scorecard import persist_scorecard
 
 
 def predict_for(df, context=None, enable_agnes_review=False):
@@ -126,6 +127,10 @@ def main():
 
     refresh_predictions_for_date(df.date.iloc[-1])
     predict_for(df, context, enable_agnes_review=True)
+    scorecard = persist_scorecard()
+    print(f"[BRAIN-SCORECARD] settled={scorecard.get('sample_count',0)} brains={len(scorecard.get('brains',{}))} ranked={len(scorecard.get('ranking',[]))} disagreements={len(scorecard.get('disagreements',[]))}")
+    for item in scorecard.get("ranking",[])[:8]:
+        print(f"[BRAIN-RANK] {item['brain']} n={item['samples']} accuracy={item['accuracy']:.1%} Brier={item['brier']:.4f} ECE={item['ece']:.4f}")
     print(json.dumps({"latest_date": df.date.iloc[-1], "context": context}, ensure_ascii=False))
 
 
