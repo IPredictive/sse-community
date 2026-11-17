@@ -86,7 +86,7 @@ def build_brain_dashboard(scorecard, predictions, latest_date, current_regime):
             f'<em class="nb-status {status_class}">{status}</em></div>'
         )
     chief_live = predictions.get("A9_SUPER_CHIEF")
-    chief_score = scorecard.get("a9_chief", {}).get("global")
+    chief_score = scorecard.get("a9_chief")
     if chief_score is None:
         chief_score = legacy_scores.get("A9_SUPER_CHIEF")
     chief_acc, chief_samples = _metric_text(chief_score)
