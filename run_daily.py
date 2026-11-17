@@ -11,6 +11,7 @@ from agnes_brain import review_forecast, format_review
 from market_regime import classify_market_regime
 from brains.engine import run_a9_brain
 from brains.fusion import fuse
+from brains.feedback import persist_learning
 
 
 def predict_for(df, context=None, enable_agnes_review=False):
@@ -95,6 +96,8 @@ def main():
     context = {} if args.no_news else build_context(as_of_date=df.date.iloc[-1])
     context["market_regime"] = classify_market_regime(df)
     regime = context["market_regime"]
+    learning = persist_learning(regime.get("label","未知"))
+    context["learning"] = learning
     print("[MARKET-REGIME] " + regime["label"] + ": " + regime["detail"])
     for offset in range(args.backfill, 0, -1):
         predict_for(df.iloc[: len(df) - offset], {} if args.backfill else context, enable_agnes_review=False)
