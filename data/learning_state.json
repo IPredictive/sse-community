@@ -4,22 +4,147 @@
     "sample_count": 174,
     "brains": {
       "CHIEF_ANALYST": {
-        "weight": 1.023
+        "weight": 1.023,
+        "postmortem": {
+          "samples": 20,
+          "accuracy": 0.6,
+          "avg_brier": 0.2441,
+          "wrong_rate": 0.4,
+          "overconfidence_error_rate": 0.0,
+          "severe_error_rate": 0.4,
+          "wrong_streak": 0,
+          "attribution": "正常波动"
+        }
       },
       "flow": {
-        "weight": 1.052
+        "weight": 1.052,
+        "postmortem": {
+          "samples": 20,
+          "accuracy": 0.7,
+          "avg_brier": 0.2443,
+          "wrong_rate": 0.3,
+          "overconfidence_error_rate": 0.0,
+          "severe_error_rate": 0.3,
+          "wrong_streak": 0,
+          "attribution": "正常波动"
+        }
       },
       "macro": {
-        "weight": 0.94
+        "weight": 0.855,
+        "postmortem": {
+          "samples": 20,
+          "accuracy": 0.35,
+          "avg_brier": 0.27,
+          "wrong_rate": 0.65,
+          "overconfidence_error_rate": 0.0,
+          "severe_error_rate": 0.65,
+          "wrong_streak": 4,
+          "attribution": "方向判断错误偏多"
+        }
       },
       "overseas": {
-        "weight": 0.998
+        "weight": 0.968,
+        "postmortem": {
+          "samples": 20,
+          "accuracy": 0.5,
+          "avg_brier": 0.245,
+          "wrong_rate": 0.5,
+          "overconfidence_error_rate": 0.05,
+          "severe_error_rate": 0.5,
+          "wrong_streak": 0,
+          "attribution": "概率校准偏差"
+        }
       },
       "sentiment": {
-        "weight": 1.002
+        "weight": 0.972,
+        "postmortem": {
+          "samples": 20,
+          "accuracy": 0.5,
+          "avg_brier": 0.2476,
+          "wrong_rate": 0.5,
+          "overconfidence_error_rate": 0.0,
+          "severe_error_rate": 0.55,
+          "wrong_streak": 0,
+          "attribution": "概率校准偏差"
+        }
       },
       "technical": {
-        "weight": 0.964
+        "weight": 0.897,
+        "postmortem": {
+          "samples": 20,
+          "accuracy": 0.55,
+          "avg_brier": 0.3293,
+          "wrong_rate": 0.45,
+          "overconfidence_error_rate": 0.45,
+          "severe_error_rate": 0.45,
+          "wrong_streak": 0,
+          "attribution": "过度自信偏多"
+        }
+      }
+    }
+  },
+  "postmortem": {
+    "sample_count": 174,
+    "agents": {
+      "CHIEF_ANALYST": {
+        "samples": 20,
+        "accuracy": 0.6,
+        "avg_brier": 0.2441,
+        "wrong_rate": 0.4,
+        "overconfidence_error_rate": 0.0,
+        "severe_error_rate": 0.4,
+        "wrong_streak": 0,
+        "attribution": "正常波动"
+      },
+      "flow": {
+        "samples": 20,
+        "accuracy": 0.7,
+        "avg_brier": 0.2443,
+        "wrong_rate": 0.3,
+        "overconfidence_error_rate": 0.0,
+        "severe_error_rate": 0.3,
+        "wrong_streak": 0,
+        "attribution": "正常波动"
+      },
+      "macro": {
+        "samples": 20,
+        "accuracy": 0.35,
+        "avg_brier": 0.27,
+        "wrong_rate": 0.65,
+        "overconfidence_error_rate": 0.0,
+        "severe_error_rate": 0.65,
+        "wrong_streak": 4,
+        "attribution": "方向判断错误偏多"
+      },
+      "overseas": {
+        "samples": 20,
+        "accuracy": 0.5,
+        "avg_brier": 0.245,
+        "wrong_rate": 0.5,
+        "overconfidence_error_rate": 0.05,
+        "severe_error_rate": 0.5,
+        "wrong_streak": 0,
+        "attribution": "概率校准偏差"
+      },
+      "sentiment": {
+        "samples": 20,
+        "accuracy": 0.5,
+        "avg_brier": 0.2476,
+        "wrong_rate": 0.5,
+        "overconfidence_error_rate": 0.0,
+        "severe_error_rate": 0.55,
+        "wrong_streak": 0,
+        "attribution": "概率校准偏差"
+      },
+      "technical": {
+        "samples": 20,
+        "accuracy": 0.55,
+        "avg_brier": 0.3293,
+        "wrong_rate": 0.45,
+        "overconfidence_error_rate": 0.45,
+        "severe_error_rate": 0.45,
+        "wrong_streak": 0,
+        "attribution": "过度自信偏多"
       }
     }
   }
