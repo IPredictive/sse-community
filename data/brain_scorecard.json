@@ -3,6 +3,7 @@
   "sample_count": 174,
   "scored_dates": 29,
   "min_rank_samples": 5,
+  "min_regime_samples": 8,
   "brains": {
     "CHIEF_ANALYST": {
       "samples": 29,
@@ -83,6 +84,80 @@
       "rank_eligible": true
     }
   },
+  "a9_specialists": {
+    "technical": {
+      "samples": 0,
+      "evidence_status": "collecting",
+      "global": null,
+      "regimes": {},
+      "minimum_global_samples": 5,
+      "minimum_regime_samples": 8,
+      "last_scored_date": null
+    },
+    "quant": {
+      "samples": 0,
+      "evidence_status": "collecting",
+      "global": null,
+      "regimes": {},
+      "minimum_global_samples": 5,
+      "minimum_regime_samples": 8,
+      "last_scored_date": null
+    },
+    "market_structure": {
+      "samples": 0,
+      "evidence_status": "collecting",
+      "global": null,
+      "regimes": {},
+      "minimum_global_samples": 5,
+      "minimum_regime_samples": 8,
+      "last_scored_date": null
+    },
+    "macro": {
+      "samples": 0,
+      "evidence_status": "collecting",
+      "global": null,
+      "regimes": {},
+      "minimum_global_samples": 5,
+      "minimum_regime_samples": 8,
+      "last_scored_date": null
+    },
+    "policy": {
+      "samples": 0,
+      "evidence_status": "collecting",
+      "global": null,
+      "regimes": {},
+      "minimum_global_samples": 5,
+      "minimum_regime_samples": 8,
+      "last_scored_date": null
+    },
+    "geopolitical": {
+      "samples": 0,
+      "evidence_status": "collecting",
+      "global": null,
+      "regimes": {},
+      "minimum_global_samples": 5,
+      "minimum_regime_samples": 8,
+      "last_scored_date": null
+    },
+    "global": {
+      "samples": 0,
+      "evidence_status": "collecting",
+      "global": null,
+      "regimes": {},
+      "minimum_global_samples": 5,
+      "minimum_regime_samples": 8,
+      "last_scored_date": null
+    },
+    "money_sentiment": {
+      "samples": 0,
+      "evidence_status": "collecting",
+      "global": null,
+      "regimes": {},
+      "minimum_global_samples": 5,
+      "minimum_regime_samples": 8,
+      "last_scored_date": null
+    }
+  },
   "regime_breakdown": {
     "CHIEF_ANALYST": {
       "下行趋势": {
@@ -96,7 +171,8 @@
         "up_rate": 0.5385,
         "majority_baseline_accuracy": 0.5385,
         "last_scored_date": "2026-11-16",
-        "rank_eligible": true
+        "rank_eligible": true,
+        "evidence_status": "eligible"
       },
       "震荡/趋势转换": {
         "samples": 3,
@@ -109,7 +185,8 @@
         "up_rate": 0.0,
         "majority_baseline_accuracy": 1.0,
         "last_scored_date": "2026-11-12",
-        "rank_eligible": false
+        "rank_eligible": false,
+        "evidence_status": "insufficient_evidence"
       }
     },
     "flow": {
@@ -124,7 +201,8 @@
         "up_rate": 0.5385,
         "majority_baseline_accuracy": 0.5385,
         "last_scored_date": "2026-11-16",
-        "rank_eligible": true
+        "rank_eligible": true,
+        "evidence_status": "eligible"
       },
       "震荡/趋势转换": {
         "samples": 3,
@@ -137,7 +215,8 @@
         "up_rate": 0.0,
         "majority_baseline_accuracy": 1.0,
         "last_scored_date": "2026-11-12",
-        "rank_eligible": false
+        "rank_eligible": false,
+        "evidence_status": "insufficient_evidence"
       }
     },
     "macro": {
@@ -152,7 +231,8 @@
         "up_rate": 0.5385,
         "majority_baseline_accuracy": 0.5385,
         "last_scored_date": "2026-11-16",
-        "rank_eligible": true
+        "rank_eligible": true,
+        "evidence_status": "eligible"
       },
       "震荡/趋势转换": {
         "samples": 3,
@@ -165,7 +245,8 @@
         "up_rate": 0.0,
         "majority_baseline_accuracy": 1.0,
         "last_scored_date": "2026-11-12",
-        "rank_eligible": false
+        "rank_eligible": false,
+        "evidence_status": "insufficient_evidence"
       }
     },
     "overseas": {
@@ -180,7 +261,8 @@
         "up_rate": 0.5385,
         "majority_baseline_accuracy": 0.5385,
         "last_scored_date": "2026-11-16",
-        "rank_eligible": true
+        "rank_eligible": true,
+        "evidence_status": "eligible"
       },
       "震荡/趋势转换": {
         "samples": 3,
@@ -193,7 +275,8 @@
         "up_rate": 0.0,
         "majority_baseline_accuracy": 1.0,
         "last_scored_date": "2026-11-12",
-        "rank_eligible": false
+        "rank_eligible": false,
+        "evidence_status": "insufficient_evidence"
       }
     },
     "sentiment": {
@@ -208,7 +291,8 @@
         "up_rate": 0.5385,
         "majority_baseline_accuracy": 0.5385,
         "last_scored_date": "2026-11-16",
-        "rank_eligible": true
+        "rank_eligible": true,
+        "evidence_status": "eligible"
       },
       "震荡/趋势转换": {
         "samples": 3,
@@ -221,7 +305,8 @@
         "up_rate": 0.0,
         "majority_baseline_accuracy": 1.0,
         "last_scored_date": "2026-11-12",
-        "rank_eligible": false
+        "rank_eligible": false,
+        "evidence_status": "insufficient_evidence"
       }
     },
     "technical": {
@@ -236,7 +321,8 @@
         "up_rate": 0.5385,
         "majority_baseline_accuracy": 0.5385,
         "last_scored_date": "2026-11-16",
-        "rank_eligible": true
+        "rank_eligible": true,
+        "evidence_status": "eligible"
       },
       "震荡/趋势转换": {
         "samples": 3,
@@ -249,7 +335,8 @@
         "up_rate": 0.0,
         "majority_baseline_accuracy": 1.0,
         "last_scored_date": "2026-11-12",
-        "rank_eligible": false
+        "rank_eligible": false,
+        "evidence_status": "insufficient_evidence"
       }
     }
   },
@@ -505,10 +592,313 @@
       "both_wrong": 0
     }
   ],
+  "risk_review": {
+    "base_date": "2026-11-16",
+    "source": "traditional_specialists",
+    "brain_count": 5,
+    "probability_spread": 0.4492,
+    "disagreement_count": 1,
+    "triggered": true,
+    "threshold": 0.35,
+    "status": "high_disagreement_review"
+  },
+  "risk_review_history": [
+    {
+      "base_date": "2026-09-30",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4824,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-08",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4341,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-09",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.5913,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-12",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.553,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-13",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4472,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-14",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4806,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-15",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4164,
+      "disagreement_count": 0,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-16",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4783,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-19",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4404,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-20",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4814,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-21",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4798,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-22",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4523,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-23",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4516,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-26",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4468,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-27",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4635,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-28",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.5349,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-29",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4654,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-10-30",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4667,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-11-02",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.483,
+      "disagreement_count": 2,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-11-03",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4601,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-11-04",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4403,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-11-05",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.2997,
+      "disagreement_count": 2,
+      "triggered": false,
+      "threshold": 0.35,
+      "status": "normal"
+    },
+    {
+      "base_date": "2026-11-06",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.2949,
+      "disagreement_count": 1,
+      "triggered": false,
+      "threshold": 0.35,
+      "status": "normal"
+    },
+    {
+      "base_date": "2026-11-09",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4311,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-11-10",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.2259,
+      "disagreement_count": 2,
+      "triggered": false,
+      "threshold": 0.35,
+      "status": "normal"
+    },
+    {
+      "base_date": "2026-11-11",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.258,
+      "disagreement_count": 2,
+      "triggered": false,
+      "threshold": 0.35,
+      "status": "normal"
+    },
+    {
+      "base_date": "2026-11-12",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-11-13",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4104,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    },
+    {
+      "base_date": "2026-11-16",
+      "source": "traditional_specialists",
+      "brain_count": 5,
+      "probability_spread": 0.4492,
+      "disagreement_count": 1,
+      "triggered": true,
+      "threshold": 0.35,
+      "status": "high_disagreement_review"
+    }
+  ],
   "notes": [
     "只统计下一交易日收盘结果已知的预测。",
-    "排名按 Brier 分数优先，准确率用于辅助；样本不足不参与排名。",
-    "分歧统计只比较同一预测日、同一实际结果的已结算预测。",
+    "A9 八个专业脑独立计分，不与传统智能体或 A9 SUPER CHIEF 混算。",
+    "全局排名至少需要5个已结算样本；分市场状态至少需要8个样本。",
+    "高分歧复核阈值为专业脑上涨概率最大差值达到35个百分点。",
     "市场状态评分只使用预测当时记录的状态标签；缺少状态标签的旧记录不参与分状态评分。",
     "历史相关性和回测表现不保证未来收益。"
   ]
