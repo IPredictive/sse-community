@@ -15,11 +15,13 @@ from brains.feedback import persist_learning
 from brains.scenario_feedback import persist_scenario
 from brains.calibration import calibrate_probability, persist_calibration
 from brains.event_memory import current_event
+from brains.routing import persist_routing
 
 
 def predict_for(df, context=None, enable_agnes_review=False):
     if df.empty:
         return
+    context = context if context is not None else {}
     base = df.date.iloc[-1]
     preds = {}
     for agent in ALL_AGENTS:
@@ -36,6 +38,9 @@ def predict_for(df, context=None, enable_agnes_review=False):
     a9_results = run_a9_brain(df, context)
     scenario = context.get("scenario", {}) or {}
     persist_scenario(dict(scenario, base_date=str(base)))
+    routing = context.get("routing", {}) or {}
+    if routing:
+        persist_routing(routing, base)
 
     a9_chief = next((r for r in a9_results if r.name == "chief_super"), None)
     if a9_chief:
@@ -87,6 +92,7 @@ def predict_for(df, context=None, enable_agnes_review=False):
         print(f"CHIEF ANALYST 原始上涨概率={ensemble.prob_up:.1%}  信心={ensemble.confidence:.1%}")
         print(f"CHIEF ANALYST 校准上涨概率={calibrated_prob:.1%}  校准状态={calibration_meta.get('method', 'unknown')}  历史样本={calibration_meta.get('samples', 0)}")
         print(f"事件记忆：{context.get('event_label','normal_noise')}")
+        print(f"动态路由：{routing.get('dominant_brains', [])}；乘数={routing.get('multipliers', {})}")
         print(f"压力测试：下行情景均值={scenario.get('downside_stress_avg',0.5):.1%}；风险标记={scenario.get('risk_flags',[])}")
         print(f"综合理由：{ensemble.reason}")
         print("====================================")
