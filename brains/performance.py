@@ -70,12 +70,18 @@ def build_performance_history(scored, predictions=None, limit=180):
                 p = max(1e-9, min(1 - 1e-9, probs[i]))
                 y = outcomes[i]
                 logloss = -(y * math.log(p) + (1-y) * math.log(1-p))
+                regime_value = regimes[i]
+                regime_label = (
+                    str(regime_value) if regime_value is not None
+                    and str(regime_value).strip().lower() not in {"", "nan", "none"}
+                    else "未知"
+                )
                 records.append({
                     "date": date, "agent": agent, "family": _family(agent),
                     "prob_up": round(probs[i], 6), "outcome_up": y,
                     "correct": int(correct[i]), "daily_brier": round(briers[i], 6),
                     "daily_log_loss": round(logloss, 6),
-                    "regime": str(regimes[i] or "未知"),
+                    "regime": regime_label,
                     "rolling10_accuracy": round(sum(correct[start10:i+1]) / len(correct[start10:i+1]), 4),
                     "rolling10_brier": round(sum(briers[start10:i+1]) / len(briers[start10:i+1]), 6),
                     "rolling20_accuracy": round(sum(correct[start20:i+1]) / len(correct[start20:i+1]), 4),
