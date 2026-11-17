@@ -1,0 +1,330 @@
+{
+  "method": "matured_next_session_outcomes",
+  "sample_count": 174,
+  "scored_dates": 29,
+  "min_rank_samples": 5,
+  "brains": {
+    "CHIEF_ANALYST": {
+      "samples": 29,
+      "accuracy": 0.5517,
+      "brier": 0.254995,
+      "log_loss": 0.703717,
+      "ece": 0.095478,
+      "recent20_accuracy": 0.6,
+      "recent20_brier": 0.244095,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    },
+    "flow": {
+      "samples": 29,
+      "accuracy": 0.6207,
+      "brier": 0.254046,
+      "log_loss": 0.70172,
+      "ece": 0.201519,
+      "recent20_accuracy": 0.7,
+      "recent20_brier": 0.244313,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    },
+    "macro": {
+      "samples": 29,
+      "accuracy": 0.3448,
+      "brier": 0.269381,
+      "log_loss": 0.732201,
+      "ece": 0.126464,
+      "recent20_accuracy": 0.35,
+      "recent20_brier": 0.269984,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    },
+    "overseas": {
+      "samples": 29,
+      "accuracy": 0.4483,
+      "brier": 0.262231,
+      "log_loss": 0.717934,
+      "ece": 0.188262,
+      "recent20_accuracy": 0.5,
+      "recent20_brier": 0.245028,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    },
+    "sentiment": {
+      "samples": 29,
+      "accuracy": 0.4483,
+      "brier": 0.255466,
+      "log_loss": 0.704203,
+      "ece": 0.110992,
+      "recent20_accuracy": 0.5,
+      "recent20_brier": 0.247569,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    },
+    "technical": {
+      "samples": 29,
+      "accuracy": 0.5172,
+      "brier": 0.374279,
+      "log_loss": 1.118311,
+      "ece": 0.395147,
+      "recent20_accuracy": 0.55,
+      "recent20_brier": 0.329255,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    }
+  },
+  "ranking": [
+    {
+      "brain": "flow",
+      "samples": 29,
+      "accuracy": 0.6207,
+      "brier": 0.254046,
+      "log_loss": 0.70172,
+      "ece": 0.201519,
+      "recent20_accuracy": 0.7,
+      "recent20_brier": 0.244313,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    },
+    {
+      "brain": "CHIEF_ANALYST",
+      "samples": 29,
+      "accuracy": 0.5517,
+      "brier": 0.254995,
+      "log_loss": 0.703717,
+      "ece": 0.095478,
+      "recent20_accuracy": 0.6,
+      "recent20_brier": 0.244095,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    },
+    {
+      "brain": "sentiment",
+      "samples": 29,
+      "accuracy": 0.4483,
+      "brier": 0.255466,
+      "log_loss": 0.704203,
+      "ece": 0.110992,
+      "recent20_accuracy": 0.5,
+      "recent20_brier": 0.247569,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    },
+    {
+      "brain": "overseas",
+      "samples": 29,
+      "accuracy": 0.4483,
+      "brier": 0.262231,
+      "log_loss": 0.717934,
+      "ece": 0.188262,
+      "recent20_accuracy": 0.5,
+      "recent20_brier": 0.245028,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    },
+    {
+      "brain": "macro",
+      "samples": 29,
+      "accuracy": 0.3448,
+      "brier": 0.269381,
+      "log_loss": 0.732201,
+      "ece": 0.126464,
+      "recent20_accuracy": 0.35,
+      "recent20_brier": 0.269984,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    },
+    {
+      "brain": "technical",
+      "samples": 29,
+      "accuracy": 0.5172,
+      "brier": 0.374279,
+      "log_loss": 1.118311,
+      "ece": 0.395147,
+      "recent20_accuracy": 0.55,
+      "recent20_brier": 0.329255,
+      "up_rate": 0.4828,
+      "majority_baseline_accuracy": 0.5172,
+      "last_scored_date": "2026-11-16",
+      "rank_eligible": true
+    }
+  ],
+  "disagreements": [
+    {
+      "brain_a": "macro",
+      "brain_b": "technical",
+      "samples": 23,
+      "a_correct_rate": 0.3913,
+      "b_correct_rate": 0.6087,
+      "a_only_correct": 9,
+      "b_only_correct": 14,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "CHIEF_ANALYST",
+      "brain_b": "macro",
+      "samples": 22,
+      "a_correct_rate": 0.6364,
+      "b_correct_rate": 0.3636,
+      "a_only_correct": 14,
+      "b_only_correct": 8,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "flow",
+      "brain_b": "macro",
+      "samples": 18,
+      "a_correct_rate": 0.7222,
+      "b_correct_rate": 0.2778,
+      "a_only_correct": 13,
+      "b_only_correct": 5,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "overseas",
+      "brain_b": "technical",
+      "samples": 16,
+      "a_correct_rate": 0.4375,
+      "b_correct_rate": 0.5625,
+      "a_only_correct": 7,
+      "b_only_correct": 9,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "sentiment",
+      "brain_b": "technical",
+      "samples": 16,
+      "a_correct_rate": 0.4375,
+      "b_correct_rate": 0.5625,
+      "a_only_correct": 7,
+      "b_only_correct": 9,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "CHIEF_ANALYST",
+      "brain_b": "overseas",
+      "samples": 15,
+      "a_correct_rate": 0.6,
+      "b_correct_rate": 0.4,
+      "a_only_correct": 9,
+      "b_only_correct": 6,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "CHIEF_ANALYST",
+      "brain_b": "sentiment",
+      "samples": 15,
+      "a_correct_rate": 0.6,
+      "b_correct_rate": 0.4,
+      "a_only_correct": 9,
+      "b_only_correct": 6,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "flow",
+      "brain_b": "overseas",
+      "samples": 15,
+      "a_correct_rate": 0.6667,
+      "b_correct_rate": 0.3333,
+      "a_only_correct": 10,
+      "b_only_correct": 5,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "macro",
+      "brain_b": "sentiment",
+      "samples": 12,
+      "a_correct_rate": 0.4167,
+      "b_correct_rate": 0.5833,
+      "a_only_correct": 5,
+      "b_only_correct": 7,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "flow",
+      "brain_b": "sentiment",
+      "samples": 11,
+      "a_correct_rate": 0.7273,
+      "b_correct_rate": 0.2727,
+      "a_only_correct": 8,
+      "b_only_correct": 3,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "macro",
+      "brain_b": "overseas",
+      "samples": 11,
+      "a_correct_rate": 0.4545,
+      "b_correct_rate": 0.5455,
+      "a_only_correct": 5,
+      "b_only_correct": 6,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "overseas",
+      "brain_b": "sentiment",
+      "samples": 11,
+      "a_correct_rate": 0.5455,
+      "b_correct_rate": 0.4545,
+      "a_only_correct": 6,
+      "b_only_correct": 5,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "flow",
+      "brain_b": "technical",
+      "samples": 5,
+      "a_correct_rate": 0.8,
+      "b_correct_rate": 0.2,
+      "a_only_correct": 4,
+      "b_only_correct": 1,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "CHIEF_ANALYST",
+      "brain_b": "flow",
+      "samples": 4,
+      "a_correct_rate": 0.25,
+      "b_correct_rate": 0.75,
+      "a_only_correct": 1,
+      "b_only_correct": 3,
+      "both_wrong": 0
+    },
+    {
+      "brain_a": "CHIEF_ANALYST",
+      "brain_b": "technical",
+      "samples": 1,
+      "a_correct_rate": 1.0,
+      "b_correct_rate": 0.0,
+      "a_only_correct": 1,
+      "b_only_correct": 0,
+      "both_wrong": 0
+    }
+  ],
+  "notes": [
+    "只统计下一交易日收盘结果已知的预测。",
+    "排名按 Brier 分数优先，准确率用于辅助；样本不足不参与排名。",
+    "分歧统计只比较同一预测日、同一实际结果的已结算预测。",
+    "历史相关性和回测表现不保证未来收益。"
+  ]
+}
