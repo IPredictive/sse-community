@@ -109,6 +109,9 @@ def walk_forward_backtest(scored=None):
     frame["base_date"] = frame.base_date.astype(str).str[:10]
     reports = {}
     for agent, group in frame.groupby(frame.agent.astype(str)):
+        # Published calibrated rows are already adjusted; never calibrate them a second time.
+        if str(agent).endswith("_CALIBRATED"):
+            continue
         group = group.sort_values("base_date").reset_index(drop=True)
         raw, calibrated, outcomes = [], [], []
         for _, row in group.iterrows():
