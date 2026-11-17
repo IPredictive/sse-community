@@ -57,7 +57,7 @@ jobs:
         run: |
           git config user.name "sse-agents[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/sse.db data/learning_state.json data/scenario_state.json site/index.html
+          git add data/sse.db data/learning_state.json data/postmortem_state.json data/scenario_state.json site/index.html
           git diff --cached --quiet || git commit -m "data: daily SSE prediction"
 
           # A website/source commit can land while agents are running. If that
