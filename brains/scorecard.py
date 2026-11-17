@@ -126,5 +126,9 @@ def build_scorecard(scored=None):
 def persist_scorecard():
     report = build_scorecard()
     PATH.parent.mkdir(parents=True, exist_ok=True)
-    PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    payload = json.dumps(report, ensure_ascii=False, indent=2)
+    PATH.write_text(payload, encoding="utf-8")
+    public_path = PATH.parent.parent / "site" / "brain-scorecard.json"
+    public_path.parent.mkdir(parents=True, exist_ok=True)
+    public_path.write_text(payload, encoding="utf-8")
     return report
