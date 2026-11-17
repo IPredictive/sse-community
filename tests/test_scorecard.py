@@ -64,6 +64,14 @@ class BrainScorecardTests(unittest.TestCase):
         )
         self.assertEqual(report["a9_specialists"]["quant"]["evidence_status"], "collecting")
 
+    def test_a9_super_chief_is_scored_separately(self):
+        rows = self._rows().iloc[:6].copy()
+        rows["agent"] = "A9_SUPER_CHIEF"
+        report = build_scorecard(rows)
+        self.assertEqual(report["a9_chief"]["samples"], 6)
+        self.assertNotIn("A9_SUPER_CHIEF", report["brains"])
+        self.assertIn("A9_SUPER_CHIEF", report["regime_breakdown"])
+
     def test_a9_scorecard_does_not_mix_a9_super_chief(self):
         rows = self._rows()
         a9 = rows[rows.agent == "technical"].copy()

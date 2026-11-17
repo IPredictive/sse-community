@@ -134,7 +134,7 @@ def build_scorecard(scored=None):
     if scored is None or scored.empty:
         return {
             "method": "matured_next_session_outcomes", "sample_count": 0,
-            "brains": {}, "a9_specialists": _a9_scorecards(pd.DataFrame(
+            "brains": {}, "a9_chief": None, "a9_specialists": _a9_scorecards(pd.DataFrame(
                 columns=["agent", "base_date", "prob_up", "went_up", "correct", "brier", "regime"]
             )), "ranking": [], "disagreements": [], "risk_review": None,
         }
@@ -150,7 +150,7 @@ def build_scorecard(scored=None):
             brains[name] = metrics
     regime_breakdown = {}
     if "regime" in frame.columns:
-        for (brain, regime), group in frame[~frame.agent.isin(EXCLUDED)].groupby(["agent", "regime"]):
+        for (brain, regime), group in frame[~frame.agent.isin(EXCLUDED - {"A9_SUPER_CHIEF"})].groupby(["agent", "regime"]):
             metrics = _metrics(group)
             if metrics:
                 metrics["evidence_status"] = (
@@ -193,6 +193,7 @@ def build_scorecard(scored=None):
         "min_rank_samples": MIN_RANK_SAMPLES,
         "min_regime_samples": MIN_REGIME_SAMPLES,
         "brains": brains,
+        "a9_chief": _metrics(frame[frame.agent == "A9_SUPER_CHIEF"]) if (frame.agent == "A9_SUPER_CHIEF").any() else None,
         "a9_specialists": _a9_scorecards(frame),
         "regime_breakdown": regime_breakdown,
         "ranking": ranking,
