@@ -45,7 +45,7 @@ def build_performance_dashboard(history):
         latest = items[-1]
         name = A9_NAMES.get(agent, TRADITIONAL_NAMES.get(agent, agent))
         acc = [x["rolling20_accuracy"] for x in items[-60:]]
-        brier = [x["rolling20_brier"] for x in items[-60:]]
+        brier = [x["daily_brier"] for x in items[-60:]]
         regime = latest.get("regime", "未知")
         rows.append(
             "<div class='ph-row'>"
@@ -53,7 +53,7 @@ def build_performance_dashboard(history):
             f"<span>{html.escape(regime)}</span>"
             f"<strong>{latest['rolling20_accuracy']:.1%}</strong>{_spark(acc)}"
             f"<strong>{latest['rolling20_brier']:.4f}</strong>{_spark(brier, 'brier')}"
-            f"<small>累计 n={latest['samples']} · 当日 Brier {latest['daily_brier']:.4f}</small>"
+            f"<small>累计 n={latest['samples']} · 当日 Brier {latest['daily_brier']:.4f} · 滚动20 Brier {latest['rolling20_brier']:.4f}</small>"
             "</div>"
         )
     if not rows:
@@ -109,7 +109,7 @@ def build_performance_dashboard(history):
  <a href="./brain-performance-history.json" target="_blank" rel="noopener">查看完整历史 JSON ↗</a></div>
  <div class="ph-legend"><span>滚动 20 次准确率</span><span>滚动 20 次 Brier</span>
  <span>A9 记录 {a9_n} 条</span><span>传统 AI 记录 {legacy_n} 条</span></div>
- <div class="ph-table-head"><span>分析脑</span><span>最近结算日</span><span>当时市场状态</span><span>滚动准确率</span><span>准确率曲线</span><span>滚动 Brier</span><span>Brier 曲线</span></div>
+ <div class="ph-table-head"><span>分析脑</span><span>最近结算日</span><span>当时市场状态</span><span>滚动准确率</span><span>准确率曲线</span><span>每日 Brier</span><span>Brier 曲线</span></div>
  {''.join(rows)}
  <div class="ph-compare"><h3>A9 与传统 AI：同日期独立结算对照</h3>
  <p>{html.escape(gate_text)}</p>{comparison_html}
