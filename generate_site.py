@@ -123,6 +123,18 @@ def main():
     prob = float(chief.prob_up.iloc[0]) if not chief.empty else None
     conf = float(chief.confidence.iloc[0]) if not chief.empty else None
     reason = str(chief.reason.iloc[0]) if not chief.empty else "暂无首席分析"
+    calibrated_row = rows[rows.agent == "CHIEF_ANALYST_CALIBRATED"]
+    calibrated_prob = float(calibrated_row.prob_up.iloc[0]) if not calibrated_row.empty else None
+    calibrated_reason = str(calibrated_row.reason.iloc[0]) if not calibrated_row.empty else ""
+    calibrated_samples = 0
+    if calibrated_reason:
+        import re
+        match = re.search(r"历史样本=(\\d+)", calibrated_reason)
+        calibrated_samples = int(match.group(1)) if match else 0
+    calibration_line = (
+        f"概率校准参考：{pct(calibrated_prob)} · 历史样本 {calibrated_samples} 个"
+        if calibrated_prob is not None else "概率校准：历史样本积累中，暂不调整"
+    )
 
     price = float(d.close.iloc[-1]) if not d.empty else None
     prev = float(d.close.iloc[-2]) if len(d) > 1 else price
@@ -716,7 +728,7 @@ h1::first-letter{color:#f6f8ff}
 <section class="card chief" id="ai">
 <div class="chief-top"><div class="kicker"><span class="kicker-dot"></span> AI × HUMAN</div><div class="muted">面向下一交易日</div></div>
 <div class="hero-slogan">AI 怎么判断？<br><strong>你敢不敢押一边？</strong></div>
-<div class="chiefrow"><div><div class="prob __CHIEF_TONE__">__PROB__</div><div class="chief-direction">__DIRECTION__</div></div><div><div class="reason">__REASON__</div><div class="conf-row">模型信心 __CONF__<div class="conf-track"><span></span></div></div></div></div>
+<div class="chiefrow"><div><div class="prob __CHIEF_TONE__">__PROB__</div><div class="chief-direction">__DIRECTION__</div><div style="margin-top:7px;color:#9bb4df;font-size:12px">__CALIBRATION_LINE__</div></div><div><div class="reason">__REASON__</div><div class="conf-row">模型信心 __CONF__<div class="conf-track"><span></span></div></div></div></div>
 </section>
 
 
@@ -809,6 +821,7 @@ __PRICE_SVG__
         "__CHIEF_TONE__": chief_tone,
         "__PROB__": prob_text,
         "__DIRECTION__": direction,
+        "__CALIBRATION_LINE__": html.escape(calibration_line),
         "__CONF__": conf_text,
         "__REASON__": html.escape(reason),
         "__RET20__": f"{ret20:+.2f}%",
