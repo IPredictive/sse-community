@@ -1,0 +1,90 @@
+{
+  "base_prob_up": 0.4351,
+  "stress_adjusted_prob_up": 0.5275,
+  "scenario_penalty": 0.0923,
+  "downside_stress_avg": 0.3321,
+  "regime": "下行趋势",
+  "features": {
+    "t20": -0.040368,
+    "t60": -0.099951,
+    "vol": 0.009675,
+    "sp": -0.019186,
+    "nas": -0.024925,
+    "hsi": -0.008777,
+    "rmb": -0.002518,
+    "news": -0.062265,
+    "macro": -0.3402
+  },
+  "scenarios": [
+    {
+      "name": "base",
+      "label": "基准",
+      "prob_up": 0.4351,
+      "confidence": 0.571,
+      "delta": 0.0
+    },
+    {
+      "name": "bull",
+      "label": "上行扩张",
+      "prob_up": 0.4951,
+      "confidence": 0.781,
+      "delta": 0.06
+    },
+    {
+      "name": "bear",
+      "label": "下行压力",
+      "prob_up": 0.3671,
+      "confidence": 0.8092,
+      "delta": -0.0681
+    },
+    {
+      "name": "shock",
+      "label": "综合冲击",
+      "prob_up": 0.252,
+      "confidence": 0.85,
+      "delta": -0.1831
+    },
+    {
+      "name": "liquidity",
+      "label": "流动性冲击",
+      "prob_up": 0.3351,
+      "confidence": 0.85,
+      "delta": -0.1
+    },
+    {
+      "name": "geopolitical",
+      "label": "地缘风险",
+      "prob_up": 0.342,
+      "confidence": 0.85,
+      "delta": -0.0931
+    },
+    {
+      "name": "policy_stimulus",
+      "label": "政策刺激",
+      "prob_up": 0.5151,
+      "confidence": 0.85,
+      "delta": 0.08
+    },
+    {
+      "name": "rmb_shock",
+      "label": "人民币冲击",
+      "prob_up": 0.3651,
+      "confidence": 0.816,
+      "delta": -0.07
+    },
+    {
+      "name": "overseas_selloff",
+      "label": "海外急跌",
+      "prob_up": 0.3314,
+      "confidence": 0.85,
+      "delta": -0.1038
+    }
+  ],
+  "risk_flags": [
+    "下行压力情景一致偏弱",
+    null,
+    "海外同步走弱"
+  ],
+  "base_date": "2026-11-17",
+  "updated_at": "2026-11-17T07:16:51.501284Z"
+}
