@@ -41,7 +41,7 @@ class BrainScorecardTests(unittest.TestCase):
             "insufficient_evidence",
         )
 
-    def test_calibrated_duplicate_and_ensemble_are_excluded_from_brain_rank(self):
+    def test_calibrated_duplicate_is_excluded_but_chief_remains_ranked(self):
         rows = self._rows()
         extra = rows[rows.agent == "technical"].copy()
         extra["agent"] = "CHIEF_ANALYST_CALIBRATED"
@@ -49,7 +49,7 @@ class BrainScorecardTests(unittest.TestCase):
         chief["agent"] = "CHIEF_ANALYST"
         report = build_scorecard(pd.concat([rows, extra, chief], ignore_index=True))
         self.assertNotIn("CHIEF_ANALYST_CALIBRATED", report["brains"])
-        self.assertNotIn("CHIEF_ANALYST", report["brains"])
+        self.assertIn("CHIEF_ANALYST", report["brains"])
 
     def test_a9_specialists_are_separate_and_require_evidence(self):
         rows = self._rows()
