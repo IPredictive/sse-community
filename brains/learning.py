@@ -2,6 +2,7 @@ from db import load_scored
 from .postmortem import build_postmortem
 from .event_memory import event_weight_adjustments, build_event_memory
 from .similarity_memory import similarity_weight_adjustments, build_similarity_memory
+from .walkforward import evaluate_walk_forward
 
 MIN_SAMPLES = 8
 MAX_HISTORY = 80
@@ -43,6 +44,13 @@ def learned_weights(names, regime_label, event_label="normal_noise", as_of_date=
         return out
 
     historical_replay = as_of_date is not None and str(as_of_date)[:10] < all_latest_scored_date
+    # Live adaptive weights are enabled only after a sufficiently long strict
+    # walk-forward period beats the equal-weight baseline by a small margin.
+    # Until then, preserve neutral weights instead of rewarding noisy leaders.
+    if not historical_replay:
+        wf = evaluate_walk_forward(scored)
+        if int(wf.get("evaluation_dates", 0)) < 20 or float(wf.get("improvement_brier") or 0.0) <= 0.001:
+            return out
     # During historical replay, disable state builders that currently summarize
     # the full database; this prevents future postmortems/event/case memories
     # from contaminating a past forecast. Live forecasts can use matured memory.
