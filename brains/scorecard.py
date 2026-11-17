@@ -77,6 +77,12 @@ def build_scorecard(scored=None):
         metrics = _metrics(group)
         if metrics:
             brains[name] = metrics
+    regime_breakdown = {}
+    if "regime" in frame.columns:
+        for (brain, regime), group in frame[~frame.agent.isin(EXCLUDED)].groupby(["agent", "regime"]):
+            metrics = _metrics(group)
+            if metrics:
+                regime_breakdown.setdefault(str(brain), {})[str(regime)] = metrics
     ranking = sorted(
         [{"brain": name, **metrics} for name, metrics in brains.items() if metrics["rank_eligible"]],
         key=lambda x: (x["brier"], -x["accuracy"], -x["samples"])
@@ -112,12 +118,14 @@ def build_scorecard(scored=None):
         "scored_dates": int(frame.base_date.nunique()),
         "min_rank_samples": MIN_RANK_SAMPLES,
         "brains": brains,
+        "regime_breakdown": regime_breakdown,
         "ranking": ranking,
         "disagreements": disagreements[:60],
         "notes": [
             "只统计下一交易日收盘结果已知的预测。",
             "排名按 Brier 分数优先，准确率用于辅助；样本不足不参与排名。",
             "分歧统计只比较同一预测日、同一实际结果的已结算预测。",
+            "市场状态评分只使用预测当时记录的状态标签；缺少状态标签的旧记录不参与分状态评分。",
             "历史相关性和回测表现不保证未来收益。"
         ],
     }
