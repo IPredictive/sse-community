@@ -34,6 +34,7 @@ def learned_weights(names, regime_label, event_label="normal_noise", as_of_date=
         return out
 
     scored = scored.copy()
+    all_latest_scored_date = max(scored.base_date.astype(str).str[:10])
     scored["base_date"] = scored.base_date.astype(str).str[:10]
     if as_of_date is not None:
         cutoff = str(as_of_date)[:10]
@@ -41,8 +42,7 @@ def learned_weights(names, regime_label, event_label="normal_noise", as_of_date=
     if scored.empty:
         return out
 
-    latest_scored_date = max(scored.base_date.astype(str).str[:10])
-    historical_replay = as_of_date is not None and str(as_of_date)[:10] < latest_scored_date
+    historical_replay = as_of_date is not None and str(as_of_date)[:10] < all_latest_scored_date
     # During historical replay, disable state builders that currently summarize
     # the full database; this prevents future postmortems/event/case memories
     # from contaminating a past forecast. Live forecasts can use matured memory.
