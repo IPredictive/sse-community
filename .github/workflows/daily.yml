@@ -59,7 +59,7 @@ jobs:
         run: |
           git config user.name "sse-agents[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json data/brain_scorecard.json site/index.html
+          git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json data/brain_scorecard.json site/brain-scorecard.json site/index.html
           git diff --cached --quiet || git commit -m "data: daily SSE prediction and brain scorecard"
 
           # Preserve every learned state file across non-fast-forward retries.
@@ -89,7 +89,7 @@ jobs:
             cp /tmp/routing_state.json data/routing_state.json
             cp /tmp/brain_scorecard.json data/brain_scorecard.json
             python generate_site.py
-            git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json data/brain_scorecard.json site/index.html
+            git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json data/brain_scorecard.json site/brain-scorecard.json site/index.html
             git diff --cached --quiet || git commit -m "data: daily SSE prediction and brain scorecard"
             sleep 2
           done
