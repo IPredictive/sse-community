@@ -39,12 +39,17 @@ class AsOfLearningTests(unittest.TestCase):
     @patch("brains.learning.event_weight_adjustments", return_value={})
     @patch("brains.learning.build_postmortem", return_value={"agents": {}})
     @patch("brains.learning.load_scored")
-    def test_regime_history_changes_weight_only_after_minimum_samples(self, load, *_):
+    def test_regime_history_changes_weight_after_minimum_samples(self, load, *_):
         rows = self._history().query("base_date < '2026-01-13'").copy()
-        load.return_value = rows
+        extra = []
+        for i in range(12):
+            extra.append({"base_date": f"2026-01-{i+1:02d}", "agent": "technical",
+                          "prob_up": .8, "went_up": 1, "correct": 1, "brier": .04,
+                          "regime": "震荡"})
+        load.return_value = pd.concat([rows, pd.DataFrame(extra)], ignore_index=True)
         down = learned_weights(["technical"], "下行趋势", as_of_date="2026-01-13")
         sideways = learned_weights(["technical"], "震荡", as_of_date="2026-01-13")
-        self.assertEqual(down["technical"], sideways["technical"])
+        self.assertNotEqual(down["technical"], sideways["technical"])
 
 
 if __name__ == "__main__":
