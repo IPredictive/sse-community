@@ -14,7 +14,7 @@ from .walkforward import evaluate_walk_forward
 PATH = Path(__file__).parent.parent / "data" / "brain_scorecard.json"
 MIN_RANK_SAMPLES = 5
 MIN_REGIME_SAMPLES = 8
-EXCLUDED = {"CHIEF_ANALYST_CALIBRATED", "A9_SUPER_CHIEF", "CHIEF_ANALYST", "chief_super"}
+EXCLUDED = {"CHIEF_ANALYST_CALIBRATED", "A9_SUPER_CHIEF", "chief_super"}
 A9_SPECIALISTS = (
     "technical", "quant", "market_structure", "macro",
     "policy", "geopolitical", "global", "money_sentiment",
@@ -100,7 +100,7 @@ def _a9_scorecards(frame):
 def _risk_review_history(frame, limit=30):
     """Historical settled-date disagreement audit; never mixes unsettled outcomes."""
     rows = []
-    specialists = frame[~frame.agent.astype(str).isin(EXCLUDED)].copy()
+    specialists = frame[~frame.agent.astype(str).isin(EXCLUDED | {"CHIEF_ANALYST"})].copy()
     for date, day in specialists.groupby("base_date", sort=True):
         a9 = day[day.agent.astype(str).str.startswith("A9_") &
                  (day.agent.astype(str) != "A9_SUPER_CHIEF")]
