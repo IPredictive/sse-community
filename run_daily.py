@@ -9,6 +9,8 @@ from db import init_db, load_daily, save_prediction, upsert_daily, refresh_predi
 from ensemble import combine
 from agnes_brain import review_forecast, format_review
 from market_regime import classify_market_regime
+from brains.engine import run_a9_brain
+from brains.fusion import fuse
 
 
 def predict_for(df, context=None, enable_agnes_review=False):
@@ -27,6 +29,15 @@ def predict_for(df, context=None, enable_agnes_review=False):
             save_prediction(base, agent.name, prediction.prob_up, prediction.reason, prediction.confidence)
 
     ensemble = combine(preds, context)
+    a9_results = run_a9_brain(df, context)
+    a9_chief = next((r for r in a9_results if r.name == "chief_super"), None)
+    if a9_chief:
+        for r in a9_results:
+            save_prediction(base, "A9_" + r.name, r.prob_up, r.reason, r.confidence)
+        a9_prediction = type(ensemble)(a9_chief.prob_up, a9_chief.reason, a9_chief.confidence) if ensemble else None
+    else:
+        a9_prediction = None
+    ensemble = fuse(ensemble, a9_prediction, context)
     if ensemble:
         # Phase 1 fusion: AGNES reviews and challenges the analysis, but does not
         # change the ensemble probability until the review has been backtested.
@@ -55,13 +66,15 @@ def predict_for(df, context=None, enable_agnes_review=False):
                 ensemble.reason = (str(ensemble.reason) + "；" + review_note)[:1200]
 
         save_prediction(base, "CHIEF_ANALYST", ensemble.prob_up, ensemble.reason, ensemble.confidence)
+        save_prediction(base, "A9_SUPER_CHIEF", a9_prediction.prob_up, a9_prediction.reason, a9_prediction.confidence) if a9_prediction else None
         print(f"\n===== SSE DAILY AI REPORT {base} =====")
         for name, prediction in preds.items():
             print(
                 f"{name:10s}  上涨概率={prediction.prob_up:.1%}  "
                 f"信心={prediction.confidence:.1%}  理由={prediction.reason}"
             )
-        print(f"CHIEF ANALYST 上涨概率={ensemble.prob_up:.1%}  信心={ensemble.confidence:.1%}")
+        print(f"A9 SUPER CHIEF 上涨概率={(a9_prediction.prob_up if a9_prediction else ensemble.prob_up):.1%}  信心={(a9_prediction.confidence if a9_prediction else ensemble.confidence):.1%}")
+        print(f"CHIEF ANALYST 闭环上涨概率={ensemble.prob_up:.1%}  信心={ensemble.confidence:.1%}")
         print(f"综合理由：{ensemble.reason}")
         print("====================================")
 
