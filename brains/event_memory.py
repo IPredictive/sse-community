@@ -133,7 +133,7 @@ def event_weight_adjustments(names, event_label):
         return {name: 1.0 for name in names}
     out = {}
     for name in names:
-        stats = memory.get("by_brain", {}).get(name, {}).get(str(event_label), {})
+        stats = (memory.get("by_brain", {}).get("A9_" + name, {}) or memory.get("by_brain", {}).get(name, {})).get(str(event_label), {})
         n = int(stats.get("samples", 0))
         if n < MIN_EVENT_SAMPLES:
             out[name] = 1.0
