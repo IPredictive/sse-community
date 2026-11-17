@@ -1,6 +1,7 @@
 from db import load_scored
 from .postmortem import build_postmortem
 from .event_memory import event_weight_adjustments, build_event_memory
+from .similarity_memory import similarity_weight_adjustments, build_similarity_memory
 
 MIN_SAMPLES=8
 MAX_HISTORY=80
@@ -29,6 +30,7 @@ def learned_weights(names,regime_label,event_label="normal_noise"):
         return out
     post=build_postmortem().get("agents",{})
     event_adjust=event_weight_adjustments(names,event_label)
+    similarity_adjust=similarity_weight_adjustments(names)
     for name in names:
         rows=scored[scored.agent.astype(str)==name]
         global_skill=_skill(rows)
@@ -47,7 +49,7 @@ def learned_weights(names,regime_label,event_label="normal_noise"):
         if float(pm.get("severe_error_rate",0))>=.45:
             penalty-=.03
         base=max(.65,min(1.35,1+.35*skill))*max(.85,penalty)
-        out[name]=round(base*event_adjust.get(name,1.0),4)
+        out[name]=round(base*event_adjust.get(name,1.0)*similarity_adjust.get(name,1.0),4)
     return out
 
 def learning_report(regime_label="未知",event_label="normal_noise"):
@@ -59,11 +61,16 @@ def learning_report(regime_label="未知",event_label="normal_noise"):
         weights=learned_weights(names,regime_label,event_label)
         post=build_postmortem().get("agents",{})
         event_memory=build_event_memory()
+        similarity=build_similarity_memory()
         return {
             "sample_count":int(len(scored)),
             "event_label":event_label,
             "event_samples":int(event_memory.get("events",{}).get(event_label,{}).get("samples",0)),
-            "brains":{n:{"weight":round(weights[n],3),"postmortem":post.get(n,{})} for n in names}
+            "similarity_as_of":similarity.get("as_of"),
+            "similarity_matched_samples":similarity.get("matched_samples",0),
+            "nearest_cases":similarity.get("nearest_cases",[]),
+            "brains":{n:{"weight":round(weights[n],3),"postmortem":post.get(n,{}),
+                         "similar_cases":similarity.get("brains",{}).get(n,{})} for n in names}
         }
     except Exception as exc:
         print(f"[learning-report] failed: {exc}")
