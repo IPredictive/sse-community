@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 
 from brains.dashboard import build_brain_dashboard
+from brains.performance import persist_performance_history
+from brains.performance_dashboard import build_performance_dashboard
 
 from db import init_db, load_daily, load_predictions, load_scored
 from ensemble import evidence_quality, adaptive_weights, stabilize_extreme
@@ -172,6 +174,8 @@ def main():
     brain_dashboard_html = build_brain_dashboard(
         scorecard, live_predictions, latest, routing_state.get("regime", "未知")
     )
+    performance_history = persist_performance_history(s, p)
+    performance_dashboard_html = build_performance_dashboard(performance_history)
 
     # --- Decision breakdown: reproduce ensemble's weighting inputs ---
     try:
@@ -735,6 +739,7 @@ h1::first-letter{color:#f6f8ff}
  .app-install{right:10px!important;bottom:calc(72px + env(safe-area-inset-bottom))!important;padding:7px 9px!important;font-size:10px!important}
 }
 
+ .ph-compare{margin-top:16px;padding:14px;border:1px solid #30415b;border-radius:12px;background:#101a2a}.ph-compare h3{font-size:14px;margin:0 0 6px}.ph-compare p{font-size:11px;color:#9aa8bb;line-height:1.6}.ph-compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ph-compare-grid>div{display:grid;gap:7px;padding:10px;background:#0d1522;border-radius:9px}.ph-compare-grid b{font-size:11px;color:#e6edf8}.ph-compare-grid strong{font-size:12px;color:#8fe0bd}.ph-center{max-width:1240px;margin:22px auto;padding:20px;background:linear-gradient(145deg,#111b2c,#0b111c);border:1px solid #30415b;border-radius:18px;color:#f4f7fb;overflow:hidden}.ph-head{display:flex;justify-content:space-between;gap:16px;align-items:center}.ph-head span{font-size:10px;letter-spacing:.14em;color:#ffd166;font-weight:800}.ph-head h2{font-size:22px;margin:7px 0}.ph-head p,.ph-risk p,.ph-note{font-size:11px;line-height:1.7;color:#9aa8bb}.ph-head a{color:#8fc5ff;font-size:11px}.ph-legend{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0;color:#aebdd0;font-size:10px}.ph-table-head,.ph-row{display:grid;grid-template-columns:1.15fr .9fr .95fr .7fr 1.05fr .7fr 1.05fr;gap:8px;align-items:center}.ph-table-head{padding:8px 5px;border-bottom:1px solid #33435b;color:#8193ad;font-size:10px}.ph-row{padding:10px 5px;border-bottom:1px solid #26364d;font-size:11px}.ph-row b{color:#e8f0fb}.ph-row strong{color:#8fe0bd;font-variant-numeric:tabular-nums}.ph-row small{grid-column:1/-1;color:#8293aa;font-size:10px}.ph-spark{width:100%;height:30px;overflow:visible}.ph-spark text{fill:#aebdd0;font-size:8px}.ph-empty{color:#aebbd0;font-size:11px;padding:14px}.ph-risk{margin-top:20px;padding-top:12px;border-top:1px solid #2b3b52}.ph-risk h3{font-size:14px;margin:0}.ph-risk-row{display:grid;grid-template-columns:1fr 1fr .8fr 1fr 1.2fr;gap:8px;padding:9px 4px;border-bottom:1px solid #26364d;font-size:11px}.ph-risk-row strong{color:#8fc5ff}.ph-risk-row em{font-style:normal;color:#8fe0bd}.ph-risk-row em.hot{color:#ff9a9a}.ph-note{margin-top:12px;padding:10px;background:#111e30;border-radius:10px}@media(max-width:760px){.ph-center{margin:16px 12px;padding:13px}.ph-head{align-items:flex-start;flex-direction:column}.ph-table-head{display:none}.ph-row{grid-template-columns:1fr 1fr;gap:6px}.ph-row b{grid-column:1/-1}.ph-row small{grid-column:1/-1}.ph-spark{min-height:30px}.ph-risk-row{grid-template-columns:1fr 1fr}.ph-risk-row em{grid-column:1/-1}}
 </style></head>
 <body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap" id="home">
 
@@ -754,7 +759,7 @@ h1::first-letter{color:#f6f8ff}
 
 
 
-__BRAIN_CENTER__\n\n<section class="section human-game" id="game" data-human-game>
+__BRAIN_CENTER__\n\n__BRAIN_PERFORMANCE__\n\n<section class="section human-game" id="game" data-human-game>
   <div class="human-hero">
     <div>
       <div class="human-kicker">🎯 YOUR MOVE</div>
@@ -811,7 +816,7 @@ __PRICE_SVG__
   <button type="button" data-account><span class="nav-icon">👤</span><span>我的</span></button>
 </nav>
 
-</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261117-nine-brain-dashboard";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014indexchiefside",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>\n</body></html>"""
+</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261117-nine-brain-performance-history";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014indexchiefside",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>\n</body></html>"""
 
     def ai_prob(k):
         return f"{float(analyst_rows[k].prob_up)*100:.1f}%" if k in analyst_rows else "—"
@@ -852,6 +857,7 @@ __PRICE_SVG__
     for key, value in replacements.items():
         html_doc = html_doc.replace(key, value)
     html_doc = html_doc.replace("__BRAIN_CENTER__", brain_dashboard_html)
+    html_doc = html_doc.replace("__BRAIN_PERFORMANCE__", performance_dashboard_html)
     html_doc = html_doc.replace("CONF_WIDTH", f"{conf_width:.1f}")
     html_doc = html_doc.replace("GAUGE_ROTATION", f"{gauge_rotation:.1f}")
     html_doc = html_doc.replace("GAUGE_ROTATION", f"{gauge_rotation:.1f}")
