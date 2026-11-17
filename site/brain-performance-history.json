@@ -3417,7 +3417,7 @@
       "date": "2026-11-17",
       "family": "A9",
       "brain_count": 8,
-      "probability_spread": 0.228528,
+      "probability_spread": 0.161028,
       "direction_disagreement": 2,
       "triggered": false,
       "threshold": 0.35
