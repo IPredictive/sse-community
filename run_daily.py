@@ -13,6 +13,7 @@ from brains.engine import run_a9_brain
 from brains.fusion import fuse
 from brains.feedback import persist_learning
 from brains.scenario_feedback import persist_scenario
+from brains.event_memory import current_event
 
 
 def predict_for(df, context=None, enable_agnes_review=False):
@@ -75,6 +76,7 @@ def predict_for(df, context=None, enable_agnes_review=False):
             print(f"{name:10s}  上涨概率={prediction.prob_up:.1%}  信心={prediction.confidence:.1%}  理由={prediction.reason}")
         print(f"A9 SUPER CHIEF 上涨概率={(a9_prediction.prob_up if a9_prediction else ensemble.prob_up):.1%}  信心={(a9_prediction.confidence if a9_prediction else ensemble.confidence):.1%}")
         print(f"CHIEF ANALYST 闭环上涨概率={ensemble.prob_up:.1%}  信心={ensemble.confidence:.1%}")
+        print(f"事件记忆：{context.get('event_label','normal_noise')}")
         print(f"压力测试：下行情景均值={scenario.get('downside_stress_avg',0.5):.1%}；风险标记={scenario.get('risk_flags',[])}")
         print(f"综合理由：{ensemble.reason}")
         print("====================================")
@@ -95,10 +97,12 @@ def main():
 
     context = {} if args.no_news else build_context(as_of_date=df.date.iloc[-1])
     context["market_regime"] = classify_market_regime(df)
+    context["event_label"] = current_event(df, context)
     regime = context["market_regime"]
-    learning = persist_learning(regime.get("label", "未知"))
+    learning = persist_learning(regime.get("label", "未知"), context["event_label"])
     context["learning"] = learning
     print("[MARKET-REGIME] " + regime["label"] + ": " + regime["detail"])
+    print("[EVENT-MEMORY] current event=" + context["event_label"])
 
     for offset in range(args.backfill, 0, -1):
         predict_for(df.iloc[: len(df) - offset], {} if args.backfill else context, enable_agnes_review=False)
