@@ -22,6 +22,12 @@ def _family(agent):
     return "traditional" if agent in TRADITIONAL_KEYS else "other"
 
 
+def _log_loss(probability, outcome):
+    p = max(1e-9, min(1 - 1e-9, float(probability)))
+    y = int(outcome)
+    return -(y * math.log(p) + (1-y) * math.log(1-p))
+
+
 def build_performance_history(scored, predictions=None, limit=180):
     """One record per matured brain/date, plus a separate daily risk time series."""
     records = []
@@ -30,6 +36,8 @@ def build_performance_history(scored, predictions=None, limit=180):
         frame["base_date"] = frame.base_date.astype(str).str[:10]
         frame["agent"] = frame.agent.astype(str)
         for agent, group in frame.groupby("agent", sort=True):
+            if agent in {"CHIEF_ANALYST_CALIBRATED", "chief_super"}:
+                continue
             group = group.sort_values("base_date").drop_duplicates("base_date", keep="last")
             correct = group.correct.astype(float).tolist()
             briers = group.brier.astype(float).tolist()
@@ -81,8 +89,63 @@ def build_performance_history(scored, predictions=None, limit=180):
                 "triggered": spread >= .35,
                 "threshold": .35,
             })
+    paired_daily = []
+    if scored is not None and not scored.empty:
+        pair_frame = scored.copy()
+        pair_frame["base_date"] = pair_frame.base_date.astype(str).str[:10]
+        a9_chief = pair_frame[pair_frame.agent.astype(str) == "A9_SUPER_CHIEF"]
+        legacy_chief = pair_frame[pair_frame.agent.astype(str) == "CHIEF_ANALYST"]
+        paired = a9_chief.merge(
+            legacy_chief, on="base_date", suffixes=("_a9", "_traditional")
+        ).sort_values("base_date")
+        for _, row in paired.iterrows():
+            paired_daily.append({
+                "date": row.base_date,
+                "regime": str(row.get("regime_a9") or row.get("regime_traditional") or "未知"),
+                "a9_correct": int(row.correct_a9),
+                "traditional_correct": int(row.correct_traditional),
+                "a9_brier": round(float(row.brier_a9), 6),
+                "traditional_brier": round(float(row.brier_traditional), 6),
+                "a9_log_loss": round(_log_loss(row.prob_up_a9, row.went_up_a9), 6),
+                "traditional_log_loss": round(_log_loss(row.prob_up_traditional, row.went_up_traditional), 6),
+            })
+    paired_n = len(paired_daily)
+    def paired_metrics(key):
+        if not paired_daily:
+            return None
+        return {
+            "samples": paired_n,
+            "accuracy": round(sum(x[key + "_correct"] for x in paired_daily) / paired_n, 4),
+            "brier": round(sum(x[key + "_brier"] for x in paired_daily) / paired_n, 6),
+            "log_loss": round(sum(x[key + "_log_loss"] for x in paired_daily) / paired_n, 6),
+        }
+    regime_pairs = {}
+    for regime in sorted({x["regime"] for x in paired_daily}):
+        subset = [x for x in paired_daily if x["regime"] == regime]
+        regime_pairs[regime] = {
+            "samples": len(subset),
+            "a9_brier": round(sum(x["a9_brier"] for x in subset) / len(subset), 6),
+            "traditional_brier": round(sum(x["traditional_brier"] for x in subset) / len(subset), 6),
+            "evidence_status": "eligible" if len(subset) >= 10 else "insufficient_evidence",
+        }
+    comparison = {
+        "method": "same_date_A9_SUPER_CHIEF_vs_CHIEF_ANALYST",
+        "paired_dates": paired_n,
+        "minimum_paired_dates": 30,
+        "status": "provisional_comparison" if paired_n >= 30 else "collecting",
+        "a9": paired_metrics("a9"),
+        "traditional": paired_metrics("traditional"),
+        "brier_delta_a9_minus_traditional": (
+            round(paired_metrics("a9")["brier"] - paired_metrics("traditional")["brier"], 6)
+            if paired_n else None
+        ),
+        "regimes": regime_pairs,
+        "paired_daily": paired_daily[-180:],
+        "note": "30个同日期成熟配对样本后才开放描述性比较；每个市场状态至少10个配对样本才显示状态比较。样本门槛不等于统计显著性，不自动宣称胜出。",
+    }
     return {
         "schema_version": 1,
+        "paired_comparison": comparison,
         "method": "matured_next_session_outcomes_only",
         "record_count": len(records),
         "risk_days": len(risks),
