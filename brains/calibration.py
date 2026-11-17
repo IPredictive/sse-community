@@ -1,5 +1,7 @@
 """Conservative probability calibration and leakage-free walk-forward evaluation.
 
+# Production deployment trigger: keep calibration changes auditable and immutable.
+
 Only matured forecasts from dates strictly before the target forecast date may
 train a calibration mapping. Raw probabilities remain immutable and auditable.
 """
