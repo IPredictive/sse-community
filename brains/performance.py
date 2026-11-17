@@ -1,6 +1,7 @@
 """Immutable-outcome daily performance and risk history for A9 and legacy brains."""
 import json
 import math
+import random
 from pathlib import Path
 
 DATA_PATH = Path(__file__).parent.parent / "data" / "brain_performance_history.json"
@@ -26,6 +27,25 @@ def _log_loss(probability, outcome):
     p = max(1e-9, min(1 - 1e-9, float(probability)))
     y = int(outcome)
     return -(y * math.log(p) + (1-y) * math.log(1-p))
+
+
+def _block_bootstrap_ci(values, block_size=5, iterations=1000):
+    """Deterministic moving-block bootstrap CI for paired daily Brier deltas."""
+    n = len(values)
+    if n < 60:
+        return None
+    rng = random.Random(20261117)
+    blocks = [values[i:i + block_size] for i in range(max(1, n - block_size + 1))]
+    estimates = []
+    for _ in range(iterations):
+        sample = []
+        while len(sample) < n:
+            sample.extend(rng.choice(blocks))
+        sample = sample[:n]
+        estimates.append(sum(sample) / n)
+    estimates.sort()
+    return [round(estimates[int(.025 * (iterations - 1))], 6),
+            round(estimates[int(.975 * (iterations - 1))], 6)]
 
 
 def build_performance_history(scored, predictions=None, limit=180):
@@ -128,11 +148,25 @@ def build_performance_history(scored, predictions=None, limit=180):
             "traditional_brier": round(sum(x["traditional_brier"] for x in subset) / len(subset), 6),
             "evidence_status": "eligible" if len(subset) >= 10 else "insufficient_evidence",
         }
+    brier_deltas = [x["a9_brier"] - x["traditional_brier"] for x in paired_daily]
+    brier_ci = _block_bootstrap_ci(brier_deltas)
+    if paired_n < 30:
+        comparison_status = "collecting"
+    elif paired_n < 60:
+        comparison_status = "provisional_comparison"
+    elif brier_ci[1] < 0:
+        comparison_status = "evidence_favors_a9"
+    elif brier_ci[0] > 0:
+        comparison_status = "evidence_favors_traditional"
+    else:
+        comparison_status = "no_clear_brier_advantage"
     comparison = {
         "method": "same_date_A9_SUPER_CHIEF_vs_CHIEF_ANALYST",
         "paired_dates": paired_n,
-        "minimum_paired_dates": 30,
-        "status": "provisional_comparison" if paired_n >= 30 else "collecting",
+        "minimum_paired_dates": 60,
+        "descriptive_threshold": 30,
+        "status": comparison_status,
+        "paired_brier_delta_ci95_block5": brier_ci,
         "a9": paired_metrics("a9"),
         "traditional": paired_metrics("traditional"),
         "brier_delta_a9_minus_traditional": (
@@ -141,7 +175,7 @@ def build_performance_history(scored, predictions=None, limit=180):
         ),
         "regimes": regime_pairs,
         "paired_daily": paired_daily[-180:],
-        "note": "30个同日期成熟配对样本后才开放描述性比较；每个市场状态至少10个配对样本才显示状态比较。样本门槛不等于统计显著性，不自动宣称胜出。",
+        "note": "30个配对日期仅开放描述性观察；至少60个同日期成熟配对样本后，才使用5日移动区块Bootstrap 95%区间评估Brier差异。区间跨0则不判胜负；市场状态至少10个配对样本才展示分层指标。",
     }
     return {
         "schema_version": 1,
