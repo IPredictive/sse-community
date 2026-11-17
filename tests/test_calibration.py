@@ -41,6 +41,18 @@ class CalibrationTests(unittest.TestCase):
         self.assertIn("raw_brier", metrics)
         self.assertIn("calibrated_brier", metrics)
 
+    def test_backtest_does_not_double_calibrate_published_rows(self):
+        rows = []
+        for i in range(35):
+            rows.append({
+                "base_date": f"2026-01-{i + 1:02d}",
+                "agent": "CHIEF_ANALYST_CALIBRATED",
+                "prob_up": 0.60,
+                "went_up": i % 2,
+            })
+        report = walk_forward_backtest(pd.DataFrame(rows))
+        self.assertNotIn("CHIEF_ANALYST_CALIBRATED", report["brains"])
+
     def test_insufficient_history_leaves_raw_probability_unchanged(self):
         history = pd.DataFrame([{
             "base_date": "2026-01-01", "prob_up": 0.7, "went_up": 1
