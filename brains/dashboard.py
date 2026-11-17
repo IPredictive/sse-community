@@ -127,7 +127,7 @@ def build_brain_dashboard(scorecard, predictions, latest_date, current_regime):
         candidates.sort(key=lambda item: (item[0], -float(item[2].get("accuracy", 0))))
         if candidates:
             _, winner, metrics = candidates[0]
-            display = A9_NAMES.get(winner.removeprefix("A9_"), TRADITIONAL_NAMES.get(winner, winner))
+            display = ("A9 " + A9_NAMES.get(winner.removeprefix("A9_"), winner)) if winner.startswith("A9_") else ("传统 " + TRADITIONAL_NAMES.get(winner, winner))
             regimes.append(
                 f'<div class="nb-regime-row"><b>{_safe(regime)}</b>'
                 f'<span>当前样本较充分的领先脑：{_safe(display)}</span>'
