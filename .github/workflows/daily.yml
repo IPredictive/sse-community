@@ -37,6 +37,11 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      - name: Validate Python and calibration logic
+        run: |
+          python -m compileall -q .
+          python -m unittest discover -s tests -v
+
       - name: Sync latest main before generation
         run: git pull --rebase origin main
 
@@ -54,7 +59,7 @@ jobs:
         run: |
           git config user.name "sse-agents[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/scenario_state.json site/index.html
+          git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json site/index.html
           git diff --cached --quiet || git commit -m "data: daily SSE prediction"
 
           # Preserve generated learning state across non-fast-forward retries.
@@ -68,6 +73,7 @@ jobs:
             cp data/postmortem_state.json /tmp/postmortem_state.json
             cp data/event_memory.json /tmp/event_memory.json
             cp data/similarity_memory.json /tmp/similarity_memory.json
+            cp data/calibration_state.json /tmp/calibration_state.json
             cp data/scenario_state.json /tmp/scenario_state.json
             git fetch origin main
             git reset --hard origin/main
@@ -76,9 +82,10 @@ jobs:
             cp /tmp/postmortem_state.json data/postmortem_state.json
             cp /tmp/event_memory.json data/event_memory.json
             cp /tmp/similarity_memory.json data/similarity_memory.json
+            cp /tmp/calibration_state.json data/calibration_state.json
             cp /tmp/scenario_state.json data/scenario_state.json
             python generate_site.py
-            git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/scenario_state.json site/index.html
+            git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json site/index.html
             git diff --cached --quiet || git commit -m "data: daily SSE prediction"
             sleep 2
           done
