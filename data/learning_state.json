@@ -1,10 +1,10 @@
 {
   "regime": "下行趋势",
-  "event_label": "overseas",
+  "event_label": "policy_macro",
   "report": {
     "sample_count": 174,
-    "event_label": "overseas",
-    "event_samples": 0,
+    "event_label": "policy_macro",
+    "event_samples": 54,
     "similarity_as_of": "2026-11-17",
     "similarity_matched_samples": 174,
     "nearest_cases": [
@@ -51,7 +51,7 @@
     ],
     "brains": {
       "CHIEF_ANALYST": {
-        "weight": 1.023,
+        "weight": 1.022,
         "postmortem": {
           "samples": 20,
           "accuracy": 0.6,
@@ -89,7 +89,7 @@
         }
       },
       "macro": {
-        "weight": 0.854,
+        "weight": 0.851,
         "postmortem": {
           "samples": 20,
           "accuracy": 0.35,

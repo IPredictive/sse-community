@@ -1,8 +1,8 @@
 {
-  "base_prob_up": 0.435,
-  "stress_adjusted_prob_up": 0.5271,
-  "scenario_penalty": 0.0921,
-  "downside_stress_avg": 0.3325,
+  "base_prob_up": 0.453,
+  "stress_adjusted_prob_up": 0.5353,
+  "scenario_penalty": 0.0822,
+  "downside_stress_avg": 0.3505,
   "regime": "下行趋势",
   "features": {
     "t20": -0.040368,
@@ -11,71 +11,71 @@
     "sp": -0.019186,
     "nas": -0.024925,
     "hsi": -0.010342,
-    "rmb": -0.002518,
+    "rmb": -0.000824,
     "news": 0.0,
-    "macro": 0.0
+    "macro": 0.08
   },
   "scenarios": [
     {
       "name": "base",
       "label": "基准",
-      "prob_up": 0.435,
+      "prob_up": 0.453,
       "confidence": 0.571,
       "delta": 0.0
     },
     {
       "name": "bull",
       "label": "上行扩张",
-      "prob_up": 0.495,
-      "confidence": 0.781,
-      "delta": 0.06
+      "prob_up": 0.5226,
+      "confidence": 0.8146,
+      "delta": 0.0696
     },
     {
       "name": "bear",
       "label": "下行压力",
-      "prob_up": 0.3669,
+      "prob_up": 0.385,
       "confidence": 0.8092,
       "delta": -0.0681
     },
     {
       "name": "shock",
       "label": "综合冲击",
-      "prob_up": 0.2518,
+      "prob_up": 0.2699,
       "confidence": 0.85,
       "delta": -0.1831
     },
     {
       "name": "liquidity",
       "label": "流动性冲击",
-      "prob_up": 0.335,
+      "prob_up": 0.353,
       "confidence": 0.85,
       "delta": -0.1
     },
     {
       "name": "geopolitical",
       "label": "地缘风险",
-      "prob_up": 0.345,
+      "prob_up": 0.363,
       "confidence": 0.85,
       "delta": -0.09
     },
     {
       "name": "policy_stimulus",
       "label": "政策刺激",
-      "prob_up": 0.515,
+      "prob_up": 0.537,
       "confidence": 0.85,
-      "delta": 0.08
+      "delta": 0.084
     },
     {
       "name": "rmb_shock",
       "label": "人民币冲击",
-      "prob_up": 0.365,
+      "prob_up": 0.383,
       "confidence": 0.816,
       "delta": -0.07
     },
     {
       "name": "overseas_selloff",
       "label": "海外急跌",
-      "prob_up": 0.3311,
+      "prob_up": 0.3492,
       "confidence": 0.85,
       "delta": -0.1038
     }
@@ -86,5 +86,5 @@
     "海外同步走弱"
   ],
   "base_date": "2026-11-17",
-  "updated_at": "2026-11-17T10:59:05.296836Z"
+  "updated_at": "2026-11-17T11:02:41.469284Z"
 }
