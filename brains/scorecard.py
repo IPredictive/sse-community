@@ -10,6 +10,7 @@ from pathlib import Path
 
 import pandas as pd
 from db import load_scored
+from .walkforward import evaluate_walk_forward
 
 PATH = Path(__file__).parent.parent / "data" / "brain_scorecard.json"
 MIN_RANK_SAMPLES = 5
@@ -120,6 +121,7 @@ def build_scorecard(scored=None):
         "brains": brains,
         "regime_breakdown": regime_breakdown,
         "ranking": ranking,
+        "walk_forward": evaluate_walk_forward(frame),
         "disagreements": disagreements[:60],
         "notes": [
             "只统计下一交易日收盘结果已知的预测。",
