@@ -12,6 +12,7 @@ from market_regime import classify_market_regime
 from brains.engine import run_a9_brain
 from brains.fusion import fuse
 from brains.feedback import persist_learning
+from brains.scenario_feedback import persist_scenario
 
 
 def predict_for(df, context=None, enable_agnes_review=False):
@@ -31,6 +32,9 @@ def predict_for(df, context=None, enable_agnes_review=False):
 
     ensemble = combine(preds, context)
     a9_results = run_a9_brain(df, context)
+    scenario = context.get("scenario", {}) or {}
+    persist_scenario(dict(scenario, base_date=str(base)))
+
     a9_chief = next((r for r in a9_results if r.name == "chief_super"), None)
     if a9_chief:
         for r in a9_results:
@@ -38,14 +42,11 @@ def predict_for(df, context=None, enable_agnes_review=False):
         a9_prediction = type(ensemble)(a9_chief.prob_up, a9_chief.reason, a9_chief.confidence) if ensemble else None
     else:
         a9_prediction = None
+
     ensemble = fuse(ensemble, a9_prediction, context)
     if ensemble:
-        # Phase 1 fusion: AGNES reviews and challenges the analysis, but does not
-        # change the ensemble probability until the review has been backtested.
         if enable_agnes_review:
             review = review_forecast(base, df, preds, ensemble, context)
-            # Keep AGNES as an independent reviewer: store its structured output
-            # separately so it can be audited/backtested without changing the ensemble probability.
             if not os.getenv("AGNES_API_KEY", "").strip():
                 review_status = "skipped"
                 review_error = "AGNES_API_KEY is not configured"
@@ -58,8 +59,7 @@ def predict_for(df, context=None, enable_agnes_review=False):
             save_agnes_review(
                 base, review_status,
                 model=(os.getenv("AGNES_MODEL") or "agnes-3.0-flash").strip(),
-                review=review,
-                error=review_error,
+                review=review, error=review_error,
             )
             print(f"[AGNES-AUDIT] date={base} status={review_status} model={(os.getenv('AGNES_MODEL') or 'agnes-3.0-flash').strip()}")
             review_note = format_review(review)
@@ -67,15 +67,15 @@ def predict_for(df, context=None, enable_agnes_review=False):
                 ensemble.reason = (str(ensemble.reason) + "；" + review_note)[:1200]
 
         save_prediction(base, "CHIEF_ANALYST", ensemble.prob_up, ensemble.reason, ensemble.confidence)
-        save_prediction(base, "A9_SUPER_CHIEF", a9_prediction.prob_up, a9_prediction.reason, a9_prediction.confidence) if a9_prediction else None
+        if a9_prediction:
+            save_prediction(base, "A9_SUPER_CHIEF", a9_prediction.prob_up, a9_prediction.reason, a9_prediction.confidence)
+
         print(f"\n===== SSE DAILY AI REPORT {base} =====")
         for name, prediction in preds.items():
-            print(
-                f"{name:10s}  上涨概率={prediction.prob_up:.1%}  "
-                f"信心={prediction.confidence:.1%}  理由={prediction.reason}"
-            )
+            print(f"{name:10s}  上涨概率={prediction.prob_up:.1%}  信心={prediction.confidence:.1%}  理由={prediction.reason}")
         print(f"A9 SUPER CHIEF 上涨概率={(a9_prediction.prob_up if a9_prediction else ensemble.prob_up):.1%}  信心={(a9_prediction.confidence if a9_prediction else ensemble.confidence):.1%}")
         print(f"CHIEF ANALYST 闭环上涨概率={ensemble.prob_up:.1%}  信心={ensemble.confidence:.1%}")
+        print(f"压力测试：下行情景均值={scenario.get('downside_stress_avg',0.5):.1%}；风险标记={scenario.get('risk_flags',[])}")
         print(f"综合理由：{ensemble.reason}")
         print("====================================")
 
@@ -96,9 +96,10 @@ def main():
     context = {} if args.no_news else build_context(as_of_date=df.date.iloc[-1])
     context["market_regime"] = classify_market_regime(df)
     regime = context["market_regime"]
-    learning = persist_learning(regime.get("label","未知"))
+    learning = persist_learning(regime.get("label", "未知"))
     context["learning"] = learning
     print("[MARKET-REGIME] " + regime["label"] + ": " + regime["detail"])
+
     for offset in range(args.backfill, 0, -1):
         predict_for(df.iloc[: len(df) - offset], {} if args.backfill else context, enable_agnes_review=False)
 
