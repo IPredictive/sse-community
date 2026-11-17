@@ -1,0 +1,84 @@
+{
+  "as_of": "2026-11-17",
+  "matched_samples": 174,
+  "brains": {
+    "CHIEF_ANALYST": {
+      "neighbors": 29,
+      "weighted_accuracy": 0.5556,
+      "weighted_brier": 0.2539,
+      "avg_similarity": 0.8296
+    },
+    "flow": {
+      "neighbors": 29,
+      "weighted_accuracy": 0.6196,
+      "weighted_brier": 0.2537,
+      "avg_similarity": 0.8296
+    },
+    "macro": {
+      "neighbors": 29,
+      "weighted_accuracy": 0.3352,
+      "weighted_brier": 0.2703,
+      "avg_similarity": 0.8296
+    },
+    "overseas": {
+      "neighbors": 29,
+      "weighted_accuracy": 0.4507,
+      "weighted_brier": 0.2623,
+      "avg_similarity": 0.8296
+    },
+    "sentiment": {
+      "neighbors": 29,
+      "weighted_accuracy": 0.439,
+      "weighted_brier": 0.2563,
+      "avg_similarity": 0.8296
+    },
+    "technical": {
+      "neighbors": 29,
+      "weighted_accuracy": 0.5305,
+      "weighted_brier": 0.3685,
+      "avg_similarity": 0.8296
+    }
+  },
+  "nearest_cases": [
+    {
+      "date": "2026-10-21",
+      "similarity": 0.9292,
+      "agent": "technical",
+      "prob_up": 0.08,
+      "actual_up": 0,
+      "correct": 1
+    },
+    {
+      "date": "2026-10-21",
+      "similarity": 0.9292,
+      "agent": "macro",
+      "prob_up": 0.5598,
+      "actual_up": 0,
+      "correct": 0
+    },
+    {
+      "date": "2026-10-21",
+      "similarity": 0.9292,
+      "agent": "overseas",
+      "prob_up": 0.4879,
+      "actual_up": 0,
+      "correct": 1
+    },
+    {
+      "date": "2026-10-21",
+      "similarity": 0.9292,
+      "agent": "flow",
+      "prob_up": 0.3762,
+      "actual_up": 0,
+      "correct": 1
+    },
+    {
+      "date": "2026-10-21",
+      "similarity": 0.9292,
+      "agent": "CHIEF_ANALYST",
+      "prob_up": 0.4031,
+      "actual_up": 0,
+      "correct": 1
+    }
+  ]
+}

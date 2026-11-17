@@ -1,10 +1,54 @@
 {
   "regime": "下行趋势",
-  "event_label": "overseas",
+  "event_label": "liquidity",
   "report": {
     "sample_count": 174,
-    "event_label": "overseas",
+    "event_label": "liquidity",
     "event_samples": 0,
+    "similarity_as_of": "2026-11-17",
+    "similarity_matched_samples": 174,
+    "nearest_cases": [
+      {
+        "date": "2026-10-21",
+        "similarity": 0.9292,
+        "agent": "technical",
+        "prob_up": 0.08,
+        "actual_up": 0,
+        "correct": 1
+      },
+      {
+        "date": "2026-10-21",
+        "similarity": 0.9292,
+        "agent": "macro",
+        "prob_up": 0.5598,
+        "actual_up": 0,
+        "correct": 0
+      },
+      {
+        "date": "2026-10-21",
+        "similarity": 0.9292,
+        "agent": "overseas",
+        "prob_up": 0.4879,
+        "actual_up": 0,
+        "correct": 1
+      },
+      {
+        "date": "2026-10-21",
+        "similarity": 0.9292,
+        "agent": "flow",
+        "prob_up": 0.3762,
+        "actual_up": 0,
+        "correct": 1
+      },
+      {
+        "date": "2026-10-21",
+        "similarity": 0.9292,
+        "agent": "CHIEF_ANALYST",
+        "prob_up": 0.4031,
+        "actual_up": 0,
+        "correct": 1
+      }
+    ],
     "brains": {
       "CHIEF_ANALYST": {
         "weight": 1.023,
@@ -17,6 +61,12 @@
           "severe_error_rate": 0.4,
           "wrong_streak": 0,
           "attribution": "正常波动"
+        },
+        "similar_cases": {
+          "neighbors": 29,
+          "weighted_accuracy": 0.5556,
+          "weighted_brier": 0.2539,
+          "avg_similarity": 0.8296
         }
       },
       "flow": {
@@ -30,10 +80,16 @@
           "severe_error_rate": 0.3,
           "wrong_streak": 0,
           "attribution": "正常波动"
+        },
+        "similar_cases": {
+          "neighbors": 29,
+          "weighted_accuracy": 0.6196,
+          "weighted_brier": 0.2537,
+          "avg_similarity": 0.8296
         }
       },
       "macro": {
-        "weight": 0.855,
+        "weight": 0.854,
         "postmortem": {
           "samples": 20,
           "accuracy": 0.35,
@@ -43,10 +99,16 @@
           "severe_error_rate": 0.65,
           "wrong_streak": 4,
           "attribution": "方向判断错误偏多"
+        },
+        "similar_cases": {
+          "neighbors": 29,
+          "weighted_accuracy": 0.3352,
+          "weighted_brier": 0.2703,
+          "avg_similarity": 0.8296
         }
       },
       "overseas": {
-        "weight": 0.968,
+        "weight": 0.967,
         "postmortem": {
           "samples": 20,
           "accuracy": 0.5,
@@ -56,6 +118,12 @@
           "severe_error_rate": 0.5,
           "wrong_streak": 0,
           "attribution": "概率校准偏差"
+        },
+        "similar_cases": {
+          "neighbors": 29,
+          "weighted_accuracy": 0.4507,
+          "weighted_brier": 0.2623,
+          "avg_similarity": 0.8296
         }
       },
       "sentiment": {
@@ -69,10 +137,16 @@
           "severe_error_rate": 0.55,
           "wrong_streak": 0,
           "attribution": "概率校准偏差"
+        },
+        "similar_cases": {
+          "neighbors": 29,
+          "weighted_accuracy": 0.439,
+          "weighted_brier": 0.2563,
+          "avg_similarity": 0.8296
         }
       },
       "technical": {
-        "weight": 0.897,
+        "weight": 0.89,
         "postmortem": {
           "samples": 20,
           "accuracy": 0.55,
@@ -82,6 +156,12 @@
           "severe_error_rate": 0.45,
           "wrong_streak": 0,
           "attribution": "过度自信偏多"
+        },
+        "similar_cases": {
+          "neighbors": 29,
+          "weighted_accuracy": 0.5305,
+          "weighted_brier": 0.3685,
+          "avg_similarity": 0.8296
         }
       }
     }
@@ -185,5 +265,51 @@
         "avg_brier": 0.3087
       }
     }
+  },
+  "similarity_memory_summary": {
+    "as_of": "2026-11-17",
+    "matched_samples": 174,
+    "nearest_cases": [
+      {
+        "date": "2026-10-21",
+        "similarity": 0.9292,
+        "agent": "technical",
+        "prob_up": 0.08,
+        "actual_up": 0,
+        "correct": 1
+      },
+      {
+        "date": "2026-10-21",
+        "similarity": 0.9292,
+        "agent": "macro",
+        "prob_up": 0.5598,
+        "actual_up": 0,
+        "correct": 0
+      },
+      {
+        "date": "2026-10-21",
+        "similarity": 0.9292,
+        "agent": "overseas",
+        "prob_up": 0.4879,
+        "actual_up": 0,
+        "correct": 1
+      },
+      {
+        "date": "2026-10-21",
+        "similarity": 0.9292,
+        "agent": "flow",
+        "prob_up": 0.3762,
+        "actual_up": 0,
+        "correct": 1
+      },
+      {
+        "date": "2026-10-21",
+        "similarity": 0.9292,
+        "agent": "CHIEF_ANALYST",
+        "prob_up": 0.4031,
+        "actual_up": 0,
+        "correct": 1
+      }
+    ]
   }
 }
