@@ -33,6 +33,13 @@ class BrainScorecardTests(unittest.TestCase):
         report = build_scorecard(rows)
         self.assertEqual(report["ranking"], [])
 
+    def test_regime_breakdown_is_reported(self):
+        rows = self._rows()
+        rows["regime"] = ["下行趋势" if i % 2 == 0 else "震荡" for i in range(len(rows))]
+        report = build_scorecard(rows)
+        self.assertIn("technical", report["regime_breakdown"])
+        self.assertTrue(report["regime_breakdown"]["technical"])
+
     def test_calibrated_duplicate_is_excluded(self):
         rows = self._rows()
         extra = rows[rows.agent == "technical"].copy()
