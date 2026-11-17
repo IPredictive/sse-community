@@ -70,6 +70,24 @@ def build_performance_dashboard(history):
         )
     if not risk_rows:
         risk_rows.append("<div class='ph-empty'>暂无可计算的多脑风险记录。</div>")
+    comparison = history.get("paired_comparison", {})
+    paired_n = int(comparison.get("paired_dates", 0))
+    if paired_n:
+        a9m = comparison.get("a9") or {}
+        oldm = comparison.get("traditional") or {}
+        comparison_html = (
+            f"<div class='ph-compare-grid'><div><b>A9 SUPER CHIEF</b>"
+            f"<strong>准确率 {a9m.get('accuracy', 0):.1%} · Brier {a9m.get('brier', 0):.4f}</strong></div>"
+            f"<div><b>传统 CHIEF_ANALYST</b>"
+            f"<strong>准确率 {oldm.get('accuracy', 0):.1%} · Brier {oldm.get('brier', 0):.4f}</strong></div></div>"
+        )
+    else:
+        comparison_html = "<div class='ph-empty'>尚无同日期成熟配对样本，暂不比较胜负。</div>"
+    gate_text = (
+        f"已积累 {paired_n}/30 个同日期成熟配对样本。"
+        if paired_n < 30 else
+        f"已达到描述性比较门槛（{paired_n} 个配对日期）；这不代表统计显著或保证未来表现。"
+    )
     a9_n = sum(1 for x in records if x.get("family") in ("A9", "A9_SUPER_CHIEF"))
     legacy_n = sum(1 for x in records if x.get("family") == "traditional")
     return f"""
@@ -82,6 +100,9 @@ def build_performance_dashboard(history):
  <span>A9 记录 {a9_n} 条</span><span>传统 AI 记录 {legacy_n} 条</span></div>
  <div class="ph-table-head"><span>分析脑</span><span>最近结算日</span><span>当时市场状态</span><span>滚动准确率</span><span>准确率曲线</span><span>滚动 Brier</span><span>Brier 曲线</span></div>
  {''.join(rows)}
+ <div class="ph-compare"><h3>A9 与传统 AI：同日期独立结算对照</h3>
+ <p>{html.escape(gate_text)}</p>{comparison_html}
+ <p>市场状态分层：{html.escape('；'.join(f"{k} n={v.get('samples',0)} ({v.get('evidence_status')})" for k,v in comparison.get('regimes',{}).items()) or '样本积累中')}</p></div>
  <div class="ph-risk"><h3>每日多脑分歧与风险变化</h3><p>同一预测日优先检查 A9 专业脑；A9 不足两个时才使用传统专业脑。概率最大差达到 35 个百分点即触发复核。</p>
  {''.join(risk_rows)}</div>
  <div class="ph-note">比较纪律：A9 与传统 AI 独立统计；A9 需先积累成熟结算样本，再做同日期、同市场状态的配对样本外比较。未达到证据门槛时只显示“积累中”，不宣称优胜。</div>
