@@ -52,7 +52,7 @@
     ],
     "brains": {
       "CHIEF_ANALYST": {
-        "weight": 1.022,
+        "weight": 1.0,
         "postmortem": {
           "samples": 20,
           "accuracy": 0.6,
@@ -71,7 +71,7 @@
         }
       },
       "flow": {
-        "weight": 1.052,
+        "weight": 1.0,
         "postmortem": {
           "samples": 20,
           "accuracy": 0.7,
@@ -90,7 +90,7 @@
         }
       },
       "macro": {
-        "weight": 0.851,
+        "weight": 1.0,
         "postmortem": {
           "samples": 20,
           "accuracy": 0.35,
@@ -109,7 +109,7 @@
         }
       },
       "overseas": {
-        "weight": 0.967,
+        "weight": 1.0,
         "postmortem": {
           "samples": 20,
           "accuracy": 0.5,
@@ -128,7 +128,7 @@
         }
       },
       "sentiment": {
-        "weight": 0.972,
+        "weight": 1.0,
         "postmortem": {
           "samples": 20,
           "accuracy": 0.5,
@@ -147,7 +147,7 @@
         }
       },
       "technical": {
-        "weight": 0.89,
+        "weight": 1.0,
         "postmortem": {
           "samples": 20,
           "accuracy": 0.55,

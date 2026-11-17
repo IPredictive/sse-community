@@ -83,7 +83,176 @@
       "rank_eligible": true
     }
   },
-  "regime_breakdown": {},
+  "regime_breakdown": {
+    "CHIEF_ANALYST": {
+      "下行趋势": {
+        "samples": 26,
+        "accuracy": 0.5,
+        "brier": 0.261174,
+        "log_loss": 0.716205,
+        "ece": 0.111584,
+        "recent20_accuracy": 0.5,
+        "recent20_brier": 0.258805,
+        "up_rate": 0.5385,
+        "majority_baseline_accuracy": 0.5385,
+        "last_scored_date": "2026-11-16",
+        "rank_eligible": true
+      },
+      "震荡/趋势转换": {
+        "samples": 3,
+        "accuracy": 1.0,
+        "brier": 0.201439,
+        "log_loss": 0.595493,
+        "ece": 0.4482,
+        "recent20_accuracy": 1.0,
+        "recent20_brier": 0.201439,
+        "up_rate": 0.0,
+        "majority_baseline_accuracy": 1.0,
+        "last_scored_date": "2026-11-12",
+        "rank_eligible": false
+      }
+    },
+    "flow": {
+      "下行趋势": {
+        "samples": 26,
+        "accuracy": 0.5769,
+        "brier": 0.261002,
+        "log_loss": 0.715973,
+        "ece": 0.201377,
+        "recent20_accuracy": 0.6,
+        "recent20_brier": 0.257401,
+        "up_rate": 0.5385,
+        "majority_baseline_accuracy": 0.5385,
+        "last_scored_date": "2026-11-16",
+        "rank_eligible": true
+      },
+      "震荡/趋势转换": {
+        "samples": 3,
+        "accuracy": 1.0,
+        "brier": 0.193765,
+        "log_loss": 0.578188,
+        "ece": 0.435908,
+        "recent20_accuracy": 1.0,
+        "recent20_brier": 0.193765,
+        "up_rate": 0.0,
+        "majority_baseline_accuracy": 1.0,
+        "last_scored_date": "2026-11-12",
+        "rank_eligible": false
+      }
+    },
+    "macro": {
+      "下行趋势": {
+        "samples": 26,
+        "accuracy": 0.3846,
+        "brier": 0.268088,
+        "log_loss": 0.729626,
+        "ece": 0.079983,
+        "recent20_accuracy": 0.35,
+        "recent20_brier": 0.268212,
+        "up_rate": 0.5385,
+        "majority_baseline_accuracy": 0.5385,
+        "last_scored_date": "2026-11-16",
+        "rank_eligible": true
+      },
+      "震荡/趋势转换": {
+        "samples": 3,
+        "accuracy": 0.0,
+        "brier": 0.280584,
+        "log_loss": 0.754517,
+        "ece": 0.529296,
+        "recent20_accuracy": 0.0,
+        "recent20_brier": 0.280584,
+        "up_rate": 0.0,
+        "majority_baseline_accuracy": 1.0,
+        "last_scored_date": "2026-11-12",
+        "rank_eligible": false
+      }
+    },
+    "overseas": {
+      "下行趋势": {
+        "samples": 26,
+        "accuracy": 0.4615,
+        "brier": 0.260197,
+        "log_loss": 0.713856,
+        "ece": 0.163709,
+        "recent20_accuracy": 0.5,
+        "recent20_brier": 0.245016,
+        "up_rate": 0.5385,
+        "majority_baseline_accuracy": 0.5385,
+        "last_scored_date": "2026-11-16",
+        "rank_eligible": true
+      },
+      "震荡/趋势转换": {
+        "samples": 3,
+        "accuracy": 0.3333,
+        "brier": 0.279856,
+        "log_loss": 0.75328,
+        "ece": 0.527868,
+        "recent20_accuracy": 0.3333,
+        "recent20_brier": 0.279856,
+        "up_rate": 0.0,
+        "majority_baseline_accuracy": 1.0,
+        "last_scored_date": "2026-11-12",
+        "rank_eligible": false
+      }
+    },
+    "sentiment": {
+      "下行趋势": {
+        "samples": 26,
+        "accuracy": 0.4231,
+        "brier": 0.252016,
+        "log_loss": 0.697192,
+        "ece": 0.100498,
+        "recent20_accuracy": 0.5,
+        "recent20_brier": 0.246722,
+        "up_rate": 0.5385,
+        "majority_baseline_accuracy": 0.5385,
+        "last_scored_date": "2026-11-16",
+        "rank_eligible": true
+      },
+      "震荡/趋势转换": {
+        "samples": 3,
+        "accuracy": 0.6667,
+        "brier": 0.28537,
+        "log_loss": 0.764963,
+        "ece": 0.53197,
+        "recent20_accuracy": 0.6667,
+        "recent20_brier": 0.28537,
+        "up_rate": 0.0,
+        "majority_baseline_accuracy": 1.0,
+        "last_scored_date": "2026-11-12",
+        "rank_eligible": false
+      }
+    },
+    "technical": {
+      "下行趋势": {
+        "samples": 26,
+        "accuracy": 0.4615,
+        "brier": 0.412103,
+        "log_loss": 1.22122,
+        "ece": 0.442275,
+        "recent20_accuracy": 0.45,
+        "recent20_brier": 0.407626,
+        "up_rate": 0.5385,
+        "majority_baseline_accuracy": 0.5385,
+        "last_scored_date": "2026-11-16",
+        "rank_eligible": true
+      },
+      "震荡/趋势转换": {
+        "samples": 3,
+        "accuracy": 1.0,
+        "brier": 0.046468,
+        "log_loss": 0.22643,
+        "ece": 0.197835,
+        "recent20_accuracy": 1.0,
+        "recent20_brier": 0.046468,
+        "up_rate": 0.0,
+        "majority_baseline_accuracy": 1.0,
+        "last_scored_date": "2026-11-12",
+        "rank_eligible": false
+      }
+    }
+  },
   "ranking": [
     {
       "brain": "flow",
@@ -178,10 +347,10 @@
     "training_minimum": 8,
     "rolling_window": 80,
     "equal_weight_brier": 0.25071,
-    "adaptive_weight_brier": 0.251459,
+    "adaptive_weight_brier": 0.251501,
     "equal_weight_accuracy": 0.5714,
     "adaptive_weight_accuracy": 0.5714,
-    "improvement_brier": -0.000749,
+    "improvement_brier": -0.000791,
     "note": "仅按日期顺序训练和评估；动态权重是否有效以样本外 Brier 为主，样本量不足时不作结论。"
   },
   "disagreements": [
