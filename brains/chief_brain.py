@@ -1,4 +1,4 @@
-from .common import result
+from .common import result, clamp
 from .learning import learned_weights
 
 def analyze(results, regime):
@@ -21,5 +21,14 @@ def analyze(results, regime):
     spread=max(r.prob_up for r in base)-min(r.prob_up for r in base)
     avg=sum(r.confidence for r in base)/len(base)
     conf=max(0.35,min(0.92,0.62-0.55*spread+0.08*avg))
+    scenario=regime.get("_context_scenario",{}) or {}
+    penalty=float(scenario.get("scenario_penalty",0.0) or 0.0)
+    if penalty and p>0.50:
+        p=clamp(p-penalty,0.05,0.95)
+        conf=max(0.30,conf-0.60*penalty)
     learned="；".join(f"{r.name}权重={lw.get(r.name,1.0):.2f}" for r in base)
-    return result("chief_super",p,conf,f"9脑闭环：状态={regime.get('label','未知')}；历史学习={learned}；分歧={spread:.1%}；最终综合判断",[r.reason for r in base[:6]],metadata={"learned_weights":lw})
+    stress=f"；压力测试下调={penalty:.1%}" if penalty else "；压力测试未触发下调"
+    return result("chief_super",p,conf,
+                  f"9脑闭环：状态={regime.get('label','未知')}；历史学习={learned}；分歧={spread:.1%}{stress}；最终综合判断",
+                  [r.reason for r in base[:6]],
+                  metadata={"learned_weights":lw,"scenario_penalty":penalty,"scenario":scenario})
