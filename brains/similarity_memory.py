@@ -84,9 +84,9 @@ def build_similarity_memory():
     rows = rows.copy()
     rows["similarity"] = rows.apply(lambda r: _similarity(current, r), axis=1)
     rows = rows[rows["similarity"] >= MIN_SIMILARITY]
-    rows = rows.sort_values("similarity", ascending=False).head(MAX_NEIGHBORS)
+    eligible = rows.copy()
     nearest = []
-    for _, r in rows.head(5).iterrows():
+    for _, r in eligible.sort_values("similarity", ascending=False).head(5).iterrows():
         nearest.append({
             "date": str(r["base_date"]),
             "similarity": round(float(r["similarity"]), 4),
@@ -96,7 +96,8 @@ def build_similarity_memory():
             "correct": int(r["correct"]),
         })
     brains = {}
-    for name, group in rows.groupby(rows["agent"].astype(str)):
+    for name, group in eligible.groupby(eligible["agent"].astype(str)):
+        group = group.sort_values("similarity", ascending=False).head(MAX_NEIGHBORS)
         weights = group["similarity"].astype(float)
         denom = float(weights.sum()) or 1.0
         brains[name] = {
@@ -107,7 +108,7 @@ def build_similarity_memory():
         }
     return {
         "as_of": str(current.get("base_date")),
-        "matched_samples": int(len(rows)),
+        "matched_samples": int(len(eligible)),
         "brains": brains,
         "nearest_cases": nearest,
     }
