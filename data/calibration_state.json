@@ -2,6 +2,46 @@
   "method": "strict_walk_forward",
   "min_training_samples": 30,
   "brains": {
+    "A9_SUPER_CHIEF": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "A9_chief_super": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "A9_geopolitical": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "A9_global": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "A9_macro": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "A9_market_structure": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "A9_money_sentiment": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "A9_policy": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "A9_quant": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
+    "A9_technical": {
+      "backtested_samples": 0,
+      "status": "样本不足"
+    },
     "CHIEF_ANALYST": {
       "backtested_samples": 0,
       "status": "样本不足"
@@ -27,6 +67,6 @@
       "status": "样本不足"
     }
   },
-  "as_of": "2026-11-17",
+  "as_of": "2026-11-18",
   "training_rule": "仅使用目标预测日期之前、且下一交易日结果已知的历史样本"
 }

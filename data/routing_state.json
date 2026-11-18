@@ -1,23 +1,23 @@
 {
-  "regime": "下行趋势",
+  "regime": "震荡/趋势转换",
   "event_label": "policy_macro",
   "multipliers": {
-    "technical": 0.94,
-    "quant": 0.94,
-    "market_structure": 1.0,
+    "technical": 1.0,
+    "quant": 1.0,
+    "market_structure": 1.08,
     "macro": 1.12,
     "policy": 1.12,
-    "geopolitical": 1.1872,
-    "global": 1.1232,
-    "money_sentiment": 1.0
+    "geopolitical": 1.06,
+    "global": 1.04,
+    "money_sentiment": 1.05
   },
   "dominant_brains": [
-    "geopolitical",
-    "global",
-    "macro"
+    "macro",
+    "policy",
+    "market_structure"
   ],
   "reasons": [
-    "下行趋势：提高风险脑权重",
+    "震荡/未知状态：提高结构与资金情绪脑权重",
     "事件路由：policy_macro → policy",
     "压力测试偏高：加强风险/全球脑"
   ],
@@ -25,7 +25,7 @@
     0.82,
     1.22
   ],
-  "downside_stress_avg": 0.3479,
-  "scenario_penalty": 0.0837,
-  "base_date": "2026-11-17"
+  "downside_stress_avg": 0.3718,
+  "scenario_penalty": 0.0705,
+  "base_date": "2026-11-18"
 }

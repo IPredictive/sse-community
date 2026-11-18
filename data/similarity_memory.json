@@ -1,82 +1,148 @@
 {
-  "as_of": "2026-11-17",
-  "matched_samples": 174,
+  "as_of": "2026-11-18",
+  "matched_samples": 191,
   "brains": {
+    "A9_SUPER_CHIEF": {
+      "neighbors": 1,
+      "weighted_accuracy": 0.0,
+      "weighted_brier": 0.2813,
+      "avg_similarity": 0.8988
+    },
+    "A9_chief_super": {
+      "neighbors": 1,
+      "weighted_accuracy": 0.0,
+      "weighted_brier": 0.2813,
+      "avg_similarity": 0.8988
+    },
+    "A9_geopolitical": {
+      "neighbors": 1,
+      "weighted_accuracy": 0.0,
+      "weighted_brier": 0.25,
+      "avg_similarity": 0.8988
+    },
+    "A9_global": {
+      "neighbors": 1,
+      "weighted_accuracy": 0.0,
+      "weighted_brier": 0.3121,
+      "avg_similarity": 0.8988
+    },
+    "A9_macro": {
+      "neighbors": 1,
+      "weighted_accuracy": 0.0,
+      "weighted_brier": 0.25,
+      "avg_similarity": 0.8988
+    },
+    "A9_market_structure": {
+      "neighbors": 1,
+      "weighted_accuracy": 0.0,
+      "weighted_brier": 0.4077,
+      "avg_similarity": 0.8988
+    },
+    "A9_money_sentiment": {
+      "neighbors": 1,
+      "weighted_accuracy": 1.0,
+      "weighted_brier": 0.228,
+      "avg_similarity": 0.8988
+    },
+    "A9_policy": {
+      "neighbors": 1,
+      "weighted_accuracy": 1.0,
+      "weighted_brier": 0.2317,
+      "avg_similarity": 0.8988
+    },
+    "A9_quant": {
+      "neighbors": 1,
+      "weighted_accuracy": 0.0,
+      "weighted_brier": 0.385,
+      "avg_similarity": 0.8988
+    },
+    "A9_technical": {
+      "neighbors": 1,
+      "weighted_accuracy": 0.0,
+      "weighted_brier": 0.25,
+      "avg_similarity": 0.8988
+    },
     "CHIEF_ANALYST": {
-      "neighbors": 29,
-      "weighted_accuracy": 0.5556,
-      "weighted_brier": 0.2539,
-      "avg_similarity": 0.8296
+      "neighbors": 30,
+      "weighted_accuracy": 0.5433,
+      "weighted_brier": 0.2547,
+      "avg_similarity": 0.8179
+    },
+    "CHIEF_ANALYST_CALIBRATED": {
+      "neighbors": 1,
+      "weighted_accuracy": 0.0,
+      "weighted_brier": 0.3034,
+      "avg_similarity": 0.8988
     },
     "flow": {
-      "neighbors": 29,
-      "weighted_accuracy": 0.6196,
-      "weighted_brier": 0.2537,
-      "avg_similarity": 0.8296
+      "neighbors": 30,
+      "weighted_accuracy": 0.6044,
+      "weighted_brier": 0.256,
+      "avg_similarity": 0.8179
     },
     "macro": {
-      "neighbors": 29,
-      "weighted_accuracy": 0.3352,
-      "weighted_brier": 0.2703,
-      "avg_similarity": 0.8296
+      "neighbors": 30,
+      "weighted_accuracy": 0.353,
+      "weighted_brier": 0.2666,
+      "avg_similarity": 0.8179
     },
     "overseas": {
-      "neighbors": 29,
-      "weighted_accuracy": 0.4507,
-      "weighted_brier": 0.2623,
-      "avg_similarity": 0.8296
+      "neighbors": 30,
+      "weighted_accuracy": 0.4222,
+      "weighted_brier": 0.266,
+      "avg_similarity": 0.8179
     },
     "sentiment": {
-      "neighbors": 29,
-      "weighted_accuracy": 0.439,
-      "weighted_brier": 0.2563,
-      "avg_similarity": 0.8296
+      "neighbors": 30,
+      "weighted_accuracy": 0.4684,
+      "weighted_brier": 0.2545,
+      "avg_similarity": 0.8179
     },
     "technical": {
-      "neighbors": 29,
-      "weighted_accuracy": 0.5305,
-      "weighted_brier": 0.3685,
-      "avg_similarity": 0.8296
+      "neighbors": 30,
+      "weighted_accuracy": 0.5168,
+      "weighted_brier": 0.3773,
+      "avg_similarity": 0.8179
     }
   },
   "nearest_cases": [
     {
-      "date": "2026-10-21",
-      "similarity": 0.9292,
-      "agent": "technical",
-      "prob_up": 0.08,
-      "actual_up": 0,
-      "correct": 1
-    },
-    {
-      "date": "2026-10-21",
-      "similarity": 0.9292,
-      "agent": "macro",
-      "prob_up": 0.5598,
+      "date": "2026-10-20",
+      "similarity": 0.9372,
+      "agent": "overseas",
+      "prob_up": 0.5217,
       "actual_up": 0,
       "correct": 0
     },
     {
-      "date": "2026-10-21",
-      "similarity": 0.9292,
-      "agent": "overseas",
-      "prob_up": 0.4879,
-      "actual_up": 0,
-      "correct": 1
-    },
-    {
-      "date": "2026-10-21",
-      "similarity": 0.9292,
-      "agent": "flow",
-      "prob_up": 0.3762,
-      "actual_up": 0,
-      "correct": 1
-    },
-    {
-      "date": "2026-10-21",
-      "similarity": 0.9292,
+      "date": "2026-10-20",
+      "similarity": 0.9372,
       "agent": "CHIEF_ANALYST",
-      "prob_up": 0.4031,
+      "prob_up": 0.4136,
+      "actual_up": 0,
+      "correct": 1
+    },
+    {
+      "date": "2026-10-20",
+      "similarity": 0.9372,
+      "agent": "macro",
+      "prob_up": 0.5614,
+      "actual_up": 0,
+      "correct": 0
+    },
+    {
+      "date": "2026-10-20",
+      "similarity": 0.9372,
+      "agent": "flow",
+      "prob_up": 0.3951,
+      "actual_up": 0,
+      "correct": 1
+    },
+    {
+      "date": "2026-10-20",
+      "similarity": 0.9372,
+      "agent": "technical",
+      "prob_up": 0.08,
       "actual_up": 0,
       "correct": 1
     }
