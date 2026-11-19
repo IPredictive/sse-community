@@ -1,30 +1,35 @@
 {
-  "sample_count": 191,
+  "sample_count": 208,
   "events": {
     "geopolitical": {
-      "samples": 1,
-      "accuracy": 0.0,
+      "samples": 2,
+      "accuracy": 0.5,
       "avg_brier": 0.25
     },
     "normal_noise": {
-      "samples": 26,
-      "accuracy": 0.6923,
-      "avg_brier": 0.2491
+      "samples": 34,
+      "accuracy": 0.7647,
+      "avg_brier": 0.2306
+    },
+    "overseas": {
+      "samples": 1,
+      "accuracy": 1.0,
+      "avg_brier": 0.2044
     },
     "policy_macro": {
-      "samples": 58,
-      "accuracy": 0.431,
-      "avg_brier": 0.2605
+      "samples": 61,
+      "accuracy": 0.4098,
+      "avg_brier": 0.2629
     },
     "rmb_fx": {
-      "samples": 29,
-      "accuracy": 0.4138,
-      "avg_brier": 0.2687
+      "samples": 31,
+      "accuracy": 0.4516,
+      "avg_brier": 0.2632
     },
     "sentiment_flow": {
-      "samples": 29,
-      "accuracy": 0.4483,
-      "avg_brier": 0.2562
+      "samples": 31,
+      "accuracy": 0.4516,
+      "avg_brier": 0.2569
     },
     "trend_continuation": {
       "samples": 36,
@@ -39,6 +44,13 @@
   },
   "by_brain": {
     "A9_SUPER_CHIEF": {
+      "normal_noise": {
+        "samples": 1,
+        "accuracy": 1.0,
+        "avg_brier": 0.2322,
+        "false_bull": 0,
+        "false_bear": 0
+      },
       "trend_continuation": {
         "samples": 1,
         "accuracy": 0.0,
@@ -48,6 +60,13 @@
       }
     },
     "A9_chief_super": {
+      "normal_noise": {
+        "samples": 1,
+        "accuracy": 1.0,
+        "avg_brier": 0.2322,
+        "false_bull": 0,
+        "false_bear": 0
+      },
       "trend_continuation": {
         "samples": 1,
         "accuracy": 0.0,
@@ -58,8 +77,8 @@
     },
     "A9_geopolitical": {
       "geopolitical": {
-        "samples": 1,
-        "accuracy": 0.0,
+        "samples": 2,
+        "accuracy": 0.5,
         "avg_brier": 0.25,
         "false_bull": 0,
         "false_bear": 1
@@ -67,23 +86,30 @@
     },
     "A9_global": {
       "rmb_fx": {
-        "samples": 1,
-        "accuracy": 0.0,
-        "avg_brier": 0.3121,
+        "samples": 2,
+        "accuracy": 0.5,
+        "avg_brier": 0.2566,
         "false_bull": 0,
         "false_bear": 1
       }
     },
     "A9_macro": {
       "policy_macro": {
-        "samples": 1,
+        "samples": 2,
         "accuracy": 0.0,
-        "avg_brier": 0.25,
-        "false_bull": 0,
+        "avg_brier": 0.2951,
+        "false_bull": 1,
         "false_bear": 1
       }
     },
     "A9_market_structure": {
+      "normal_noise": {
+        "samples": 1,
+        "accuracy": 1.0,
+        "avg_brier": 0.1372,
+        "false_bull": 0,
+        "false_bear": 0
+      },
       "trend_continuation": {
         "samples": 1,
         "accuracy": 0.0,
@@ -94,23 +120,30 @@
     },
     "A9_money_sentiment": {
       "sentiment_flow": {
-        "samples": 1,
+        "samples": 2,
         "accuracy": 1.0,
-        "avg_brier": 0.228,
+        "avg_brier": 0.239,
         "false_bull": 0,
         "false_bear": 0
       }
     },
     "A9_policy": {
       "policy_macro": {
-        "samples": 1,
-        "accuracy": 1.0,
-        "avg_brier": 0.2317,
-        "false_bull": 0,
+        "samples": 2,
+        "accuracy": 0.5,
+        "avg_brier": 0.2476,
+        "false_bull": 1,
         "false_bear": 0
       }
     },
     "A9_quant": {
+      "normal_noise": {
+        "samples": 1,
+        "accuracy": 1.0,
+        "avg_brier": 0.1417,
+        "false_bull": 0,
+        "false_bear": 0
+      },
       "trend_continuation": {
         "samples": 1,
         "accuracy": 0.0,
@@ -120,6 +153,13 @@
       }
     },
     "A9_technical": {
+      "normal_noise": {
+        "samples": 1,
+        "accuracy": 1.0,
+        "avg_brier": 0.25,
+        "false_bull": 0,
+        "false_bear": 0
+      },
       "trend_continuation": {
         "samples": 1,
         "accuracy": 0.0,
@@ -129,6 +169,13 @@
       }
     },
     "CHIEF_ANALYST": {
+      "overseas": {
+        "samples": 1,
+        "accuracy": 1.0,
+        "avg_brier": 0.2044,
+        "false_bull": 0,
+        "false_bear": 0
+      },
       "policy_macro": {
         "samples": 28,
         "accuracy": 0.5357,
@@ -145,6 +192,13 @@
       }
     },
     "CHIEF_ANALYST_CALIBRATED": {
+      "normal_noise": {
+        "samples": 1,
+        "accuracy": 1.0,
+        "avg_brier": 0.2034,
+        "false_bull": 0,
+        "false_bear": 0
+      },
       "trend_continuation": {
         "samples": 1,
         "accuracy": 0.0,
@@ -155,9 +209,9 @@
     },
     "flow": {
       "normal_noise": {
-        "samples": 13,
-        "accuracy": 0.7692,
-        "avg_brier": 0.2372,
+        "samples": 14,
+        "accuracy": 0.7857,
+        "avg_brier": 0.2309,
         "false_bull": 1,
         "false_bear": 2
       },
@@ -178,10 +232,10 @@
     },
     "macro": {
       "policy_macro": {
-        "samples": 28,
-        "accuracy": 0.3214,
-        "avg_brier": 0.268,
-        "false_bull": 14,
+        "samples": 29,
+        "accuracy": 0.3103,
+        "avg_brier": 0.2701,
+        "false_bull": 15,
         "false_bear": 5
       },
       "volatility_shock": {
@@ -194,9 +248,9 @@
     },
     "overseas": {
       "rmb_fx": {
-        "samples": 28,
-        "accuracy": 0.4286,
-        "avg_brier": 0.2672,
+        "samples": 29,
+        "accuracy": 0.4483,
+        "avg_brier": 0.2636,
         "false_bull": 9,
         "false_bear": 7
       },
@@ -210,10 +264,10 @@
     },
     "sentiment": {
       "sentiment_flow": {
-        "samples": 28,
-        "accuracy": 0.4286,
-        "avg_brier": 0.2572,
-        "false_bull": 9,
+        "samples": 29,
+        "accuracy": 0.4138,
+        "avg_brier": 0.2581,
+        "false_bull": 10,
         "false_bear": 7
       },
       "volatility_shock": {
@@ -226,9 +280,9 @@
     },
     "technical": {
       "normal_noise": {
-        "samples": 13,
-        "accuracy": 0.6154,
-        "avg_brier": 0.2609,
+        "samples": 14,
+        "accuracy": 0.6429,
+        "avg_brier": 0.2437,
         "false_bull": 0,
         "false_bear": 5
       },
