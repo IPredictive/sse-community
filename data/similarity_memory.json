@@ -1,150 +1,150 @@
 {
-  "as_of": "2026-11-19",
-  "matched_samples": 208,
+  "as_of": "2026-11-20",
+  "matched_samples": 225,
   "brains": {
     "A9_SUPER_CHIEF": {
-      "neighbors": 2,
-      "weighted_accuracy": 0.4988,
-      "weighted_brier": 0.2568,
-      "avg_similarity": 0.9251
+      "neighbors": 3,
+      "weighted_accuracy": 0.65,
+      "weighted_brier": 0.2523,
+      "avg_similarity": 0.8323
     },
     "A9_chief_super": {
-      "neighbors": 2,
-      "weighted_accuracy": 0.4988,
-      "weighted_brier": 0.2568,
-      "avg_similarity": 0.9251
+      "neighbors": 3,
+      "weighted_accuracy": 0.65,
+      "weighted_brier": 0.2523,
+      "avg_similarity": 0.8323
     },
     "A9_geopolitical": {
-      "neighbors": 2,
-      "weighted_accuracy": 0.4988,
+      "neighbors": 3,
+      "weighted_accuracy": 0.65,
       "weighted_brier": 0.25,
-      "avg_similarity": 0.9251
+      "avg_similarity": 0.8323
     },
     "A9_global": {
-      "neighbors": 2,
-      "weighted_accuracy": 0.4988,
-      "weighted_brier": 0.2568,
-      "avg_similarity": 0.9251
+      "neighbors": 3,
+      "weighted_accuracy": 0.65,
+      "weighted_brier": 0.2529,
+      "avg_similarity": 0.8323
     },
     "A9_macro": {
-      "neighbors": 2,
+      "neighbors": 3,
       "weighted_accuracy": 0.0,
-      "weighted_brier": 0.295,
-      "avg_similarity": 0.9251
+      "weighted_brier": 0.2864,
+      "avg_similarity": 0.8323
     },
     "A9_market_structure": {
-      "neighbors": 2,
-      "weighted_accuracy": 0.4988,
-      "weighted_brier": 0.2728,
-      "avg_similarity": 0.9251
+      "neighbors": 3,
+      "weighted_accuracy": 0.65,
+      "weighted_brier": 0.2392,
+      "avg_similarity": 0.8323
     },
     "A9_money_sentiment": {
-      "neighbors": 2,
-      "weighted_accuracy": 1.0,
-      "weighted_brier": 0.239,
-      "avg_similarity": 0.9251
+      "neighbors": 3,
+      "weighted_accuracy": 0.6678,
+      "weighted_brier": 0.2749,
+      "avg_similarity": 0.8323
     },
     "A9_policy": {
-      "neighbors": 2,
-      "weighted_accuracy": 0.5012,
-      "weighted_brier": 0.2476,
-      "avg_similarity": 0.9251
+      "neighbors": 3,
+      "weighted_accuracy": 0.35,
+      "weighted_brier": 0.2513,
+      "avg_similarity": 0.8323
     },
     "A9_quant": {
-      "neighbors": 2,
-      "weighted_accuracy": 0.4988,
-      "weighted_brier": 0.2637,
-      "avg_similarity": 0.9251
+      "neighbors": 3,
+      "weighted_accuracy": 0.65,
+      "weighted_brier": 0.2329,
+      "avg_similarity": 0.8323
     },
     "A9_technical": {
-      "neighbors": 2,
-      "weighted_accuracy": 0.4988,
+      "neighbors": 3,
+      "weighted_accuracy": 0.65,
       "weighted_brier": 0.25,
-      "avg_similarity": 0.9251
+      "avg_similarity": 0.8323
     },
     "CHIEF_ANALYST": {
       "neighbors": 30,
-      "weighted_accuracy": 0.5459,
-      "weighted_brier": 0.2536,
-      "avg_similarity": 0.8332
+      "weighted_accuracy": 0.5562,
+      "weighted_brier": 0.2531,
+      "avg_similarity": 0.798
     },
     "CHIEF_ANALYST_CALIBRATED": {
-      "neighbors": 2,
-      "weighted_accuracy": 0.4988,
-      "weighted_brier": 0.2535,
-      "avg_similarity": 0.9251
+      "neighbors": 3,
+      "weighted_accuracy": 0.65,
+      "weighted_brier": 0.2354,
+      "avg_similarity": 0.8323
     },
     "flow": {
       "neighbors": 30,
-      "weighted_accuracy": 0.6074,
-      "weighted_brier": 0.2545,
-      "avg_similarity": 0.8332
+      "weighted_accuracy": 0.6161,
+      "weighted_brier": 0.2543,
+      "avg_similarity": 0.798
     },
     "macro": {
       "neighbors": 30,
-      "weighted_accuracy": 0.3289,
-      "weighted_brier": 0.2691,
-      "avg_similarity": 0.8332
+      "weighted_accuracy": 0.3074,
+      "weighted_brier": 0.2703,
+      "avg_similarity": 0.798
     },
     "overseas": {
       "neighbors": 30,
-      "weighted_accuracy": 0.4375,
-      "weighted_brier": 0.2661,
-      "avg_similarity": 0.8332
+      "weighted_accuracy": 0.4766,
+      "weighted_brier": 0.2622,
+      "avg_similarity": 0.798
     },
     "sentiment": {
       "neighbors": 30,
-      "weighted_accuracy": 0.4361,
-      "weighted_brier": 0.2569,
-      "avg_similarity": 0.8332
+      "weighted_accuracy": 0.3894,
+      "weighted_brier": 0.2582,
+      "avg_similarity": 0.798
     },
     "technical": {
       "neighbors": 30,
-      "weighted_accuracy": 0.5459,
-      "weighted_brier": 0.3622,
-      "avg_similarity": 0.8332
+      "weighted_accuracy": 0.5562,
+      "weighted_brier": 0.3542,
+      "avg_similarity": 0.798
     }
   },
   "nearest_cases": [
     {
-      "date": "2026-11-17",
-      "similarity": 0.9273,
-      "agent": "A9_macro",
-      "prob_up": 0.5,
+      "date": "2026-10-15",
+      "similarity": 0.9094,
+      "agent": "overseas",
+      "prob_up": 0.3144,
       "actual_up": 1,
       "correct": 0
     },
     {
-      "date": "2026-11-17",
-      "similarity": 0.9273,
+      "date": "2026-10-15",
+      "similarity": 0.9094,
+      "agent": "sentiment",
+      "prob_up": 0.4964,
+      "actual_up": 1,
+      "correct": 0
+    },
+    {
+      "date": "2026-10-15",
+      "similarity": 0.9094,
       "agent": "CHIEF_ANALYST",
-      "prob_up": 0.4491,
+      "prob_up": 0.3762,
       "actual_up": 1,
       "correct": 0
     },
     {
-      "date": "2026-11-17",
-      "similarity": 0.9273,
-      "agent": "technical",
-      "prob_up": 0.1313,
-      "actual_up": 1,
-      "correct": 0
-    },
-    {
-      "date": "2026-11-17",
-      "similarity": 0.9273,
-      "agent": "flow",
-      "prob_up": 0.4055,
-      "actual_up": 1,
-      "correct": 0
-    },
-    {
-      "date": "2026-11-17",
-      "similarity": 0.9273,
+      "date": "2026-10-15",
+      "similarity": 0.9094,
       "agent": "macro",
-      "prob_up": 0.6045,
+      "prob_up": 0.4488,
       "actual_up": 1,
-      "correct": 1
+      "correct": 0
+    },
+    {
+      "date": "2026-10-15",
+      "similarity": 0.9094,
+      "agent": "technical",
+      "prob_up": 0.08,
+      "actual_up": 1,
+      "correct": 0
     }
   ]
 }
