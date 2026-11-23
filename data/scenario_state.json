@@ -1,90 +1,90 @@
 {
-  "base_prob_up": 0.4706,
-  "stress_adjusted_prob_up": 0.5435,
-  "scenario_penalty": 0.0729,
-  "downside_stress_avg": 0.3675,
+  "base_prob_up": 0.5255,
+  "stress_adjusted_prob_up": 0.481,
+  "scenario_penalty": 0.0445,
+  "downside_stress_avg": 0.4192,
   "regime": "下行趋势",
   "features": {
-    "t20": -0.042458,
-    "t60": -0.094763,
-    "vol": 0.00916,
-    "sp": -0.01353,
-    "nas": -0.025448,
-    "hsi": -0.019452,
-    "rmb": -0.00096,
-    "news": -0.069728,
-    "macro": 0.873486
+    "t20": -0.042886,
+    "t60": -0.093785,
+    "vol": 0.00915,
+    "sp": 0.049509,
+    "nas": 0.067018,
+    "hsi": -0.018861,
+    "rmb": -0.001755,
+    "news": 0.254002,
+    "macro": 0.328365
   },
   "scenarios": [
     {
       "name": "base",
       "label": "基准",
-      "prob_up": 0.4706,
+      "prob_up": 0.5255,
       "confidence": 0.5725,
       "delta": 0.0
     },
     {
       "name": "bull",
       "label": "上行扩张",
-      "prob_up": 0.6354,
+      "prob_up": 0.6249,
       "confidence": 0.85,
-      "delta": 0.1648
+      "delta": 0.0994
     },
     {
       "name": "bear",
       "label": "下行压力",
-      "prob_up": 0.4021,
-      "confidence": 0.8122,
-      "delta": -0.0685
+      "prob_up": 0.4315,
+      "confidence": 0.85,
+      "delta": -0.094
     },
     {
       "name": "shock",
       "label": "综合冲击",
-      "prob_up": 0.2875,
+      "prob_up": 0.3423,
       "confidence": 0.85,
       "delta": -0.1831
     },
     {
       "name": "liquidity",
       "label": "流动性冲击",
-      "prob_up": 0.3706,
+      "prob_up": 0.4255,
       "confidence": 0.85,
       "delta": -0.1
     },
     {
       "name": "geopolitical",
       "label": "地缘风险",
-      "prob_up": 0.3771,
+      "prob_up": 0.4355,
       "confidence": 0.85,
-      "delta": -0.0935
+      "delta": -0.09
     },
     {
       "name": "policy_stimulus",
       "label": "政策刺激",
-      "prob_up": 0.5943,
+      "prob_up": 0.6219,
       "confidence": 0.85,
-      "delta": 0.1237
+      "delta": 0.0964
     },
     {
       "name": "rmb_shock",
       "label": "人民币冲击",
-      "prob_up": 0.4006,
+      "prob_up": 0.4555,
       "confidence": 0.8175,
       "delta": -0.07
     },
     {
       "name": "overseas_selloff",
       "label": "海外急跌",
-      "prob_up": 0.3669,
+      "prob_up": 0.4247,
       "confidence": 0.85,
-      "delta": -0.1037
+      "delta": -0.1008
     }
   ],
   "risk_flags": [
-    "下行压力情景一致偏弱",
     null,
-    "海外同步走弱"
+    null,
+    null
   ],
-  "base_date": "2026-11-20",
-  "updated_at": "2026-11-20T16:19:54.512082Z"
+  "base_date": "2026-11-23",
+  "updated_at": "2026-11-23T19:26:45.568235Z"
 }

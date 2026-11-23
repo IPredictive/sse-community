@@ -25,7 +25,7 @@
     0.82,
     1.22
   ],
-  "downside_stress_avg": 0.3675,
-  "scenario_penalty": 0.0729,
-  "base_date": "2026-11-20"
+  "downside_stress_avg": 0.4192,
+  "scenario_penalty": 0.0445,
+  "base_date": "2026-11-23"
 }

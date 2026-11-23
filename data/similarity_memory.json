@@ -1,150 +1,150 @@
 {
-  "as_of": "2026-11-20",
-  "matched_samples": 225,
+  "as_of": "2026-11-23",
+  "matched_samples": 242,
   "brains": {
     "A9_SUPER_CHIEF": {
-      "neighbors": 3,
-      "weighted_accuracy": 0.65,
-      "weighted_brier": 0.2523,
-      "avg_similarity": 0.8323
+      "neighbors": 4,
+      "weighted_accuracy": 0.5171,
+      "weighted_brier": 0.2541,
+      "avg_similarity": 0.8526
     },
     "A9_chief_super": {
-      "neighbors": 3,
-      "weighted_accuracy": 0.65,
-      "weighted_brier": 0.2523,
-      "avg_similarity": 0.8323
+      "neighbors": 4,
+      "weighted_accuracy": 0.5171,
+      "weighted_brier": 0.2541,
+      "avg_similarity": 0.8526
     },
     "A9_geopolitical": {
-      "neighbors": 3,
-      "weighted_accuracy": 0.65,
+      "neighbors": 4,
+      "weighted_accuracy": 0.5171,
       "weighted_brier": 0.25,
-      "avg_similarity": 0.8323
+      "avg_similarity": 0.8526
     },
     "A9_global": {
-      "neighbors": 3,
-      "weighted_accuracy": 0.65,
-      "weighted_brier": 0.2529,
-      "avg_similarity": 0.8323
+      "neighbors": 4,
+      "weighted_accuracy": 0.5171,
+      "weighted_brier": 0.2927,
+      "avg_similarity": 0.8526
     },
     "A9_macro": {
-      "neighbors": 3,
-      "weighted_accuracy": 0.0,
-      "weighted_brier": 0.2864,
-      "avg_similarity": 0.8323
+      "neighbors": 4,
+      "weighted_accuracy": 0.2276,
+      "weighted_brier": 0.246,
+      "avg_similarity": 0.8526
     },
     "A9_market_structure": {
-      "neighbors": 3,
-      "weighted_accuracy": 0.65,
-      "weighted_brier": 0.2392,
-      "avg_similarity": 0.8323
+      "neighbors": 4,
+      "weighted_accuracy": 0.5171,
+      "weighted_brier": 0.2736,
+      "avg_similarity": 0.8526
     },
     "A9_money_sentiment": {
-      "neighbors": 3,
-      "weighted_accuracy": 0.6678,
-      "weighted_brier": 0.2749,
-      "avg_similarity": 0.8323
+      "neighbors": 4,
+      "weighted_accuracy": 0.7456,
+      "weighted_brier": 0.2596,
+      "avg_similarity": 0.8526
     },
     "A9_policy": {
-      "neighbors": 3,
-      "weighted_accuracy": 0.35,
-      "weighted_brier": 0.2513,
-      "avg_similarity": 0.8323
+      "neighbors": 4,
+      "weighted_accuracy": 0.4829,
+      "weighted_brier": 0.2495,
+      "avg_similarity": 0.8526
     },
     "A9_quant": {
-      "neighbors": 3,
-      "weighted_accuracy": 0.65,
-      "weighted_brier": 0.2329,
-      "avg_similarity": 0.8323
+      "neighbors": 4,
+      "weighted_accuracy": 0.5171,
+      "weighted_brier": 0.269,
+      "avg_similarity": 0.8526
     },
     "A9_technical": {
-      "neighbors": 3,
-      "weighted_accuracy": 0.65,
+      "neighbors": 4,
+      "weighted_accuracy": 0.5171,
       "weighted_brier": 0.25,
-      "avg_similarity": 0.8323
+      "avg_similarity": 0.8526
     },
     "CHIEF_ANALYST": {
       "neighbors": 30,
-      "weighted_accuracy": 0.5562,
-      "weighted_brier": 0.2531,
-      "avg_similarity": 0.798
+      "weighted_accuracy": 0.5772,
+      "weighted_brier": 0.2503,
+      "avg_similarity": 0.8401
     },
     "CHIEF_ANALYST_CALIBRATED": {
-      "neighbors": 3,
-      "weighted_accuracy": 0.65,
-      "weighted_brier": 0.2354,
-      "avg_similarity": 0.8323
+      "neighbors": 4,
+      "weighted_accuracy": 0.5171,
+      "weighted_brier": 0.2584,
+      "avg_similarity": 0.8526
     },
     "flow": {
       "neighbors": 30,
-      "weighted_accuracy": 0.6161,
-      "weighted_brier": 0.2543,
-      "avg_similarity": 0.798
+      "weighted_accuracy": 0.6078,
+      "weighted_brier": 0.2527,
+      "avg_similarity": 0.8401
     },
     "macro": {
       "neighbors": 30,
-      "weighted_accuracy": 0.3074,
-      "weighted_brier": 0.2703,
-      "avg_similarity": 0.798
+      "weighted_accuracy": 0.3233,
+      "weighted_brier": 0.2691,
+      "avg_similarity": 0.8401
     },
     "overseas": {
       "neighbors": 30,
-      "weighted_accuracy": 0.4766,
-      "weighted_brier": 0.2622,
-      "avg_similarity": 0.798
+      "weighted_accuracy": 0.4297,
+      "weighted_brier": 0.2728,
+      "avg_similarity": 0.8401
     },
     "sentiment": {
       "neighbors": 30,
-      "weighted_accuracy": 0.3894,
-      "weighted_brier": 0.2582,
-      "avg_similarity": 0.798
+      "weighted_accuracy": 0.4089,
+      "weighted_brier": 0.2579,
+      "avg_similarity": 0.8401
     },
     "technical": {
       "neighbors": 30,
-      "weighted_accuracy": 0.5562,
-      "weighted_brier": 0.3542,
-      "avg_similarity": 0.798
+      "weighted_accuracy": 0.5772,
+      "weighted_brier": 0.3459,
+      "avg_similarity": 0.8401
     }
   },
   "nearest_cases": [
     {
-      "date": "2026-10-15",
-      "similarity": 0.9094,
+      "date": "2026-10-09",
+      "similarity": 0.9508,
+      "agent": "flow",
+      "prob_up": 0.4461,
+      "actual_up": 0,
+      "correct": 1
+    },
+    {
+      "date": "2026-10-09",
+      "similarity": 0.9508,
       "agent": "overseas",
-      "prob_up": 0.3144,
-      "actual_up": 1,
+      "prob_up": 0.6713,
+      "actual_up": 0,
       "correct": 0
     },
     {
-      "date": "2026-10-15",
-      "similarity": 0.9094,
-      "agent": "sentiment",
-      "prob_up": 0.4964,
-      "actual_up": 1,
-      "correct": 0
-    },
-    {
-      "date": "2026-10-15",
-      "similarity": 0.9094,
+      "date": "2026-10-09",
+      "similarity": 0.9508,
       "agent": "CHIEF_ANALYST",
-      "prob_up": 0.3762,
-      "actual_up": 1,
-      "correct": 0
+      "prob_up": 0.4654,
+      "actual_up": 0,
+      "correct": 1
     },
     {
-      "date": "2026-10-15",
-      "similarity": 0.9094,
-      "agent": "macro",
-      "prob_up": 0.4488,
-      "actual_up": 1,
-      "correct": 0
+      "date": "2026-10-09",
+      "similarity": 0.9508,
+      "agent": "sentiment",
+      "prob_up": 0.4877,
+      "actual_up": 0,
+      "correct": 1
     },
     {
-      "date": "2026-10-15",
-      "similarity": 0.9094,
+      "date": "2026-10-09",
+      "similarity": 0.9508,
       "agent": "technical",
       "prob_up": 0.08,
-      "actual_up": 1,
-      "correct": 0
+      "actual_up": 0,
+      "correct": 1
     }
   ]
 }
