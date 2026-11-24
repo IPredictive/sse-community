@@ -2,50 +2,50 @@
   "regime": "下行趋势",
   "event_label": "policy_macro",
   "report": {
-    "sample_count": 242,
-    "as_of_date": "2026-11-23",
+    "sample_count": 259,
+    "as_of_date": "2026-11-24",
     "event_label": "policy_macro",
-    "event_samples": 69,
-    "similarity_as_of": "2026-11-23",
-    "similarity_matched_samples": 242,
+    "event_samples": 73,
+    "similarity_as_of": "2026-11-24",
+    "similarity_matched_samples": 259,
     "nearest_cases": [
       {
-        "date": "2026-10-09",
-        "similarity": 0.9508,
-        "agent": "flow",
-        "prob_up": 0.4461,
+        "date": "2026-11-11",
+        "similarity": 0.9259,
+        "agent": "sentiment",
+        "prob_up": 0.5,
         "actual_up": 0,
         "correct": 1
       },
       {
-        "date": "2026-10-09",
-        "similarity": 0.9508,
-        "agent": "overseas",
-        "prob_up": 0.6713,
+        "date": "2026-11-11",
+        "similarity": 0.9259,
+        "agent": "CHIEF_ANALYST",
+        "prob_up": 0.4795,
+        "actual_up": 0,
+        "correct": 1
+      },
+      {
+        "date": "2026-11-11",
+        "similarity": 0.9259,
+        "agent": "macro",
+        "prob_up": 0.5179,
         "actual_up": 0,
         "correct": 0
       },
       {
-        "date": "2026-10-09",
-        "similarity": 0.9508,
-        "agent": "CHIEF_ANALYST",
-        "prob_up": 0.4654,
-        "actual_up": 0,
-        "correct": 1
-      },
-      {
-        "date": "2026-10-09",
-        "similarity": 0.9508,
-        "agent": "sentiment",
-        "prob_up": 0.4877,
-        "actual_up": 0,
-        "correct": 1
-      },
-      {
-        "date": "2026-10-09",
-        "similarity": 0.9508,
+        "date": "2026-11-11",
+        "similarity": 0.9259,
         "agent": "technical",
-        "prob_up": 0.08,
+        "prob_up": 0.3167,
+        "actual_up": 0,
+        "correct": 1
+      },
+      {
+        "date": "2026-11-11",
+        "similarity": 0.9259,
+        "agent": "flow",
+        "prob_up": 0.4715,
         "actual_up": 0,
         "correct": 1
       }
@@ -54,248 +54,248 @@
       "A9_SUPER_CHIEF": {
         "weight": 1.0,
         "postmortem": {
-          "samples": 4,
-          "accuracy": 0.5,
-          "avg_brier": 0.2545,
-          "wrong_rate": 0.5,
+          "samples": 5,
+          "accuracy": 0.4,
+          "avg_brier": 0.2577,
+          "wrong_rate": 0.6,
           "overconfidence_error_rate": 0.0,
-          "severe_error_rate": 0.5,
-          "wrong_streak": 1,
-          "attribution": "概率校准偏差"
+          "severe_error_rate": 0.6,
+          "wrong_streak": 2,
+          "attribution": "方向判断错误偏多"
         },
         "similar_cases": {
-          "neighbors": 4,
-          "weighted_accuracy": 0.5171,
-          "weighted_brier": 0.2541,
-          "avg_similarity": 0.8526
+          "neighbors": 5,
+          "weighted_accuracy": 0.4128,
+          "weighted_brier": 0.2574,
+          "avg_similarity": 0.8559
         }
       },
       "A9_chief_super": {
         "weight": 1.0,
         "postmortem": {
-          "samples": 4,
-          "accuracy": 0.5,
-          "avg_brier": 0.2545,
-          "wrong_rate": 0.5,
+          "samples": 5,
+          "accuracy": 0.4,
+          "avg_brier": 0.2577,
+          "wrong_rate": 0.6,
           "overconfidence_error_rate": 0.0,
-          "severe_error_rate": 0.5,
-          "wrong_streak": 1,
-          "attribution": "概率校准偏差"
+          "severe_error_rate": 0.6,
+          "wrong_streak": 2,
+          "attribution": "方向判断错误偏多"
         },
         "similar_cases": {
-          "neighbors": 4,
-          "weighted_accuracy": 0.5171,
-          "weighted_brier": 0.2541,
-          "avg_similarity": 0.8526
+          "neighbors": 5,
+          "weighted_accuracy": 0.4128,
+          "weighted_brier": 0.2574,
+          "avg_similarity": 0.8559
         }
       },
       "A9_geopolitical": {
         "weight": 1.0,
         "postmortem": {
-          "samples": 4,
-          "accuracy": 0.5,
+          "samples": 5,
+          "accuracy": 0.4,
           "avg_brier": 0.25,
-          "wrong_rate": 0.5,
+          "wrong_rate": 0.6,
           "overconfidence_error_rate": 0.0,
           "severe_error_rate": 1.0,
-          "wrong_streak": 1,
-          "attribution": "概率校准偏差"
+          "wrong_streak": 2,
+          "attribution": "方向判断错误偏多"
         },
         "similar_cases": {
-          "neighbors": 4,
-          "weighted_accuracy": 0.5171,
+          "neighbors": 5,
+          "weighted_accuracy": 0.4128,
           "weighted_brier": 0.25,
-          "avg_similarity": 0.8526
+          "avg_similarity": 0.8559
         }
       },
       "A9_global": {
         "weight": 1.0,
         "postmortem": {
-          "samples": 4,
-          "accuracy": 0.5,
-          "avg_brier": 0.2972,
-          "wrong_rate": 0.5,
+          "samples": 5,
+          "accuracy": 0.6,
+          "avg_brier": 0.2474,
+          "wrong_rate": 0.4,
           "overconfidence_error_rate": 0.0,
-          "severe_error_rate": 0.5,
-          "wrong_streak": 1,
-          "attribution": "概率校准偏差"
+          "severe_error_rate": 0.4,
+          "wrong_streak": 0,
+          "attribution": "正常波动"
         },
         "similar_cases": {
-          "neighbors": 4,
-          "weighted_accuracy": 0.5171,
-          "weighted_brier": 0.2927,
-          "avg_similarity": 0.8526
+          "neighbors": 5,
+          "weighted_accuracy": 0.6255,
+          "weighted_brier": 0.2398,
+          "avg_similarity": 0.8559
         }
       },
       "A9_macro": {
         "weight": 1.0,
         "postmortem": {
-          "samples": 4,
-          "accuracy": 0.25,
-          "avg_brier": 0.2414,
-          "wrong_rate": 0.75,
+          "samples": 5,
+          "accuracy": 0.4,
+          "avg_brier": 0.232,
+          "wrong_rate": 0.6,
           "overconfidence_error_rate": 0.0,
-          "severe_error_rate": 0.75,
+          "severe_error_rate": 0.6,
           "wrong_streak": 0,
           "attribution": "方向判断错误偏多"
         },
         "similar_cases": {
-          "neighbors": 4,
-          "weighted_accuracy": 0.2276,
-          "weighted_brier": 0.246,
-          "avg_similarity": 0.8526
+          "neighbors": 5,
+          "weighted_accuracy": 0.3883,
+          "weighted_brier": 0.2358,
+          "avg_similarity": 0.8559
         }
       },
       "A9_market_structure": {
         "weight": 1.0,
         "postmortem": {
-          "samples": 4,
-          "accuracy": 0.5,
-          "avg_brier": 0.2781,
-          "wrong_rate": 0.5,
+          "samples": 5,
+          "accuracy": 0.4,
+          "avg_brier": 0.3041,
+          "wrong_rate": 0.6,
           "overconfidence_error_rate": 0.0,
-          "severe_error_rate": 0.5,
-          "wrong_streak": 1,
-          "attribution": "概率校准偏差"
+          "severe_error_rate": 0.6,
+          "wrong_streak": 2,
+          "attribution": "方向判断错误偏多"
         },
         "similar_cases": {
-          "neighbors": 4,
-          "weighted_accuracy": 0.5171,
-          "weighted_brier": 0.2736,
-          "avg_similarity": 0.8526
+          "neighbors": 5,
+          "weighted_accuracy": 0.4128,
+          "weighted_brier": 0.3008,
+          "avg_similarity": 0.8559
         }
       },
       "A9_money_sentiment": {
         "weight": 1.0,
         "postmortem": {
-          "samples": 4,
-          "accuracy": 0.75,
-          "avg_brier": 0.2583,
-          "wrong_rate": 0.25,
+          "samples": 5,
+          "accuracy": 0.8,
+          "avg_brier": 0.244,
+          "wrong_rate": 0.2,
           "overconfidence_error_rate": 0.0,
-          "severe_error_rate": 0.5,
+          "severe_error_rate": 0.4,
           "wrong_streak": 0,
-          "attribution": "概率校准偏差"
+          "attribution": "正常波动"
         },
         "similar_cases": {
-          "neighbors": 4,
-          "weighted_accuracy": 0.7456,
-          "weighted_brier": 0.2596,
-          "avg_similarity": 0.8526
+          "neighbors": 5,
+          "weighted_accuracy": 0.795,
+          "weighted_brier": 0.2448,
+          "avg_similarity": 0.8559
         }
       },
       "A9_policy": {
         "weight": 1.0,
         "postmortem": {
-          "samples": 4,
-          "accuracy": 0.5,
-          "avg_brier": 0.2492,
-          "wrong_rate": 0.5,
+          "samples": 5,
+          "accuracy": 0.6,
+          "avg_brier": 0.2444,
+          "wrong_rate": 0.4,
           "overconfidence_error_rate": 0.0,
-          "severe_error_rate": 0.5,
+          "severe_error_rate": 0.4,
           "wrong_streak": 0,
-          "attribution": "概率校准偏差"
+          "attribution": "正常波动"
         },
         "similar_cases": {
-          "neighbors": 4,
-          "weighted_accuracy": 0.4829,
-          "weighted_brier": 0.2495,
-          "avg_similarity": 0.8526
+          "neighbors": 5,
+          "weighted_accuracy": 0.5872,
+          "weighted_brier": 0.2445,
+          "avg_similarity": 0.8559
         }
       },
       "A9_quant": {
         "weight": 1.0,
         "postmortem": {
-          "samples": 4,
-          "accuracy": 0.5,
-          "avg_brier": 0.2736,
-          "wrong_rate": 0.5,
+          "samples": 5,
+          "accuracy": 0.4,
+          "avg_brier": 0.2936,
+          "wrong_rate": 0.6,
           "overconfidence_error_rate": 0.0,
-          "severe_error_rate": 0.5,
-          "wrong_streak": 1,
-          "attribution": "概率校准偏差"
+          "severe_error_rate": 0.6,
+          "wrong_streak": 2,
+          "attribution": "方向判断错误偏多"
         },
         "similar_cases": {
-          "neighbors": 4,
-          "weighted_accuracy": 0.5171,
-          "weighted_brier": 0.269,
-          "avg_similarity": 0.8526
+          "neighbors": 5,
+          "weighted_accuracy": 0.4128,
+          "weighted_brier": 0.2898,
+          "avg_similarity": 0.8559
         }
       },
       "A9_technical": {
         "weight": 1.0,
         "postmortem": {
-          "samples": 4,
-          "accuracy": 0.5,
+          "samples": 5,
+          "accuracy": 0.4,
           "avg_brier": 0.25,
-          "wrong_rate": 0.5,
+          "wrong_rate": 0.6,
           "overconfidence_error_rate": 0.0,
           "severe_error_rate": 1.0,
-          "wrong_streak": 1,
-          "attribution": "概率校准偏差"
+          "wrong_streak": 2,
+          "attribution": "方向判断错误偏多"
         },
         "similar_cases": {
-          "neighbors": 4,
-          "weighted_accuracy": 0.5171,
+          "neighbors": 5,
+          "weighted_accuracy": 0.4128,
           "weighted_brier": 0.25,
-          "avg_similarity": 0.8526
+          "avg_similarity": 0.8559
         }
       },
       "CHIEF_ANALYST": {
         "weight": 1.0,
         "postmortem": {
           "samples": 20,
-          "accuracy": 0.6,
-          "avg_brier": 0.2418,
-          "wrong_rate": 0.4,
+          "accuracy": 0.55,
+          "avg_brier": 0.2481,
+          "wrong_rate": 0.45,
           "overconfidence_error_rate": 0.0,
-          "severe_error_rate": 0.4,
-          "wrong_streak": 1,
-          "attribution": "正常波动"
+          "severe_error_rate": 0.45,
+          "wrong_streak": 2,
+          "attribution": "概率校准偏差"
         },
         "similar_cases": {
           "neighbors": 30,
-          "weighted_accuracy": 0.5772,
-          "weighted_brier": 0.2503,
-          "avg_similarity": 0.8401
+          "weighted_accuracy": 0.5773,
+          "weighted_brier": 0.2449,
+          "avg_similarity": 0.8478
         }
       },
       "CHIEF_ANALYST_CALIBRATED": {
         "weight": 1.0,
         "postmortem": {
-          "samples": 4,
-          "accuracy": 0.5,
-          "avg_brier": 0.261,
-          "wrong_rate": 0.5,
+          "samples": 5,
+          "accuracy": 0.4,
+          "avg_brier": 0.2684,
+          "wrong_rate": 0.6,
           "overconfidence_error_rate": 0.0,
-          "severe_error_rate": 0.5,
-          "wrong_streak": 1,
-          "attribution": "概率校准偏差"
+          "severe_error_rate": 0.6,
+          "wrong_streak": 2,
+          "attribution": "方向判断错误偏多"
         },
         "similar_cases": {
-          "neighbors": 4,
-          "weighted_accuracy": 0.5171,
-          "weighted_brier": 0.2584,
-          "avg_similarity": 0.8526
+          "neighbors": 5,
+          "weighted_accuracy": 0.4128,
+          "weighted_brier": 0.266,
+          "avg_similarity": 0.8559
         }
       },
       "flow": {
         "weight": 1.0,
         "postmortem": {
           "samples": 20,
-          "accuracy": 0.7,
-          "avg_brier": 0.2485,
-          "wrong_rate": 0.3,
+          "accuracy": 0.65,
+          "avg_brier": 0.2554,
+          "wrong_rate": 0.35,
           "overconfidence_error_rate": 0.0,
-          "severe_error_rate": 0.3,
-          "wrong_streak": 1,
+          "severe_error_rate": 0.35,
+          "wrong_streak": 2,
           "attribution": "正常波动"
         },
         "similar_cases": {
           "neighbors": 30,
-          "weighted_accuracy": 0.6078,
-          "weighted_brier": 0.2527,
-          "avg_similarity": 0.8401
+          "weighted_accuracy": 0.6398,
+          "weighted_brier": 0.2459,
+          "avg_similarity": 0.8478
         }
       },
       "macro": {
@@ -303,37 +303,37 @@
         "postmortem": {
           "samples": 20,
           "accuracy": 0.35,
-          "avg_brier": 0.2651,
+          "avg_brier": 0.2641,
           "wrong_rate": 0.65,
           "overconfidence_error_rate": 0.0,
           "severe_error_rate": 0.65,
-          "wrong_streak": 0,
+          "wrong_streak": 1,
           "attribution": "方向判断错误偏多"
         },
         "similar_cases": {
           "neighbors": 30,
-          "weighted_accuracy": 0.3233,
-          "weighted_brier": 0.2691,
-          "avg_similarity": 0.8401
+          "weighted_accuracy": 0.3486,
+          "weighted_brier": 0.2678,
+          "avg_similarity": 0.8478
         }
       },
       "overseas": {
         "weight": 1.0,
         "postmortem": {
           "samples": 20,
-          "accuracy": 0.55,
-          "avg_brier": 0.2408,
-          "wrong_rate": 0.45,
+          "accuracy": 0.6,
+          "avg_brier": 0.234,
+          "wrong_rate": 0.4,
           "overconfidence_error_rate": 0.05,
-          "severe_error_rate": 0.45,
-          "wrong_streak": 1,
-          "attribution": "概率校准偏差"
+          "severe_error_rate": 0.4,
+          "wrong_streak": 0,
+          "attribution": "正常波动"
         },
         "similar_cases": {
           "neighbors": 30,
-          "weighted_accuracy": 0.4297,
-          "weighted_brier": 0.2728,
-          "avg_similarity": 0.8401
+          "weighted_accuracy": 0.4351,
+          "weighted_brier": 0.2676,
+          "avg_similarity": 0.8478
         }
       },
       "sentiment": {
@@ -345,189 +345,189 @@
           "wrong_rate": 0.5,
           "overconfidence_error_rate": 0.0,
           "severe_error_rate": 0.55,
-          "wrong_streak": 3,
+          "wrong_streak": 0,
           "attribution": "概率校准偏差"
         },
         "similar_cases": {
           "neighbors": 30,
-          "weighted_accuracy": 0.4089,
-          "weighted_brier": 0.2579,
-          "avg_similarity": 0.8401
+          "weighted_accuracy": 0.4743,
+          "weighted_brier": 0.2542,
+          "avg_similarity": 0.8478
         }
       },
       "technical": {
         "weight": 1.0,
         "postmortem": {
           "samples": 20,
-          "accuracy": 0.55,
-          "avg_brier": 0.3253,
-          "wrong_rate": 0.45,
-          "overconfidence_error_rate": 0.45,
-          "severe_error_rate": 0.45,
-          "wrong_streak": 1,
+          "accuracy": 0.5,
+          "avg_brier": 0.3673,
+          "wrong_rate": 0.5,
+          "overconfidence_error_rate": 0.5,
+          "severe_error_rate": 0.5,
+          "wrong_streak": 2,
           "attribution": "过度自信偏多"
         },
         "similar_cases": {
           "neighbors": 30,
-          "weighted_accuracy": 0.5772,
-          "weighted_brier": 0.3459,
-          "avg_similarity": 0.8401
+          "weighted_accuracy": 0.5773,
+          "weighted_brier": 0.3354,
+          "avg_similarity": 0.8478
         }
       }
     }
   },
   "postmortem": {
-    "sample_count": 242,
+    "sample_count": 259,
     "agents": {
       "A9_SUPER_CHIEF": {
-        "samples": 4,
-        "accuracy": 0.5,
-        "avg_brier": 0.2545,
-        "wrong_rate": 0.5,
+        "samples": 5,
+        "accuracy": 0.4,
+        "avg_brier": 0.2577,
+        "wrong_rate": 0.6,
         "overconfidence_error_rate": 0.0,
-        "severe_error_rate": 0.5,
-        "wrong_streak": 1,
-        "attribution": "概率校准偏差"
+        "severe_error_rate": 0.6,
+        "wrong_streak": 2,
+        "attribution": "方向判断错误偏多"
       },
       "A9_chief_super": {
-        "samples": 4,
-        "accuracy": 0.5,
-        "avg_brier": 0.2545,
-        "wrong_rate": 0.5,
+        "samples": 5,
+        "accuracy": 0.4,
+        "avg_brier": 0.2577,
+        "wrong_rate": 0.6,
         "overconfidence_error_rate": 0.0,
-        "severe_error_rate": 0.5,
-        "wrong_streak": 1,
-        "attribution": "概率校准偏差"
+        "severe_error_rate": 0.6,
+        "wrong_streak": 2,
+        "attribution": "方向判断错误偏多"
       },
       "A9_geopolitical": {
-        "samples": 4,
-        "accuracy": 0.5,
+        "samples": 5,
+        "accuracy": 0.4,
         "avg_brier": 0.25,
-        "wrong_rate": 0.5,
+        "wrong_rate": 0.6,
         "overconfidence_error_rate": 0.0,
         "severe_error_rate": 1.0,
-        "wrong_streak": 1,
-        "attribution": "概率校准偏差"
+        "wrong_streak": 2,
+        "attribution": "方向判断错误偏多"
       },
       "A9_global": {
-        "samples": 4,
-        "accuracy": 0.5,
-        "avg_brier": 0.2972,
-        "wrong_rate": 0.5,
+        "samples": 5,
+        "accuracy": 0.6,
+        "avg_brier": 0.2474,
+        "wrong_rate": 0.4,
         "overconfidence_error_rate": 0.0,
-        "severe_error_rate": 0.5,
-        "wrong_streak": 1,
-        "attribution": "概率校准偏差"
+        "severe_error_rate": 0.4,
+        "wrong_streak": 0,
+        "attribution": "正常波动"
       },
       "A9_macro": {
-        "samples": 4,
-        "accuracy": 0.25,
-        "avg_brier": 0.2414,
-        "wrong_rate": 0.75,
+        "samples": 5,
+        "accuracy": 0.4,
+        "avg_brier": 0.232,
+        "wrong_rate": 0.6,
         "overconfidence_error_rate": 0.0,
-        "severe_error_rate": 0.75,
+        "severe_error_rate": 0.6,
         "wrong_streak": 0,
         "attribution": "方向判断错误偏多"
       },
       "A9_market_structure": {
-        "samples": 4,
-        "accuracy": 0.5,
-        "avg_brier": 0.2781,
-        "wrong_rate": 0.5,
+        "samples": 5,
+        "accuracy": 0.4,
+        "avg_brier": 0.3041,
+        "wrong_rate": 0.6,
         "overconfidence_error_rate": 0.0,
-        "severe_error_rate": 0.5,
-        "wrong_streak": 1,
-        "attribution": "概率校准偏差"
+        "severe_error_rate": 0.6,
+        "wrong_streak": 2,
+        "attribution": "方向判断错误偏多"
       },
       "A9_money_sentiment": {
-        "samples": 4,
-        "accuracy": 0.75,
-        "avg_brier": 0.2583,
-        "wrong_rate": 0.25,
+        "samples": 5,
+        "accuracy": 0.8,
+        "avg_brier": 0.244,
+        "wrong_rate": 0.2,
         "overconfidence_error_rate": 0.0,
-        "severe_error_rate": 0.5,
+        "severe_error_rate": 0.4,
         "wrong_streak": 0,
-        "attribution": "概率校准偏差"
+        "attribution": "正常波动"
       },
       "A9_policy": {
-        "samples": 4,
-        "accuracy": 0.5,
-        "avg_brier": 0.2492,
-        "wrong_rate": 0.5,
-        "overconfidence_error_rate": 0.0,
-        "severe_error_rate": 0.5,
-        "wrong_streak": 0,
-        "attribution": "概率校准偏差"
-      },
-      "A9_quant": {
-        "samples": 4,
-        "accuracy": 0.5,
-        "avg_brier": 0.2736,
-        "wrong_rate": 0.5,
-        "overconfidence_error_rate": 0.0,
-        "severe_error_rate": 0.5,
-        "wrong_streak": 1,
-        "attribution": "概率校准偏差"
-      },
-      "A9_technical": {
-        "samples": 4,
-        "accuracy": 0.5,
-        "avg_brier": 0.25,
-        "wrong_rate": 0.5,
-        "overconfidence_error_rate": 0.0,
-        "severe_error_rate": 1.0,
-        "wrong_streak": 1,
-        "attribution": "概率校准偏差"
-      },
-      "CHIEF_ANALYST": {
-        "samples": 20,
+        "samples": 5,
         "accuracy": 0.6,
-        "avg_brier": 0.2418,
+        "avg_brier": 0.2444,
         "wrong_rate": 0.4,
         "overconfidence_error_rate": 0.0,
         "severe_error_rate": 0.4,
-        "wrong_streak": 1,
+        "wrong_streak": 0,
         "attribution": "正常波动"
       },
-      "CHIEF_ANALYST_CALIBRATED": {
-        "samples": 4,
-        "accuracy": 0.5,
-        "avg_brier": 0.261,
-        "wrong_rate": 0.5,
+      "A9_quant": {
+        "samples": 5,
+        "accuracy": 0.4,
+        "avg_brier": 0.2936,
+        "wrong_rate": 0.6,
         "overconfidence_error_rate": 0.0,
-        "severe_error_rate": 0.5,
-        "wrong_streak": 1,
+        "severe_error_rate": 0.6,
+        "wrong_streak": 2,
+        "attribution": "方向判断错误偏多"
+      },
+      "A9_technical": {
+        "samples": 5,
+        "accuracy": 0.4,
+        "avg_brier": 0.25,
+        "wrong_rate": 0.6,
+        "overconfidence_error_rate": 0.0,
+        "severe_error_rate": 1.0,
+        "wrong_streak": 2,
+        "attribution": "方向判断错误偏多"
+      },
+      "CHIEF_ANALYST": {
+        "samples": 20,
+        "accuracy": 0.55,
+        "avg_brier": 0.2481,
+        "wrong_rate": 0.45,
+        "overconfidence_error_rate": 0.0,
+        "severe_error_rate": 0.45,
+        "wrong_streak": 2,
         "attribution": "概率校准偏差"
+      },
+      "CHIEF_ANALYST_CALIBRATED": {
+        "samples": 5,
+        "accuracy": 0.4,
+        "avg_brier": 0.2684,
+        "wrong_rate": 0.6,
+        "overconfidence_error_rate": 0.0,
+        "severe_error_rate": 0.6,
+        "wrong_streak": 2,
+        "attribution": "方向判断错误偏多"
       },
       "flow": {
         "samples": 20,
-        "accuracy": 0.7,
-        "avg_brier": 0.2485,
-        "wrong_rate": 0.3,
+        "accuracy": 0.65,
+        "avg_brier": 0.2554,
+        "wrong_rate": 0.35,
         "overconfidence_error_rate": 0.0,
-        "severe_error_rate": 0.3,
-        "wrong_streak": 1,
+        "severe_error_rate": 0.35,
+        "wrong_streak": 2,
         "attribution": "正常波动"
       },
       "macro": {
         "samples": 20,
         "accuracy": 0.35,
-        "avg_brier": 0.2651,
+        "avg_brier": 0.2641,
         "wrong_rate": 0.65,
         "overconfidence_error_rate": 0.0,
         "severe_error_rate": 0.65,
-        "wrong_streak": 0,
+        "wrong_streak": 1,
         "attribution": "方向判断错误偏多"
       },
       "overseas": {
         "samples": 20,
-        "accuracy": 0.55,
-        "avg_brier": 0.2408,
-        "wrong_rate": 0.45,
+        "accuracy": 0.6,
+        "avg_brier": 0.234,
+        "wrong_rate": 0.4,
         "overconfidence_error_rate": 0.05,
-        "severe_error_rate": 0.45,
-        "wrong_streak": 1,
-        "attribution": "概率校准偏差"
+        "severe_error_rate": 0.4,
+        "wrong_streak": 0,
+        "attribution": "正常波动"
       },
       "sentiment": {
         "samples": 20,
@@ -536,33 +536,33 @@
         "wrong_rate": 0.5,
         "overconfidence_error_rate": 0.0,
         "severe_error_rate": 0.55,
-        "wrong_streak": 3,
+        "wrong_streak": 0,
         "attribution": "概率校准偏差"
       },
       "technical": {
         "samples": 20,
-        "accuracy": 0.55,
-        "avg_brier": 0.3253,
-        "wrong_rate": 0.45,
-        "overconfidence_error_rate": 0.45,
-        "severe_error_rate": 0.45,
-        "wrong_streak": 1,
+        "accuracy": 0.5,
+        "avg_brier": 0.3673,
+        "wrong_rate": 0.5,
+        "overconfidence_error_rate": 0.5,
+        "severe_error_rate": 0.5,
+        "wrong_streak": 2,
         "attribution": "过度自信偏多"
       }
     }
   },
   "event_memory_summary": {
-    "sample_count": 242,
+    "sample_count": 259,
     "events": {
       "geopolitical": {
-        "samples": 4,
-        "accuracy": 0.5,
+        "samples": 5,
+        "accuracy": 0.4,
         "avg_brier": 0.25
       },
       "normal_noise": {
-        "samples": 42,
-        "accuracy": 0.8095,
-        "avg_brier": 0.22
+        "samples": 50,
+        "accuracy": 0.68,
+        "avg_brier": 0.2455
       },
       "overseas": {
         "samples": 1,
@@ -570,19 +570,19 @@
         "avg_brier": 0.2044
       },
       "policy_macro": {
-        "samples": 69,
-        "accuracy": 0.4203,
-        "avg_brier": 0.2598
+        "samples": 73,
+        "accuracy": 0.4247,
+        "avg_brier": 0.2588
       },
       "rmb_fx": {
-        "samples": 35,
-        "accuracy": 0.4571,
-        "avg_brier": 0.2756
+        "samples": 37,
+        "accuracy": 0.4865,
+        "avg_brier": 0.2656
       },
       "sentiment_flow": {
-        "samples": 35,
-        "accuracy": 0.4286,
-        "avg_brier": 0.258
+        "samples": 37,
+        "accuracy": 0.4595,
+        "avg_brier": 0.2543
       },
       "trend_continuation": {
         "samples": 44,
@@ -597,46 +597,46 @@
     }
   },
   "similarity_memory_summary": {
-    "as_of": "2026-11-23",
-    "matched_samples": 242,
+    "as_of": "2026-11-24",
+    "matched_samples": 259,
     "nearest_cases": [
       {
-        "date": "2026-10-09",
-        "similarity": 0.9508,
-        "agent": "flow",
-        "prob_up": 0.4461,
+        "date": "2026-11-11",
+        "similarity": 0.9259,
+        "agent": "sentiment",
+        "prob_up": 0.5,
         "actual_up": 0,
         "correct": 1
       },
       {
-        "date": "2026-10-09",
-        "similarity": 0.9508,
-        "agent": "overseas",
-        "prob_up": 0.6713,
+        "date": "2026-11-11",
+        "similarity": 0.9259,
+        "agent": "CHIEF_ANALYST",
+        "prob_up": 0.4795,
+        "actual_up": 0,
+        "correct": 1
+      },
+      {
+        "date": "2026-11-11",
+        "similarity": 0.9259,
+        "agent": "macro",
+        "prob_up": 0.5179,
         "actual_up": 0,
         "correct": 0
       },
       {
-        "date": "2026-10-09",
-        "similarity": 0.9508,
-        "agent": "CHIEF_ANALYST",
-        "prob_up": 0.4654,
-        "actual_up": 0,
-        "correct": 1
-      },
-      {
-        "date": "2026-10-09",
-        "similarity": 0.9508,
-        "agent": "sentiment",
-        "prob_up": 0.4877,
-        "actual_up": 0,
-        "correct": 1
-      },
-      {
-        "date": "2026-10-09",
-        "similarity": 0.9508,
+        "date": "2026-11-11",
+        "similarity": 0.9259,
         "agent": "technical",
-        "prob_up": 0.08,
+        "prob_up": 0.3167,
+        "actual_up": 0,
+        "correct": 1
+      },
+      {
+        "date": "2026-11-11",
+        "similarity": 0.9259,
+        "agent": "flow",
+        "prob_up": 0.4715,
         "actual_up": 0,
         "correct": 1
       }
