@@ -65,6 +65,10 @@ jobs:
           missing = [x for x in required if x not in p]
           if missing:
               raise SystemExit(f"Dashboard validation failed; missing: {missing}")
+          forbidden = ["data-human-game", "data-auth-modal", 'class="top-login"', "class=\"mobile-bottom-nav\""]
+          present = [x for x in forbidden if x in p]
+          if present:
+              raise SystemExit(f"Removed UI still present: {present}")
           print("Dashboard validation OK")
           PY
 
