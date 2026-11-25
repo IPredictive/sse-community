@@ -23,10 +23,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  run:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
     steps:
       - uses: actions/checkout@v4
 
@@ -55,6 +53,21 @@ jobs:
       - name: Generate dashboard
         run: python generate_site.py
 
+      - name: Validate generated dashboard
+        run: |
+          test -s site/index.html
+          test -s site/brain-scorecard.json
+          test -s site/brain-performance-history.json
+          python - <<'PY'
+          from pathlib import Path
+          p = Path("site/index.html").read_text(encoding="utf-8")
+          required = ["SSE", "上证", "brain-scorecard.json", "brain-performance-history.json"]
+          missing = [x for x in required if x not in p]
+          if missing:
+              raise SystemExit(f"Dashboard validation failed; missing: {missing}")
+          print("Dashboard validation OK")
+          PY
+
       - name: Commit state and dashboard
         run: |
           git config user.name "sse-agents[bot]"
@@ -62,7 +75,6 @@ jobs:
           git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json data/brain_scorecard.json data/brain_performance_history.json site/brain-scorecard.json site/brain-performance-history.json site/index.html
           git diff --cached --quiet || git commit -m "data: daily SSE prediction and brain scorecard"
 
-          # Preserve every learned state file across non-fast-forward retries.
           for attempt in 1 2 3; do
             if git push; then
               exit 0
@@ -89,7 +101,7 @@ jobs:
             cp /tmp/scenario_state.json data/scenario_state.json
             cp /tmp/routing_state.json data/routing_state.json
             cp /tmp/brain_scorecard.json data/brain_scorecard.json
-            cp /tmp/brain_performance_history.json data/brain_performance_history.json
+            cp /tmp/brain-performance-history.json data/brain-performance-history.json
             python -c "from brains.scorecard import persist_scorecard; persist_scorecard()"
             python generate_site.py
             git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json data/brain_scorecard.json data/brain_performance_history.json site/brain-scorecard.json site/brain-performance-history.json site/index.html
@@ -107,11 +119,8 @@ jobs:
         with:
           path: ./site
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-      - uses: actions/upload-artifact@v4
+      - name: Upload state artifact
+        uses: actions/upload-artifact@v4
         with:
           name: sse-state-${{ github.run_number }}
           path: |
@@ -121,3 +130,17 @@ jobs:
             data/calibration_state.json
             data/routing_state.json
           retention-days: 30
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
