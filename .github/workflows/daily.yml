@@ -101,7 +101,7 @@ jobs:
             cp /tmp/scenario_state.json data/scenario_state.json
             cp /tmp/routing_state.json data/routing_state.json
             cp /tmp/brain_scorecard.json data/brain_scorecard.json
-            cp /tmp/brain-performance-history.json data/brain-performance-history.json
+            cp /tmp/brain_performance_history.json data/brain_performance_history.json
             python -c "from brains.scorecard import persist_scorecard; persist_scorecard()"
             python generate_site.py
             git add data/sse.db data/learning_state.json data/postmortem_state.json data/event_memory.json data/similarity_memory.json data/calibration_state.json data/scenario_state.json data/routing_state.json data/brain_scorecard.json data/brain_performance_history.json site/brain-scorecard.json site/brain-performance-history.json site/index.html
