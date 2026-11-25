@@ -1,150 +1,150 @@
 {
-  "as_of": "2026-11-24",
-  "matched_samples": 259,
+  "as_of": "2026-11-25",
+  "matched_samples": 276,
   "brains": {
     "A9_SUPER_CHIEF": {
-      "neighbors": 5,
-      "weighted_accuracy": 0.4128,
-      "weighted_brier": 0.2574,
-      "avg_similarity": 0.8559
+      "neighbors": 6,
+      "weighted_accuracy": 0.4731,
+      "weighted_brier": 0.2534,
+      "avg_similarity": 0.7258
     },
     "A9_chief_super": {
-      "neighbors": 5,
-      "weighted_accuracy": 0.4128,
-      "weighted_brier": 0.2574,
-      "avg_similarity": 0.8559
+      "neighbors": 6,
+      "weighted_accuracy": 0.4731,
+      "weighted_brier": 0.2534,
+      "avg_similarity": 0.7258
     },
     "A9_geopolitical": {
-      "neighbors": 5,
-      "weighted_accuracy": 0.4128,
+      "neighbors": 6,
+      "weighted_accuracy": 0.4731,
       "weighted_brier": 0.25,
-      "avg_similarity": 0.8559
+      "avg_similarity": 0.7258
     },
     "A9_global": {
-      "neighbors": 5,
-      "weighted_accuracy": 0.6255,
-      "weighted_brier": 0.2398,
-      "avg_similarity": 0.8559
+      "neighbors": 6,
+      "weighted_accuracy": 0.6292,
+      "weighted_brier": 0.2472,
+      "avg_similarity": 0.7258
     },
     "A9_macro": {
-      "neighbors": 5,
-      "weighted_accuracy": 0.3883,
-      "weighted_brier": 0.2358,
-      "avg_similarity": 0.8559
+      "neighbors": 6,
+      "weighted_accuracy": 0.3527,
+      "weighted_brier": 0.2319,
+      "avg_similarity": 0.7258
     },
     "A9_market_structure": {
-      "neighbors": 5,
-      "weighted_accuracy": 0.4128,
-      "weighted_brier": 0.3008,
-      "avg_similarity": 0.8559
+      "neighbors": 6,
+      "weighted_accuracy": 0.4731,
+      "weighted_brier": 0.2855,
+      "avg_similarity": 0.7258
     },
     "A9_money_sentiment": {
-      "neighbors": 5,
-      "weighted_accuracy": 0.795,
-      "weighted_brier": 0.2448,
-      "avg_similarity": 0.8559
+      "neighbors": 6,
+      "weighted_accuracy": 0.8347,
+      "weighted_brier": 0.2441,
+      "avg_similarity": 0.7258
     },
     "A9_policy": {
-      "neighbors": 5,
-      "weighted_accuracy": 0.5872,
-      "weighted_brier": 0.2445,
-      "avg_similarity": 0.8559
+      "neighbors": 6,
+      "weighted_accuracy": 0.5269,
+      "weighted_brier": 0.2466,
+      "avg_similarity": 0.7258
     },
     "A9_quant": {
-      "neighbors": 5,
-      "weighted_accuracy": 0.4128,
-      "weighted_brier": 0.2898,
-      "avg_similarity": 0.8559
+      "neighbors": 6,
+      "weighted_accuracy": 0.4731,
+      "weighted_brier": 0.282,
+      "avg_similarity": 0.7258
     },
     "A9_technical": {
-      "neighbors": 5,
-      "weighted_accuracy": 0.4128,
+      "neighbors": 6,
+      "weighted_accuracy": 0.4731,
       "weighted_brier": 0.25,
-      "avg_similarity": 0.8559
+      "avg_similarity": 0.7258
     },
     "CHIEF_ANALYST": {
       "neighbors": 30,
-      "weighted_accuracy": 0.5773,
-      "weighted_brier": 0.2449,
-      "avg_similarity": 0.8478
+      "weighted_accuracy": 0.5104,
+      "weighted_brier": 0.2598,
+      "avg_similarity": 0.7313
     },
     "CHIEF_ANALYST_CALIBRATED": {
-      "neighbors": 5,
-      "weighted_accuracy": 0.4128,
-      "weighted_brier": 0.266,
-      "avg_similarity": 0.8559
+      "neighbors": 6,
+      "weighted_accuracy": 0.4731,
+      "weighted_brier": 0.261,
+      "avg_similarity": 0.7258
     },
     "flow": {
       "neighbors": 30,
-      "weighted_accuracy": 0.6398,
-      "weighted_brier": 0.2459,
-      "avg_similarity": 0.8478
+      "weighted_accuracy": 0.5423,
+      "weighted_brier": 0.2633,
+      "avg_similarity": 0.7313
     },
     "macro": {
       "neighbors": 30,
-      "weighted_accuracy": 0.3486,
-      "weighted_brier": 0.2678,
-      "avg_similarity": 0.8478
+      "weighted_accuracy": 0.314,
+      "weighted_brier": 0.2663,
+      "avg_similarity": 0.7313
     },
     "overseas": {
       "neighbors": 30,
-      "weighted_accuracy": 0.4351,
-      "weighted_brier": 0.2676,
-      "avg_similarity": 0.8478
+      "weighted_accuracy": 0.5296,
+      "weighted_brier": 0.2651,
+      "avg_similarity": 0.7313
     },
     "sentiment": {
       "neighbors": 30,
-      "weighted_accuracy": 0.4743,
-      "weighted_brier": 0.2542,
-      "avg_similarity": 0.8478
+      "weighted_accuracy": 0.3783,
+      "weighted_brier": 0.2546,
+      "avg_similarity": 0.7313
     },
     "technical": {
       "neighbors": 30,
-      "weighted_accuracy": 0.5773,
-      "weighted_brier": 0.3354,
-      "avg_similarity": 0.8478
+      "weighted_accuracy": 0.5104,
+      "weighted_brier": 0.4029,
+      "avg_similarity": 0.7313
     }
   },
   "nearest_cases": [
     {
-      "date": "2026-11-11",
-      "similarity": 0.9259,
+      "date": "2026-10-15",
+      "similarity": 0.9112,
       "agent": "sentiment",
-      "prob_up": 0.5,
-      "actual_up": 0,
-      "correct": 1
-    },
-    {
-      "date": "2026-11-11",
-      "similarity": 0.9259,
-      "agent": "CHIEF_ANALYST",
-      "prob_up": 0.4795,
-      "actual_up": 0,
-      "correct": 1
-    },
-    {
-      "date": "2026-11-11",
-      "similarity": 0.9259,
-      "agent": "macro",
-      "prob_up": 0.5179,
-      "actual_up": 0,
+      "prob_up": 0.4964,
+      "actual_up": 1,
       "correct": 0
     },
     {
-      "date": "2026-11-11",
-      "similarity": 0.9259,
-      "agent": "technical",
-      "prob_up": 0.3167,
-      "actual_up": 0,
-      "correct": 1
+      "date": "2026-10-15",
+      "similarity": 0.9112,
+      "agent": "macro",
+      "prob_up": 0.4488,
+      "actual_up": 1,
+      "correct": 0
     },
     {
-      "date": "2026-11-11",
-      "similarity": 0.9259,
+      "date": "2026-10-15",
+      "similarity": 0.9112,
+      "agent": "technical",
+      "prob_up": 0.08,
+      "actual_up": 1,
+      "correct": 0
+    },
+    {
+      "date": "2026-10-15",
+      "similarity": 0.9112,
       "agent": "flow",
-      "prob_up": 0.4715,
-      "actual_up": 0,
-      "correct": 1
+      "prob_up": 0.3992,
+      "actual_up": 1,
+      "correct": 0
+    },
+    {
+      "date": "2026-10-15",
+      "similarity": 0.9112,
+      "agent": "CHIEF_ANALYST",
+      "prob_up": 0.3762,
+      "actual_up": 1,
+      "correct": 0
     }
   ]
 }
