@@ -10,16 +10,24 @@ on:
       - "requirements.txt"
       - "site/community.js"
       - ".github/workflows/daily.yml"
-  # Singapore time (UTC+8): 15:35, 15:40, 15:50, 16:05, 16:20, 16:40.
-  # Multiple runs make the feed resilient to delayed/temporary market-data
-  # provider responses. data.py refuses to publish stale data after close.
+  # Singapore time (UTC+8): post-close refresh every 10 minutes from 15:35 to 17:35.
+  # Multiple independent scheduled runs keep retrying until a fresh market date is
+  # successfully fetched and published. data.py refuses stale data after close.
+  # This covers delayed/temporary provider responses instead of relying on one run.
   schedule:
     - cron: "35 7 * * 1-5"
-    - cron: "40 7 * * 1-5"
-    - cron: "50 7 * * 1-5"
+    - cron: "45 7 * * 1-5"
+    - cron: "55 7 * * 1-5"
     - cron: "5 8 * * 1-5"
-    - cron: "20 8 * * 1-5"
-    - cron: "40 8 * * 1-5"
+    - cron: "15 8 * * 1-5"
+    - cron: "25 8 * * 1-5"
+    - cron: "35 8 * * 1-5"
+    - cron: "45 8 * * 1-5"
+    - cron: "55 8 * * 1-5"
+    - cron: "5 9 * * 1-5"
+    - cron: "15 9 * * 1-5"
+    - cron: "25 9 * * 1-5"
+    - cron: "35 9 * * 1-5"
 
 permissions:
   contents: write
