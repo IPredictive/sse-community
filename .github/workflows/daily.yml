@@ -74,7 +74,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           p = Path("site/index.html").read_text(encoding="utf-8")
-          required = ["SSE", "上证", "brain-scorecard.json", "brain-performance-history.json"]
+          required = ["SSE", "上证", "九脑实战评分与风险中心", "brain-performance-history.json"]
           missing = [x for x in required if x not in p]
           if missing:
               raise SystemExit(f"Dashboard validation failed; missing: {missing}")
