@@ -1,3 +1,4 @@
+import os
 import time
 import numpy as np
 import pandas as pd
@@ -197,8 +198,25 @@ def fetch_sse():
     latest, source, df = max(sources, key=lambda item: item[0])
     today = pd.Timestamp.now(tz="Asia/Shanghai").date().strftime("%Y-%m-%d")
     print(f"[data] selected={source}, latest_date={latest}, rows={len(df)}")
+
+    # Never silently publish stale market data after the Shanghai session has
+    # finished. A stale feed is a data-source failure, not a valid daily run.
+    # This keeps the previous published dashboard intact while scheduled
+    # retries wait for a live source to recover.
     if latest < today:
-        print(f"[data] WARNING: market feed latest={latest}, Shanghai date={today}; using latest available trading date")
+        allow_stale = os.getenv("SSE_ALLOW_STALE", "").strip().lower() in {"1", "true", "yes"}
+        now_cn = pd.Timestamp.now(tz="Asia/Shanghai")
+        weekday = now_cn.weekday() < 5
+        after_close = now_cn.hour >= 15
+        if weekday and after_close and not allow_stale:
+            raise RuntimeError(
+                f"Market data is stale: latest={latest}, Shanghai date={today}, "
+                f"source={source}. Refusing to publish stale forecast."
+            )
+        print(
+            f"[data] WARNING: market feed latest={latest}, Shanghai date={today}; "
+            f"using latest available trading date (allow_stale={allow_stale})"
+        )
     else:
         print(f"[data] freshness check passed: latest market date={latest}, Shanghai date={today}")
 
