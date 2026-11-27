@@ -743,7 +743,7 @@ h1::first-letter{color:#f6f8ff}
 </style></head>
 <body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap" id="home">
 
-<header class="top"><div class="brand"><div class="logo">📈</div><div><h1>SSE 猜猜乐</h1><div class="muted">狮城胖叔 · AI 预测社区 · 每日 09:00 前参与</div></div></div><div class="top-actions"><div class="date-pill">分析基准日 · __LATEST__</div><button class="top-login" type="button" data-account>登录 / 注册</button></div></header>
+<header class="top"><div class="brand"><div class="logo">📈</div><div><h1>SSE 猜猜乐</h1><div class="muted">狮城胖叔 · AI 预测社区 · 每日 09:00 前参与</div></div></div><div class="top-actions"><div class="date-pill">分析基准日 · __LATEST__</div></div></header>
 
 <section class="grid">
 <div class="card index-card"><div class="metric-label">上证综合指数</div><div class="index-card-main"><div><div class="big">__PRICE__</div><div class="sub __CHANGE_CLS__">__CHANGE_TEXT__ <span style="color:var(--muted)">较前一交易日</span></div></div><div class="index-chart-wrap">__MINI_PRICE_SVG__</div></div></div>
@@ -752,71 +752,22 @@ h1::first-letter{color:#f6f8ff}
 </section>
 
 <section class="card chief" id="ai">
-<div class="chief-top"><div class="kicker"><span class="kicker-dot"></span> AI × HUMAN</div><div class="muted">面向下一交易日</div></div>
-<div class="hero-slogan">AI 怎么判断？<br><strong>你敢不敢押一边？</strong></div>
+<div class="chief-top"><div class="kicker"><span class="kicker-dot"></span> A9 · NINE-BRAIN INTELLIGENCE</div><div class="muted">面向下一交易日</div></div>
+<div class="hero-slogan">九脑综合研判<br><strong>独立分析 · 风险审查</strong></div>
 <div class="chiefrow"><div><div class="prob __CHIEF_TONE__">__PROB__</div><div class="chief-direction">__DIRECTION__</div><div style="margin-top:7px;color:#9bb4df;font-size:12px">__CALIBRATION_LINE__</div></div><div><div class="reason">__REASON__</div><div class="conf-row">模型信心 __CONF__<div class="conf-track"><span></span></div></div></div></div>
 </section>
 
 
 
-__BRAIN_CENTER__\n\n__BRAIN_PERFORMANCE__\n\n<section class="section human-game" id="game" data-human-game>
-  <div class="human-hero">
-    <div>
-      <div class="human-kicker">🎯 YOUR MOVE</div>
-      <h2>轮到你了：看多，还是看空？</h2>
-      <p>AI 独立判断，你独立下注。每个交易日一次，和 AI 正面对决。</p>
-    </div>
-    <div class="human-stats">
-      <div><span>P币余额</span><strong data-balance>3,000 P</strong></div>
-      <div><span>连续参与</span><strong data-streak>0 天</strong></div>
-    </div>
-  </div>
-  <div class="human-compare">
-    <div class="ai-side">
-      <span>🤖 Chief Analyst</span>
-      <b>__PROB__</b>
-      <em>__DIRECTION__</em>
-      <small>AI 独立预测</small>
-    </div>
-    <div class="vs">VS</div>
-    <div class="human-side">
-      <span>👤 你</span>
-      <div class="vote-buttons">
-        <button type="button" data-vote="bull">🔴 看多</button>
-        <button type="button" data-vote="bear">🟢 看空</button>
-      </div>
-      <small>每次参与消耗 100 P · 09:00 截止</small>
-    </div>
-  </div>
-  <div class="human-result" data-result><b>🎯 选一个方向</b><span>押中赢 P币，押错扣 P币；每天一次。</span></div>
-  <div class="leaderboard" id="ranking">
-    <div class="leader-head"><h3>🏆 AI × 人类排行榜</h3><button type="button" data-login>保存成绩 / 登录</button></div>
-    <div class="leader-row ai-row top" data-ai-row><span>🤖</span><b>Chief Analyst</b><small>AI · 首席 · __CHIEF_ACC__</small><strong>__PROB__</strong></div>
-    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>技术面 Analyst</b><small>AI · Technical · __TECH_ACC__</small><strong>__TECH_PROB__</strong></div>
-    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>资金面 Analyst</b><small>AI · Flow · __FLOW_ACC__</small><strong>__FLOW_PROB__</strong></div>
-    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>政策面 Analyst</b><small>AI · Macro · __MACRO_ACC__</small><strong>__MACRO_PROB__</strong></div>
-    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>市场情绪 Analyst</b><small>AI · Sentiment · __SENTIMENT_ACC__</small><strong>__SENTIMENT_PROB__</strong></div>
-    <div class="leader-row ai-row" data-ai-row><span>🤖</span><b>海外环境 Analyst</b><small>AI · Overseas · __OVERSEAS_ACC__</small><strong>__OVERSEAS_PROB__</strong></div>
-    <div data-human-rows></div>
-    <div class="leader-note">AI 六位选手每日独立出战；人类玩家按真实 P币与预测战绩动态排名。AI 与人类积分规则独立。</div>
-  </div>
-</section>\n
-<div class="auth-modal" data-auth-modal aria-hidden="true"><div class="auth-box" role="dialog" aria-modal="true"><div class="auth-head"><div><h2>登录 / 注册</h2><div class="auth-subtitle" data-auth-subtitle>登录后保存你的 P币、预测和排行榜成绩。</div></div><button class="auth-close" type="button" data-auth-close>×</button></div><div class="auth-tabs" data-auth-tabs><button type="button" data-auth-mode="login" class="active">登录</button><button type="button" data-auth-mode="register">注册</button></div><form class="auth-form" data-auth-form><label data-nickname-field style="display:none">昵称<input name="nickname" maxlength="20" autocomplete="nickname"></label><label>邮箱<input name="email" type="email" required autocomplete="email"></label><label>密码<input name="password" type="password" required minlength="8"></label><label data-password2-field style="display:none">确认密码<input name="password2" type="password" minlength="8"></label><button class="auth-submit" type="submit" data-auth-submit>登录</button><button class="auth-link" type="button" data-forgot-password>忘记密码？</button><div class="auth-message" data-auth-message></div></form><div class="account-view" data-account-view><div class="account-box"><div class="account-meta">邮箱：<b data-account-email>—</b><br>余额：<b data-account-balance>0 P</b></div><label>昵称<input data-account-nickname maxlength="20"></label><div class="account-actions"><button type="button" data-save-profile>保存昵称</button><button type="button" data-change-password>修改密码</button><div class="admin-panel" data-admin-panel><div class="admin-title">🛡️ 管理员 P 币充值</div><input data-admin-amount type="number" min="1" step="1" placeholder="充值数量，例如 100000000000"><input data-admin-reason maxlength="80" placeholder="充值备注（可选）" value="管理员充值"><button class="admin-credit" type="button" data-admin-credit>确认充值</button><div class="admin-hint">仅管理员账号显示。充值与 P 币流水在同一事务中完成。</div><div class="auth-message" data-admin-message></div></div><button type="button" data-logout>退出登录</button></div><div class="auth-message" data-account-message></div></div></div></div></div>
-\n<section class="section card chart-card">
+__BRAIN_CENTER__\n\n__BRAIN_PERFORMANCE__\n\n<section class="section card chart-card">
 <div class="chart-head"><div><div class="chart-title">上证指数走势</div><div class="chart-desc">最近 60 个交易日 · 最近 20 日区间表现同步显示</div></div><div class="chart-stats"><div class="chart-stat"><b>__RET20__</b><span>20 日</span></div><div class="chart-stat"><b>__RET60__</b><span>60 日</span></div></div></div>
 __PRICE_SVG__
 </section>
 <footer class="footer"><span>SSE 猜猜乐</span><span>GitHub Actions 自动生成 · 仅供研究参考，不构成投资建议</span></footer>
 
-<nav class="mobile-bottom-nav" aria-label="手机快捷导航">
-  <a href="#home"><span class="nav-icon">⌂</span><span>首页</span></a>
-  <a href="#ai"><span class="nav-icon">🤖</span><span>AI判断</span></a>
-  <a href="#game"><span class="nav-icon">🎯</span><span>猜猜乐</span></a>
-  <a href="#ranking"><span class="nav-icon">🏆</span><span>排行榜</span></a>
-  <button type="button" data-account><span class="nav-icon">👤</span><span>我的</span></button>
-</nav>
 
-</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261117-nine-brain-performance-history";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014indexchiefside",{updateViaCache:"none"}).catch(()=>{});});}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="community.js"></script>\n</body></html>"""
+
+</main><script>let sseInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();sseInstallPrompt=e;});document.getElementById("appInstallBtn")?.addEventListener("click",async()=>{if(sseInstallPrompt){sseInstallPrompt.prompt();await sseInstallPrompt.userChoice;sseInstallPrompt=null;return;}const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){alert("在 Safari 中安装：点击底部“分享”按钮，再选择“添加到主屏幕”。");}else if(window.matchMedia("(display-mode: standalone)").matches){alert("App 已经安装在此设备上。");}else{alert("如果没有弹出安装窗口，请打开浏览器菜单（⋮），选择“安装应用”或“添加到主屏幕”。在 iPhone/iPad 上请用 Safari 的“分享 → 添加到主屏幕”。");}});const SSE_BUILD="20261127-nine-brain-clean-dashboard";const sseCacheReset=(async()=>{try{if(localStorage.getItem("sse-community-build")===SSE_BUILD)return false;if("caches"in window){const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith("sse-community-")).map(k=>caches.delete(k)));}if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}localStorage.setItem("sse-community-build",SSE_BUILD);return true;}catch(e){console.warn("SSE cache refresh:",e);try{localStorage.setItem("sse-community-build",SSE_BUILD);}catch(_){}return true;}})();if("serviceWorker"in navigator){window.addEventListener("load",async()=>{const reset=await sseCacheReset;if(reset){const u=new URL(window.location.href);if(u.searchParams.get("sse-build")!==SSE_BUILD){u.searchParams.set("sse-build",SSE_BUILD);window.location.replace(u.href);return;}}navigator.serviceWorker.register("./sw.js?v=20261014indexchiefside",{updateViaCache:"none"}).catch(()=>{});});}</script>\n</body></html>"""
 
     def ai_prob(k):
         return f"{float(analyst_rows[k].prob_up)*100:.1f}%" if k in analyst_rows else "—"
