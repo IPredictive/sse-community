@@ -72,17 +72,34 @@ jobs:
           test -s site/brain-scorecard.json
           test -s site/brain-performance-history.json
           python - <<'PY'
+          from html.parser import HTMLParser
           from pathlib import Path
-          p = Path("site/index.html").read_text(encoding="utf-8")
+
+          page = Path("site/index.html").read_text(encoding="utf-8")
           required = ["SSE", "上证", "九脑实战评分与风险中心", "brain-performance-history.json"]
-          missing = [x for x in required if x not in p]
+          missing = [item for item in required if item not in page]
           if missing:
               raise SystemExit(f"Dashboard validation failed; missing: {missing}")
-          forbidden = ["data-human-game", "data-auth-modal", 'class="top-login"', "class=\"mobile-bottom-nav\""]
-          present = [x for x in forbidden if x in p]
-          if present:
-              raise SystemExit(f"Removed UI still present: {present}")
-          print("Dashboard validation OK")
+
+          class DashboardAudit(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.violations = []
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  classes = set((attrs.get("class") or "").split())
+                  for forbidden in ("top-login", "mobile-bottom-nav", "human-game", "auth-modal"):
+                      if forbidden in classes:
+                          self.violations.append(f"class:{forbidden}")
+                  for forbidden in ("data-human-game", "data-auth-modal"):
+                      if forbidden in attrs:
+                          self.violations.append(f"attribute:{forbidden}")
+
+          audit = DashboardAudit()
+          audit.feed(page)
+          if audit.violations:
+              raise SystemExit(f"Removed UI elements still present in HTML: {audit.violations}")
+          print("Dashboard validation OK: required A9 sections present; removed UI elements absent")
           PY
 
       - name: Commit state and dashboard
