@@ -743,7 +743,7 @@ h1::first-letter{color:#f6f8ff}
 </style></head>
 <body><button class="app-install" id="appInstallBtn" type="button">📲 下载安装 App</button><main class="wrap" id="home">
 
-<header class="top"><div class="brand"><div class="logo">📈</div><div><h1>SSE 猜猜乐</h1><div class="muted">狮城胖叔 · AI 预测社区 · 每日 09:00 前参与</div></div></div><div class="top-actions"><div class="date-pill">分析基准日 · __LATEST__</div></div></header>
+<header class="top"><div class="brand"><div class="logo">📈</div><div><h1>SSE 猜猜乐</h1><div class="muted">狮城胖叔 · A9 九脑系统 · 每日盘后自动分析</div></div></div><div class="top-actions"><div class="date-pill">分析基准日 · __LATEST__</div></div></header>
 
 <section class="grid">
 <div class="card index-card"><div class="metric-label">上证综合指数</div><div class="index-card-main"><div><div class="big">__PRICE__</div><div class="sub __CHANGE_CLS__">__CHANGE_TEXT__ <span style="color:var(--muted)">较前一交易日</span></div></div><div class="index-chart-wrap">__MINI_PRICE_SVG__</div></div></div>
