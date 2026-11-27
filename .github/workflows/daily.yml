@@ -10,8 +10,16 @@ on:
       - "requirements.txt"
       - "site/community.js"
       - ".github/workflows/daily.yml"
+  # Singapore time (UTC+8): 15:35, 15:40, 15:50, 16:05, 16:20, 16:40.
+  # Multiple runs make the feed resilient to delayed/temporary market-data
+  # provider responses. data.py refuses to publish stale data after close.
   schedule:
     - cron: "35 7 * * 1-5"
+    - cron: "40 7 * * 1-5"
+    - cron: "50 7 * * 1-5"
+    - cron: "5 8 * * 1-5"
+    - cron: "20 8 * * 1-5"
+    - cron: "40 8 * * 1-5"
 
 permissions:
   contents: write
@@ -43,8 +51,9 @@ jobs:
       - name: Sync latest main before generation
         run: git pull --rebase origin main
 
-      - name: Run agents
+      - name: Run agents with fresh-market-data guard
         env:
+          SSE_ALLOW_STALE: "0"
           AGNES_API_KEY: ${{ secrets.AGNES_API_KEY }}
           AGNES_API_URL: ${{ vars.AGNES_API_URL }}
           AGNES_MODEL: ${{ vars.AGNES_MODEL }}
