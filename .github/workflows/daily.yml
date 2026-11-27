@@ -28,6 +28,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # The post-close retry window is two hours; allow setup, analysis and publishing too.
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
 
@@ -40,6 +42,7 @@ jobs:
 
       - name: Validate Python and analytics tests
         run: |
+          test -s refresh_market_data.py
           python -m compileall -q .
           python -m unittest discover -s tests -v
 
@@ -47,6 +50,7 @@ jobs:
         run: git pull --rebase origin main
 
       - name: Repeated post-close market refresh (10-minute interval)
+        timeout-minutes: 140
         env:
           SSE_ALLOW_STALE: "0"
         run: python refresh_market_data.py --interval-seconds 600 --deadline 17:35
